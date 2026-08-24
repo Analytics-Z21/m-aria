@@ -2320,6 +2320,34 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
 .cp-opt2-t strong{font:700 14px/1.2 var(--fb);color:#fff}
 .cp-opt2-t em{font-style:normal;font:500 12px/1.3 var(--fb);color:#BAC1D2}
 .cp-opt2 .num{font:600 13.5px/1.2 var(--fb);color:#EBD197;font-variant-numeric:tabular-nums}
+
+/* ============ R4 (2026-08-24) ============ */
+/* hero media carousel: 2 videos + 2 static banners, crossfade, with a
+   single progress line at the base of the media */
+.hero-slides{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hslide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .9s ease;pointer-events:none}
+.hslide.on{opacity:1}
+.hs-img{background-size:cover;background-position:center}
+.hero-prog{position:absolute;left:0;right:0;bottom:0;height:3px;
+  background:rgba(255,255,255,.16);z-index:4}
+.hero-prog i{display:block;height:100%;width:0;
+  background:linear-gradient(90deg,#EBD197,#D4B46A)}
+@media(prefers-reduced-motion:reduce){.hero-slides,.hero-prog{display:none}}
+
+/* facilities: bigger plan like live, zoomable in place */
+@media(min-width:1024px){
+  #fac .lvl-panel.on{grid-template-columns:minmax(0,1fr) minmax(0,1.9fr)}
+  #fac .fac-list{grid-template-columns:repeat(2,1fr)}
+}
+.fac-map-img{background:#fff}
+.fac-map-img img{user-select:none;-webkit-user-drag:none}
+.fz-ctl{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;gap:8px;z-index:6}
+.fz-btn,.nx .fz-btn{width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,.94);color:#15325B;border:1px solid rgba(21,50,91,.28);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .18s}
+.fz-btn:hover,.nx .fz-btn:hover{background:#EBD197}
+.fz-btn:focus-visible{outline:2px solid #EBD197;outline-offset:2px}
 </style>
 </head>
 <body>
@@ -2438,20 +2466,71 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- HERO -->
 <section class="hero" id="about">
   <div class="hero-media">
-    <!-- R3: like live, the hero serves a portrait video under 768px and the
-         landscape film above it (live uses the same data-src switch). Without
-         JS the poster paints. -->
-    <video class="hero-vid" autoplay muted loop playsinline preload="metadata"
-      poster="assets/hero-bg.webp" aria-hidden="true" tabindex="-1"
-      data-desktop-src="assets/hero-video.mp4" data-mobile-src="assets/hero-video-mobile.mp4"></video>
+    <!-- R4: hero media cycles like live — 2 videos then 2 static banners,
+         with a single progress line at the base of the media. Every slide
+         carries live's own desktop/mobile source pair (breakpoint 768).
+         Without JS the first video's poster paints. Banner 2 carries the
+         client's own burnt-in "from RM483K" claim, flagged to Justin
+         (site copy states the APDL band from RM635K). -->
+    <div class="hero-slides" aria-hidden="true">
+      <video class="hslide on" muted playsinline preload="metadata" poster="assets/hero-bg.webp"
+        data-desktop-src="assets/hero-video.mp4" data-mobile-src="assets/hero-video-mobile.mp4"></video>
+      <video class="hslide" muted playsinline preload="none"
+        data-desktop-src="assets/hero-video-2.mp4" data-mobile-src="assets/hero-video-2-mobile.mp4"></video>
+      <div class="hslide hs-img" role="img" aria-label="M Aria tower artist impression"
+        data-desktop-src="assets/hero-banner-2.jpg" data-mobile-src="assets/hero-banner-2-mobile.jpg"></div>
+      <div class="hslide hs-img" role="img" aria-label="Balcony and living room artist impression"
+        data-desktop-src="assets/hero-banner-3.jpg" data-mobile-src="assets/hero-banner-3-mobile.jpg"></div>
+    </div>
+    <div class="hero-prog" aria-hidden="true"><i id="heroProg"></i></div>
     <script>
     (function(){
-      var v=document.querySelector('.hero-vid'); if(!v)return;
+      var wrap=document.querySelector('.hero-slides'); if(!wrap)return;
       if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
       var mob=window.matchMedia('(max-width:767px)').matches;
-      if(mob)v.poster='assets/hero-bg-mobile.webp';
-      v.src=v.getAttribute(mob?'data-mobile-src':'data-desktop-src');
-      var p=v.play(); if(p&&p.catch)p.catch(function(){});
+      var slides=Array.prototype.slice.call(wrap.querySelectorAll('.hslide'));
+      var prog=document.getElementById('heroProg');
+      var IMG_DWELL=6000, idx=0, timer=null, raf=null;
+      slides.forEach(function(s){
+        var src=s.getAttribute(mob?'data-mobile-src':'data-desktop-src');
+        if(s.tagName==='VIDEO'){ if(mob)s.poster='assets/hero-bg-mobile.webp'; s.setAttribute('data-src',src); }
+        else s.style.backgroundImage='url("'+src+'")';
+      });
+      function setProg(p){ if(prog)prog.style.width=(Math.min(1,Math.max(0,p))*100)+'%'; }
+      function stopTimers(){ if(timer){clearTimeout(timer);timer=null;} if(raf){cancelAnimationFrame(raf);raf=null;} }
+      function warmNext(){
+        var nx=slides[(idx+1)%slides.length];
+        if(nx.tagName==='VIDEO'&&!nx.getAttribute('src')){
+          nx.preload='auto'; nx.src=nx.getAttribute('data-src'); nx.load();
+        }
+      }
+      function show(i){
+        stopTimers();
+        var prev=slides[idx]; idx=(i+slides.length)%slides.length;
+        var s=slides[idx];
+        slides.forEach(function(x){x.classList.toggle('on',x===s);});
+        if(prev&&prev!==s&&prev.tagName==='VIDEO')prev.pause();
+        setProg(0);
+        if(s.tagName==='VIDEO'){
+          if(!s.getAttribute('src'))s.src=s.getAttribute('data-src');
+          try{s.currentTime=0;}catch(e){}
+          s.onended=next;
+          var tick=function(){ if(s.duration)setProg(s.currentTime/s.duration); raf=requestAnimationFrame(tick); };
+          raf=requestAnimationFrame(tick);
+          var p=s.play();
+          if(p&&p.catch)p.catch(function(){ stopTimers(); timer=setTimeout(next,IMG_DWELL); });
+          /* stall guard: a video that never reaches its end still advances */
+          timer=setTimeout(function(){ next(); },60000);
+        } else {
+          var t0=performance.now();
+          var tick=function(now){ setProg((now-t0)/IMG_DWELL); raf=requestAnimationFrame(tick); };
+          raf=requestAnimationFrame(tick);
+          timer=setTimeout(next,IMG_DWELL);
+        }
+        warmNext();
+      }
+      function next(){ stopTimers(); show(idx+1); }
+      show(0);
     })();
     </script>
     <div class="hero-body">
@@ -2673,7 +2752,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wrap">
     <div class="center">
       <h2 class="stl">58 Urban Resort Facilities</h2>
-      <p class="sdesc">Across the LG Floor, First Floor, Level 7 and Level 8. Tap a plan to enlarge it.</p>
+      <p class="sdesc">Across the LG Floor, First Floor, Level 7 and Level 8. Zoom and drag the plan right here.</p>
     </div>
 
     <div class="lvl-tabs" role="tablist" aria-label="Facility levels">
@@ -2684,9 +2763,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="lvl-panel on" id="lvl1">
       <div class="fac-map-wrap fi">
         <div class="fac-map-img">
-          <img src="assets/siteplan-lg-first.webp" data-full="assets/siteplan-lg-first-full.webp"
+          <img src="assets/siteplan-lg-first-full.webp"
                alt="Site plan of the LG Floor and First Floor facilities at M Aria"
                class="fac-base" width="1600" height="959">
+          <div class="fz-ctl">
+            <button class="fz-btn fz-in" type="button" aria-label="Zoom in"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></button>
+            <button class="fz-btn fz-out" type="button" aria-label="Zoom out"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14"/></svg></button>
+            <button class="fz-btn fz-reset" type="button" aria-label="Reset zoom"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 10a8 8 0 1 1 2 6"/><path d="M4 16v-6h6"/></svg></button>
+          </div>
         </div>
       </div>
       <div class="am-cat">
@@ -2734,9 +2818,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="lvl-panel" id="lvl2">
       <div class="fac-map-wrap fi">
         <div class="fac-map-img">
-          <img src="assets/siteplan-level7-8.webp" data-full="assets/siteplan-level7-8-full.webp"
+          <img src="assets/siteplan-level7-8-full.webp"
                alt="Site plan of the Level 7 and Level 8 facilities at M Aria"
                class="fac-base" width="1600" height="1033">
+          <div class="fz-ctl">
+            <button class="fz-btn fz-in" type="button" aria-label="Zoom in"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></button>
+            <button class="fz-btn fz-out" type="button" aria-label="Zoom out"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14"/></svg></button>
+            <button class="fz-btn fz-reset" type="button" aria-label="Reset zoom"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 10a8 8 0 1 1 2 6"/><path d="M4 16v-6h6"/></svg></button>
+          </div>
         </div>
       </div>
       <div class="am-cat">
@@ -4820,14 +4909,75 @@ window.mgmTrackLead = function (payload) {
         p.classList.toggle('on',p.id===t.getAttribute('data-lvl'));});
     });
   });
-  document.querySelectorAll('.lvl-panel .fac-base').forEach(function(img){
-    img.style.cursor='zoom-in';
-    img.addEventListener('click',function(){
-      var lb=document.getElementById('fpLb'), st=document.getElementById('fpImg');
-      if(!lb||!st)return;
-      st.src=img.getAttribute('data-full')||img.src; st.alt=img.alt;
-      lb.classList.add('open'); document.body.style.overflow='hidden';
+  /* R4: the site plan zooms in place (buttons, double-click/double-tap,
+     pinch and drag-pan when zoomed) — the click-to-lightbox is retired. */
+  document.querySelectorAll('#fac .fac-map-img').forEach(function(box){
+    var img=box.querySelector('img.fac-base'); if(!img)return;
+    var s=1,tx=0,ty=0,active={},dragX=0,dragY=0,pinchD=0,pinchS=1;
+    img.style.transformOrigin='0 0';
+    function apply(){
+      img.style.transform='translate('+tx+'px,'+ty+'px) scale('+s+')';
+      box.style.cursor=s>1?'grab':'default';
+      box.style.touchAction=s>1?'none':'pan-y';
+    }
+    function clamp(){
+      var r=box.getBoundingClientRect();
+      var minX=r.width-r.width*s, minY=r.height-r.height*s;
+      tx=Math.min(0,Math.max(minX,tx)); ty=Math.min(0,Math.max(minY,ty));
+    }
+    function zoomAt(f,cx,cy){
+      f=Math.min(4,Math.max(1,f));
+      var k=f/s;
+      tx=cx-k*(cx-tx); ty=cy-k*(cy-ty); s=f;
+      if(s===1){tx=0;ty=0;}
+      clamp(); apply();
+    }
+    function centreStep(d){
+      var r=box.getBoundingClientRect();
+      zoomAt(s*d,r.width/2,r.height/2);
+    }
+    box.querySelector('.fz-in').addEventListener('click',function(e){e.stopPropagation();centreStep(1.5);});
+    box.querySelector('.fz-out').addEventListener('click',function(e){e.stopPropagation();centreStep(1/1.5);});
+    box.querySelector('.fz-reset').addEventListener('click',function(e){e.stopPropagation();s=1;tx=0;ty=0;apply();});
+    box.addEventListener('dblclick',function(e){
+      var r=box.getBoundingClientRect();
+      if(s>1){s=1;tx=0;ty=0;apply();}
+      else zoomAt(2.2,e.clientX-r.left,e.clientY-r.top);
     });
+    box.addEventListener('pointerdown',function(e){
+      if(e.target.closest('.fz-ctl'))return;
+      active[e.pointerId]=e;
+      var keys=Object.keys(active);
+      if(keys.length===1&&s>1){
+        dragX=e.clientX-tx; dragY=e.clientY-ty;
+        box.setPointerCapture(e.pointerId); box.style.cursor='grabbing'; e.preventDefault();
+      }else if(keys.length===2){
+        var a=active[keys[0]],b=active[keys[1]];
+        pinchD=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY); pinchS=s;
+      }
+    });
+    box.addEventListener('pointermove',function(e){
+      if(!active[e.pointerId])return;
+      active[e.pointerId]=e;
+      var keys=Object.keys(active);
+      if(keys.length===2&&pinchD){
+        var a=active[keys[0]],b=active[keys[1]];
+        var d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
+        var r=box.getBoundingClientRect();
+        zoomAt(pinchS*d/pinchD,(a.clientX+b.clientX)/2-r.left,(a.clientY+b.clientY)/2-r.top);
+        e.preventDefault();
+      }else if(keys.length===1&&s>1&&box.hasPointerCapture&&box.hasPointerCapture(e.pointerId)){
+        tx=e.clientX-dragX; ty=e.clientY-dragY; clamp(); apply(); e.preventDefault();
+      }
+    });
+    ['pointerup','pointercancel'].forEach(function(ev){
+      box.addEventListener(ev,function(e){
+        delete active[e.pointerId]; pinchD=0;
+        if(box.hasPointerCapture&&box.hasPointerCapture(e.pointerId))box.releasePointerCapture(e.pointerId);
+        box.style.cursor=s>1?'grab':'default';
+      });
+    });
+    apply();
   });
 })();
 </script>
