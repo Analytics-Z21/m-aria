@@ -2268,6 +2268,58 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
 #layouts .tab .pop{top:-9px;right:10px}
 @media(max-width:559px){#layouts .tab{padding:13px 14px;font-size:15px}
   #layouts .tab em{font-size:12px}}
+
+/* ============ R3 (2026-08-24) ============ */
+/* gallery: desktop arrows (the strip hides its scrollbar, so mouse users
+   had no way to scroll) */
+.gal-arr,.nx .gal-arr{display:none;position:absolute;top:128px;z-index:5;width:48px;height:48px;
+  border-radius:50%;align-items:center;justify-content:center;cursor:pointer;
+  background:rgba(235,209,151,.94);border:1px solid #D4B46A;color:#15325B;
+  transition:background .2s}
+.gal-arr:hover,.nx .gal-arr:hover{background:#EBD197}
+.gal-arr:focus-visible{outline:2px solid #EBD197;outline-offset:2px}
+@media(min-width:1024px){.gal-arr,.nx .gal-arr{display:flex}}
+.gal-prev{left:8px}
+.gal-next{right:8px}
+
+/* combined location section: illustrated map + category panel on the light band */
+.loc-merge{display:grid;gap:26px;margin-top:26px}
+@media(min-width:1024px){.loc-merge{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:36px;align-items:start}}
+.loc-merge .city-map{margin:0;max-width:none}
+.city-sec .loc-panel{background:#fff;backdrop-filter:none;border:1px solid rgba(26,39,68,.14);
+  border-radius:6px;box-shadow:0 8px 20px rgba(0,0,0,.07)}
+.city-sec .nx .loc-cat{border-color:rgba(26,39,68,.24);color:#3F4A5E}
+.city-sec .nx .loc-cat[aria-selected="true"]{background:rgba(45,85,135,.10);border-color:#2D5587;color:#15325B}
+.city-sec .nx .loc-item{border-bottom:1px solid rgba(26,39,68,.10)}
+.city-sec .nx .loc-item span{color:#333}
+.city-sec .nx .loc-item b{color:#15325B}
+.city-sec .loc-group{color:#5C4426}
+.city-sec .loc-cat-name{color:#5C4426}
+.city-sec .loc-cat-head{border-bottom:1px solid rgba(26,39,68,.12)}
+.city-sec .loc-cat-ico{background:#EFEAE0}
+.city-sec .city-map figcaption a{color:#6E5230}
+.city-sec .loc-panel .btn-s{color:#15325B;border:1px solid rgba(21,50,91,.55);background:transparent}
+.city-sec .loc-panel .btn-s:hover{background:rgba(21,50,91,.08)}
+.city-sec .btn-vr360{color:#15325B;border:1px solid rgba(21,50,91,.55);background:transparent}
+.city-sec .btn-vr360:hover{background:rgba(21,50,91,.08)}
+
+/* price basis dropdown */
+.cpick{position:relative}
+.cp-menu{position:absolute;top:calc(100% + 8px);left:0;z-index:40;min-width:300px;
+  background:#182742;box-shadow:0 6px 8px rgba(0,0,0,.45)}
+.cp-opt2{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;
+  padding:13px 16px;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.08);
+  cursor:pointer;text-align:left;color:var(--cream)}
+.cp-opt2:last-child{border-bottom:0}
+.nx .cp-opt2{border-bottom:1px solid rgba(255,255,255,.08)}
+.nx .cp-opt2:last-child{border-bottom:0}
+.cp-opt2:hover{background:rgba(255,255,255,.06)}
+.cp-opt2:focus-visible{outline:2px solid #EBD197;outline-offset:-2px}
+.cp-opt2[aria-selected="true"]{box-shadow:inset 3px 0 0 #D4B46A}
+.cp-opt2-t{display:flex;flex-direction:column;gap:2px}
+.cp-opt2-t strong{font:700 14px/1.2 var(--fb);color:#fff}
+.cp-opt2-t em{font-style:normal;font:500 12px/1.3 var(--fb);color:#BAC1D2}
+.cp-opt2 .num{font:600 13.5px/1.2 var(--fb);color:#EBD197;font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -2310,7 +2362,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="#fac" data-rail>Facilities</a>
     <a href="#gallery" data-rail>Gallery</a>
     <a href="#interiors" data-rail>Show Unit</a>
-    <a href="#city" data-rail>Neighbourhood</a>
     <a href="#loc" data-rail>Location</a>
     <a href="#developer" data-rail>Developer</a>
     <a href="#faq" data-rail>FAQ</a>
@@ -2344,7 +2395,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="#fac" data-rail>Facilities</a>
     <a href="#gallery" data-rail>Gallery</a>
     <a href="#interiors" data-rail>Show Unit</a>
-    <a href="#city" data-rail>Neighbourhood</a>
     <a href="#loc" data-rail>Location</a>
     <a href="#developer" data-rail>Developer</a>
     <a href="#faq" data-rail>Questions</a>
@@ -2373,7 +2423,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li><a href="#fac">Facilities</a></li>
           <li><a href="#gallery">Gallery</a></li>
           <li><a href="#interiors">Show Unit</a></li>
-          <li><a href="#city">Neighbourhood</a></li>
           <li><a href="#loc">Location</a></li>
           <li><a href="#developer">Developer</a></li>
           <li><a href="#faq">Questions</a></li>
@@ -2389,10 +2438,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- HERO -->
 <section class="hero" id="about">
   <div class="hero-media">
+    <!-- R3: like live, the hero serves a portrait video under 768px and the
+         landscape film above it (live uses the same data-src switch). Without
+         JS the poster paints. -->
     <video class="hero-vid" autoplay muted loop playsinline preload="metadata"
-      poster="assets/hero-bg.webp" aria-hidden="true" tabindex="-1">
-      <source src="assets/hero-video.mp4" type="video/mp4">
-    </video>
+      poster="assets/hero-bg.webp" aria-hidden="true" tabindex="-1"
+      data-desktop-src="assets/hero-video.mp4" data-mobile-src="assets/hero-video-mobile.mp4"></video>
+    <script>
+    (function(){
+      var v=document.querySelector('.hero-vid'); if(!v)return;
+      if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+      var mob=window.matchMedia('(max-width:767px)').matches;
+      if(mob)v.poster='assets/hero-bg-mobile.webp';
+      v.src=v.getAttribute(mob?'data-mobile-src':'data-desktop-src');
+      var p=v.play(); if(p&&p.catch)p.catch(function(){});
+    })();
+    </script>
     <div class="hero-body">
       <div class="hero-inner">
         <div class="h-logo">
@@ -2506,10 +2567,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <h3>What it costs a month</h3>
       <div class="cpick">
         <span class="price-lab">Price basis</span>
-        <button class="cpick-btn" id="cPick" type="button">
+        <button class="cpick-btn" id="cPick" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="cpMenu2">
           <strong class="num" id="cPrice">RM 635,000</strong><span>Type <b id="cType">A</b></span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
         </button>
+        <div class="cp-menu" id="cpMenu2" role="listbox" aria-label="Price basis layout" hidden>
+          <button type="button" role="option" class="cp-opt2" data-type="A" aria-selected="true">
+            <span class="cp-opt2-t"><strong>Type A</strong><em>3 Bed &middot; 800 sq ft</em></span>
+            <span class="num">RM 635,000</span>
+          </button>
+          <button type="button" role="option" class="cp-opt2" data-type="B" aria-selected="false">
+            <span class="cp-opt2-t"><strong>Type B</strong><em>4 Bed &middot; 950 sq ft</em></span>
+            <span class="num">RM 635,000</span>
+          </button>
+        </div>
       </div>
       <div class="cfield">
         <label for="cLoan">Loan margin <output id="cLoanOut" class="num">RM 571,500 &middot; 90%</output></label>
@@ -2765,7 +2836,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <figure><img src="assets/gallery-2.webp" data-src="assets/gallery-2-full.webp" alt="Outdoor Kids&rsquo; Playground with Lush Gardenscapes, artist impression" loading="lazy"><figcaption>Outdoor Kids&rsquo; Playground with Lush Gardenscapes</figcaption></figure>
       <figure><img src="assets/gallery-4.webp" data-src="assets/gallery-4-full.webp" alt="Lush Green Landscape with Jogging Trail, artist impression" loading="lazy"><figcaption>Lush Green Landscape with Jogging Trail</figcaption></figure>
     </div>
-    <p class="gal-hint rv">Swipe to see more &middot; tap any image to enlarge</p>
+    <button class="gal-arr gal-prev" type="button" aria-label="Previous images" aria-controls="gal">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+    </button>
+    <button class="gal-arr gal-next" type="button" aria-label="Next images" aria-controls="gal">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+    </button>
+    <p class="gal-hint rv">Swipe or use the arrows &middot; tap any image to enlarge</p>
+    <script>
+    (function(){
+      var g=document.getElementById('gal'); if(!g)return;
+      function step(){var f=g.querySelector('figure');
+        return f?f.getBoundingClientRect().width+12:g.clientWidth*0.6;}
+      var p=document.querySelector('.gal-prev'),n=document.querySelector('.gal-next');
+      if(p)p.addEventListener('click',function(){g.scrollBy({left:-step(),behavior:'smooth'});});
+      if(n)n.addEventListener('click',function(){g.scrollBy({left:step(),behavior:'smooth'});});
+    })();
+    </script>
     <div class="films rv">
       <a class="film" href="assets/hero-video.mp4" data-video="assets/hero-video.mp4" target="_blank" rel="noopener">
         <img src="assets/gallery-1.webp" alt="" loading="lazy">
@@ -2793,18 +2880,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 </div>
-<section class="city-sec" id="city">
+<!-- R3: Location and Neighbourhood combined into one section (Justin's ask).
+     The dark "Heart of Sentul" band is retired; its category panel moves in
+     here beside the illustrated map, restyled for the light band. -->
+<section class="city-sec" id="loc">
   <div class="city-body">
     <div class="eyebrow">The neighbourhood</div>
     <h2>Living the City&rsquo;s Rhythm</h2>
-    <p class="city-sub">Sentul, five kilometres from the Kuala Lumpur city centre. The illustrated plan below shows what sits around the development.</p>
+    <p class="city-sub">Sentul, five kilometres from the Kuala Lumpur city centre. The illustrated plan shows what sits around the development; pick a category for distances.</p>
     <h3 class="sr-only-h">Location Map</h3>
-    <figure class="city-map">
-      <img src="assets/location-map.webp" data-full="assets/location-map-full.webp"
-           alt="Illustrated map of Sentul showing M Aria and the surrounding highways, transport, schools, malls and hospitals"
-           loading="lazy" width="1500" height="1258">
-      <figcaption>Tap the map to enlarge &middot; <a href="https://maps.app.goo.gl/xEiDo669stRZfL1i7" target="_blank" rel="noopener">Open in Google Maps</a></figcaption>
-    </figure>
+    <div class="loc-merge">
+      <figure class="city-map">
+        <img src="assets/location-map.webp" data-full="assets/location-map-full.webp"
+             alt="Illustrated map of Sentul showing M Aria and the surrounding highways, transport, schools, malls and hospitals"
+             loading="lazy" width="1500" height="1258">
+        <figcaption>Tap the map to enlarge &middot; <a href="https://maps.app.goo.gl/xEiDo669stRZfL1i7" target="_blank" rel="noopener">Open in Google Maps</a></figcaption>
+      </figure>
+      <div class="loc-panel fi">
+        <div class="nx"><div class="loc-cats" id="locCats" role="tablist" aria-label="Nearby categories">
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="true" data-cat="access">Accessibility</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="transport">Transport</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="retail">Retail</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="health">Medical</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="schools">Education</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="leisure">Recreation</button></h3>
+          </div>
+          <div class="loc-list" id="locList"></div></div>
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(26,39,68,.14);display:flex;gap:10px;flex-wrap:wrap">
+          <a href="https://maps.app.goo.gl/xEiDo669stRZfL1i7" target="_blank" rel="noopener" class="btn btn-p" style="flex:1;min-width:120px;font-size:12px;padding:10px 16px">Google Maps &rarr;</a>
+          <a href="https://www.waze.com/ul?q=M%20Aria%20Sales%20Gallery%20Rivercity%20Jalan%20Ipoh%20Kuala%20Lumpur" target="_blank" rel="noopener" class="btn btn-s" style="flex:1;min-width:120px;font-size:12px;padding:10px 16px">Waze &rarr;</a>
+            <button class="btn-vr360" type="button" data-imod="https://jetk.link/mahsing/m_aria/d8_wop/index.html" data-imod-title="Interactive 3D walkthrough">View the site in 3D</button>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -2836,38 +2944,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 <!-- LOCATION -->
-<section id="loc" class="loc-hero">
-  <div class="loc-content">
-    <div class="loc-info">
-    <div class="loc-head-float">
-      <h2 class="stl" style="margin-bottom:8px">Heart of <em style="font-style:normal;color:var(--copper3)">Sentul</em></h2>
-      <p class="sdesc" style="margin-bottom:0">Five kilometres from the Kuala Lumpur city centre, with highways, rail, hospitals, malls and schools all within a short drive.</p>
-    </div>
-
-    <div class="loc-panel fi">
-      <div class="nx"><div class="loc-cats" id="locCats" role="tablist" aria-label="Nearby categories">
-          <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="true" data-cat="access">Accessibility</button></h3>
-          <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="transport">Transport</button></h3>
-          <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="retail">Retail</button></h3>
-          <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="health">Medical</button></h3>
-          <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="schools">Education</button></h3>
-          <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="leisure">Recreation</button></h3>
-        </div>
-        <div class="loc-list" id="locList"></div></div>
-      <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(212,184,150,.15);display:flex;gap:10px;flex-wrap:wrap">
-        <a href="https://maps.app.goo.gl/xEiDo669stRZfL1i7" target="_blank" rel="noopener" class="btn btn-p" style="flex:1;min-width:120px;font-size:12px;padding:10px 16px">Google Maps &rarr;</a>
-        <a href="https://www.waze.com/ul?q=M%20Aria%20Sales%20Gallery%20Rivercity%20Jalan%20Ipoh%20Kuala%20Lumpur" target="_blank" rel="noopener" class="btn btn-s" style="flex:1;min-width:120px;font-size:12px;padding:10px 16px">Waze &rarr;</a>
-          <button class="btn-vr360" type="button" data-imod="https://jetk.link/mahsing/m_aria/d8_wop/index.html" data-imod-title="Interactive 3D walkthrough">View the site in 3D</button>
-      </div>
-    </div>
-
-    </div>
-
-    <div class="loc-map-bg" onclick="var i=this.querySelector('img');fpOpen(i.src,i.alt)">
-      <img src="assets/location-map-full.webp" alt="Illustrated map of Sentul showing M Aria and the surrounding amenities" loading="lazy" width="1550" height="1300">
-    </div>
-  </div>
-</section>
+<!-- R3: the dark "Heart of Sentul" location section merged into the
+     neighbourhood section above (one combined Location section). -->
 <!-- FORM -->
 
 
@@ -4204,6 +4282,8 @@ window.mgmTrackLead = function (payload) {
         var vt=$('uVt'); vt.href=u.vt||'https://jetk.link/mahsing/m_aria/d8_wop/index.html';
     Array.prototype.forEach.call(document.querySelectorAll('#tabs .tab'),function(t){
       t.setAttribute('aria-selected',String(t.getAttribute('data-type')===cur));});
+    Array.prototype.forEach.call(document.querySelectorAll('#cpMenu2 .cp-opt2'),function(o){
+      o.setAttribute('aria-selected',String(o.getAttribute('data-type')===cur));});
     calc();
   }
   function calc(){
@@ -4219,11 +4299,24 @@ window.mgmTrackLead = function (payload) {
     tab.addEventListener('click',function(){window.setType(tab.getAttribute('data-type'));});});
   ['cLoan','cTen'].forEach(function(id){$(id).addEventListener('input',calc);});
 
-  /* price picker cycles the type, keeping the calculator and the card in step */
-  $('cPick').addEventListener('click',function(){
-    window.setType(ORDER[(ORDER.indexOf(cur)+1)%ORDER.length]);
-    document.querySelector('#tabs .tab[aria-selected="true"]').scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
-  });
+  /* price basis dropdown: select Type A or Type B; selection also syncs the
+     tabs, plan and card via setType (one source of truth). R3, Justin's ask. */
+  (function(){
+    var btn=$('cPick'),menu=$('cpMenu2'); if(!btn||!menu)return;
+    function setOpen(open){menu.hidden=!open;btn.setAttribute('aria-expanded',String(open));}
+    btn.addEventListener('click',function(e){e.stopPropagation();setOpen(menu.hidden);});
+    Array.prototype.forEach.call(menu.querySelectorAll('.cp-opt2'),function(o){
+      o.addEventListener('click',function(){
+        window.setType(o.getAttribute('data-type'));
+        Array.prototype.forEach.call(menu.querySelectorAll('.cp-opt2'),function(x){
+          x.setAttribute('aria-selected',String(x===o));});
+        setOpen(false);
+      });
+    });
+    document.addEventListener('click',function(e){
+      if(!menu.hidden && !btn.contains(e.target) && !menu.contains(e.target))setOpen(false);});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')setOpen(false);});
+  })();
 
   /* lightbox */
   $('planWrap').addEventListener('click',function(){
@@ -4503,7 +4596,7 @@ window.mgmTrackLead = function (payload) {
   var CATMEDIA={"access": ["assets/cat-icon-accessibility.webp", "assets/cat-accessibility.webp", "Accessibility"], "transport": ["assets/cat-icon-transport.webp", "assets/cat-transport.webp", "Public transport"], "retail": ["assets/cat-icon-retail.webp", "assets/cat-retail.webp", "Retail"], "health": ["assets/cat-icon-medical.webp", "assets/cat-medical.webp", "Medical"], "schools": ["assets/cat-icon-education.webp", "assets/cat-primary.webp", "Education"], "leisure": ["assets/cat-icon-transport.webp", "assets/cat-secondary.webp", "Recreation"]};
   function drawPlaces(cat){
     var m=CATMEDIA[cat]||[], rows=PLACES[cat].map(function(p){
-      if(p[0]==='#group') return '<div class="loc-group">'+p[1]+'</div>';
+      if(p[0]==='#group') return '<h4 class="loc-group">'+p[1]+'</h4>';
       return '<div class="loc-item"><span>'+p[0]+'</span><b>'+p[1]+'</b></div>';}).join('');
     var head=m.length?'<div class="loc-cat-head">'+
       '<span class="loc-cat-ico"><img src="'+m[0]+'" alt="" loading="lazy"></span>'+
