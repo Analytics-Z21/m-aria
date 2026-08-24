@@ -57,7 +57,7 @@
 
 :root{
   --navy:#1A2744;--navy2:#1E3A5F;--navy3:#2C3E50;
-  --copper:#D4B896;--copper2:#A08060;--copper3:#EBD197;
+  --copper:#D4B46A;--copper2:#A08060;--copper3:#EBD197;
   --gold:#B8A078;--gold2:#EBD197;
   --cream:#F5F5F5;--cream2:#F0F0F0;
   --greige:#C9B8A5;--greige2:#C4B8A8;
@@ -126,8 +126,8 @@ a{color:inherit;text-decoration:none}
 /* ===== BUTTONS ===== */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--fb);font-weight:500;border:none;cursor:pointer;border-radius:6px;transition:all .2s;text-decoration:none;letter-spacing:.3px}
 .btn:active{transform:scale(.98)}
-.btn-p{background:var(--copper);color:var(--white);padding:14px 28px;font-size:15px}
-.btn-p:hover{background:#EBD197}
+.btn-p{background:linear-gradient(90deg,#EBD197,#D4B46A);color:#15325B;font-weight:700;padding:14px 28px;font-size:15px}
+.btn-p:hover{background:#EBD197;color:#15325B}
 .btn-s{background:transparent;color:var(--copper3);padding:13px 28px;font-size:15px;border:1px solid var(--copper)}
 .btn-s:hover{background:rgba(212,184,150,.1)}
 .btn-ghost{color:var(--cream);padding:12px 24px;font-size:14px;border:1px solid rgba(255,255,255,.25);background:transparent}
@@ -143,7 +143,7 @@ h2.stl{font-family:var(--fd);font-size:28px;font-weight:400;color:var(--cream);l
    Seamless loop: each .ann-item carries its own trailing separator so the
    rhythm continues across the join between the two duplicated copies.
    Outer padding removed so the seam-gap matches intra-item spacing. */
-.ann{background:var(--copper);color:var(--white);padding:10px 0;font-size:12px;font-weight:500;letter-spacing:.4px;overflow:hidden;white-space:nowrap;position:relative}
+.ann{background:linear-gradient(90deg,#EBD197,#D4B46A);color:#15325B;padding:10px 0;font-size:12px;font-weight:600;letter-spacing:.4px;overflow:hidden;white-space:nowrap;position:relative}
 .ann-track{display:inline-flex;animation:marq 96s linear infinite;will-change:transform}
 .ann-track:hover{animation-play-state:paused}
 .ann-item{padding:0;display:inline-flex;align-items:center;gap:14px}
@@ -501,9 +501,8 @@ h2.stl{font-family:var(--fd);font-size:28px;font-weight:400;color:var(--cream);l
 
 /* ===== FACILITIES MAP ===== */
 .fac-map-wrap{position:relative;border-radius:14px;overflow:hidden;margin-bottom:24px}
-.fac-map-img{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden}
-@media(max-width:767px){.fac-map-img{aspect-ratio:4/3}}
-.fac-map-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .4s ease}
+.fac-map-img{position:relative;width:100%;border-radius:14px;overflow:hidden}
+.fac-map-img img{display:block;width:100%;height:auto;transition:opacity .4s ease}
 .fac-map-img img.fac-layer{opacity:0;pointer-events:none}
 .fac-map-img img.fac-layer.active{opacity:1}
 .fac-map-img img.fac-base{opacity:1}
@@ -712,7 +711,8 @@ h2.stl{font-family:var(--fd);font-size:28px;font-weight:400;color:var(--cream);l
 
 /* ===== LOCATION ===== */
 .loc-hero{position:relative;overflow:hidden;background:var(--navy);padding:56px var(--pad)}
-.loc-hero::before{content:'';position:absolute;left:0;top:0;bottom:0;width:min(45%,520px);background:url('assets/bg-features.webp') left center/contain no-repeat;opacity:.35;pointer-events:none;z-index:1}
+/* (leaf-texture ::before removed: the greige asset painted as a solid grey
+   rectangle over the dark band — R2 QA, Justin's visual-error screenshot) */
 @media(min-width:1024px){.loc-hero{padding:80px var(--pad)}}
 .loc-content{position:relative;z-index:2;width:100%;max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr;gap:28px;align-items:stretch}
 @media(min-width:1024px){.loc-content{grid-template-columns:minmax(0,1.15fr) minmax(0,440px);gap:40px;align-items:center}}
@@ -935,9 +935,9 @@ body.mob-open .nav{z-index:1001;background:transparent;border-bottom-color:trans
 @media(hover:none){.pot-card p{max-height:160px;opacity:1;margin-top:4px}}
 
 /* ===== 15-MIN CITY ===== */
-.city-sec{position:relative;overflow:hidden;padding:72px var(--pad) 62vw;background:linear-gradient(180deg,var(--cream) 0%,var(--cream) 55%,rgba(245,245,245,.85) 70%,rgba(245,245,245,0) 92%),url('assets/bg-section.webp') center bottom/100% auto no-repeat,var(--cream)}
-@media(min-width:768px){.city-sec{padding:80px var(--pad) 380px;background:linear-gradient(180deg,var(--cream) 0%,var(--cream) 5%,rgba(245,245,245,.85) 20%,rgba(245,245,245,0) 40%),url('assets/bg-section.webp') center bottom/100% auto no-repeat,var(--cream)}}
-@media(min-width:1024px){.city-sec{padding:110px var(--pad) 460px}}
+.city-sec{position:relative;overflow:hidden;padding:72px var(--pad) 110px;background:linear-gradient(180deg,var(--cream) 0%,var(--cream) 55%,rgba(245,245,245,.85) 70%,rgba(245,245,245,0) 92%),url('assets/bg-section.webp') center bottom/100% auto no-repeat,var(--cream)}
+@media(min-width:768px){.city-sec{padding:80px var(--pad) 130px;background:linear-gradient(180deg,var(--cream) 0%,var(--cream) 35%,rgba(245,245,245,.85) 55%,rgba(245,245,245,0) 85%),url('assets/bg-section.webp') center bottom/100% auto no-repeat,var(--cream)}}
+@media(min-width:1024px){.city-sec{padding:110px var(--pad) 150px}}
 .city-sec::before{content:'';position:absolute;inset:0;pointer-events:none}
 .city-body{position:relative;z-index:2;max-width:var(--max);margin:0 auto}
 .city-sec h2{font-family:var(--fd);font-size:28px;font-weight:400;color:var(--navy);text-align:center;margin-bottom:6px;line-height:1.2}
@@ -1770,11 +1770,14 @@ section[id]{scroll-margin-top:calc(var(--nav-h) + 50px)}
 #fac .fac-bthumb img{width:100%;height:100%;object-fit:cover;opacity:.88;display:block}
 #fac .fac-btn-name{font-family:var(--fd);font-size:16px;font-weight:500}
 @media(min-width:1024px){
-  #fac .wrap{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:26px;align-items:start}
-  #fac .center{grid-column:1/-1}
-  #fac .fac-map-wrap{margin:0}
-  #fac .fac-btns{display:flex;flex-direction:column;gap:12px;margin:0}
-  #fac .fac-detail{grid-column:1/-1}
+  /* R2: the old wrap-level grid was written for a fac-btns markup that no
+     longer exists; it pushed the whole active panel into the narrow right
+     column and left half the band empty. Grid now lives on the panel:
+     facility list left, site plan right, like the live site. */
+  #fac .lvl-panel.on{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:10px 42px;align-items:start}
+  #fac .fac-map-wrap{grid-column:2;grid-row:1/span 8;align-self:center;margin:0}
+  #fac .lvl-panel.on > :not(.fac-map-wrap){grid-column:1}
+  #fac .lvl-tabs{justify-content:center}
 }
 @media(max-width:1023px){
   #fac .fac-btns{display:flex;overflow-x:auto;gap:10px;scrollbar-width:none;
@@ -1882,8 +1885,8 @@ a.nav-reg:hover{background:#EBD197}
 
 /* items 3 + 4: every primary CTA is the same #D4B896 as the hero button.
    The transplanted sections carried the mockup's darker brown gradient. */
-.nx .btn-p,.nx .btn-gold{background:#D4B896 !important;box-shadow:none}
-.nx .btn-p:hover,.nx .btn-gold:hover{background:#EBD197;filter:none}
+.nx .btn-p,.nx .btn-gold{background:linear-gradient(90deg,#EBD197,#D4B46A) !important;color:#15325B !important;box-shadow:none}
+.nx .btn-p:hover,.nx .btn-gold:hover{background:#EBD197 !important;filter:none}
 .nx .cout{background:#D4B896}
 
 /* FAQ answer typography for the richer live-site copy */
@@ -2217,6 +2220,55 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
 .loc-cat-shot{margin:16px 0 0;border-radius:6px;overflow:hidden}
 .loc-cat-shot img{width:100%;height:130px;object-fit:cover;display:block}
 </style>
+<style>
+/* ============ R2 (2026-08-24, Justin's live-brand round) ============
+   1. Hero opens with the live site's video.
+   2. Live brand elements carried over: clear blue gradients on the dark
+      bands, greige paper texture (+ leaf shadow) on the concept band,
+      champagne (light brown) CTAs with navy ink everywhere.
+   3. Floor plans: the two layouts become big two-up selector cards.
+   4. Facilities band uses the live blue-gradient artwork. */
+
+/* 1 — hero video */
+.hero-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+@media(prefers-reduced-motion:reduce){.hero-vid{display:none}}
+/* the old mobile scrim was tuned for a dark still image; live video has
+   bright day frames, so mobile gets a gentle full veil for text protection */
+@media(max-width:1023px){
+  .hero-media::after{background:linear-gradient(180deg,rgba(17,27,48,.55) 0%,rgba(17,27,48,.38) 42%,rgba(17,27,48,.30) 62%,rgba(17,27,48,.78) 100%) !important}
+}
+
+/* 2a — blue-gradient dark bands (live header/facilities gradient family) */
+#layouts{background:linear-gradient(115deg,#1E3A5F 0%,#1A2744 52%,#111B30 100%)}
+#quickRegister{background:linear-gradient(150deg,#2D5587 -12%,#1A2744 48%,#141F38 100%)}
+#faq{background:linear-gradient(180deg,#1A2744 0%,#15233F 100%)}
+#visit{background:linear-gradient(135deg,#24466F 0%,#1A2744 55%,#141F38 100%)}
+#contact.git{background:linear-gradient(180deg,#15233F 0%,#111B30 100%)}
+#fac{background:url('assets/bg-facilities.webp') center/cover no-repeat,#14264A}
+
+/* 2b — concept band on live greige paper with the leaf shadow */
+#story{background:url('assets/bg-features.webp') center/cover no-repeat,#CBBBA8}
+#story .eyebrow{color:#5C4426}
+#story h2{color:#15325B}
+#story h2 .em{color:#6E5230}
+#story .copy{color:#3F3F39}
+#story .usp{background:transparent;border:none;padding:18px 8px}
+#story .usp:hover{transform:translateY(-2px);border:none}
+#story .usp img{filter:none}
+#story .usp b{color:#15325B}
+
+/* 3 — floor plans: big two-up type selector (reference: 2026-08-24 round) */
+#layouts .tabs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
+#layouts .tab{width:100%;text-align:left;padding:16px 20px;font:700 17px/1.25 var(--fb);
+  color:var(--cream);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.30);
+  border-radius:6px;cursor:pointer}
+#layouts .tab em{display:block;font-style:normal;font:500 13px/1.4 var(--fb);opacity:.9;margin-top:4px}
+#layouts .tab[aria-selected="true"]{background:linear-gradient(334deg,#2D5587 0%,#4B79A1 100%);
+  border-color:transparent;color:#fff}
+#layouts .tab .pop{top:-9px;right:10px}
+@media(max-width:559px){#layouts .tab{padding:13px 14px;font-size:15px}
+  #layouts .tab em{font-size:12px}}
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -2337,6 +2389,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- HERO -->
 <section class="hero" id="about">
   <div class="hero-media">
+    <video class="hero-vid" autoplay muted loop playsinline preload="metadata"
+      poster="assets/hero-bg.webp" aria-hidden="true" tabindex="-1">
+      <source src="assets/hero-video.mp4" type="video/mp4">
+    </video>
     <div class="hero-body">
       <div class="hero-inner">
         <div class="h-logo">
@@ -2405,8 +2461,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="tabs" id="tabs" role="tablist" aria-label="Unit layouts">
-      <button class="tab" role="tab" data-type="A" aria-selected="true">Type A<em>3 Bed</em></button>
-      <button class="tab" role="tab" data-type="B" aria-selected="false">Type B<em>4 Bed</em><span class="pop">Largest</span></button>
+      <button class="tab" role="tab" data-type="A" aria-selected="true">Type A<em>3 Bed &middot; 800 sq ft</em></button>
+      <button class="tab" role="tab" data-type="B" aria-selected="false">Type B<em>4 Bed &middot; 950 sq ft</em><span class="pop">Largest</span></button>
     </div>
 
     <div class="unit rv">
@@ -2466,7 +2522,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="cout cout-solo">
         <div><div class="l">Estimated monthly repayment</div><div class="v num" id="cMy">RM 2,876</div></div>
       </div>
-      <p class="cnote">Estimates only, at 4.0% p.a. over the selected tenure, calculated on the permit band minimum of RM635,000. M Aria does not publish a price per layout. Subject to bank approval. Not an offer.</p>
+      <p class="cnote">Estimates only. Based on 3.6% p.a. interest rate over the selected tenure, calculated on the permit band minimum of RM635,000. M Aria does not publish a price per layout. Subject to bank approval. Not an offer.</p>
     </div>
   </div>
 </section>
@@ -2946,7 +3002,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p id="apdlText">Developer: M ARIA SDN BHD (869086-X) (A wholly-owned subsidiary of Mah Sing Group Berhad) &middot; Address: Wisma Mah Sing, Penthouse Suite 2, No. 163, Jalan Sungai Besi, 57100 Kuala Lumpur &middot; Tel: 03 &ndash; 9221 8888 &middot; Developer&rsquo;s License No.: 31251/12-2030/0307(N) &middot; Validity Period: 29/12/2025 - 28/12/2030 &middot; Advertising &amp; Sales Permit: 31251-1/01-2029/0037(A)-(S) &middot; Tempoh Sah: 14/01/2026 &ndash; 13/01/2029 &middot; Approving Authority: Dewan Bandaraya Kuala Lumpur &middot; Building Plan Reference No.: BP U1 OSC 2025 3414 (5) &middot; Expected Date of Completion: January 2030 &middot; Project Name: Residensi M Aria &middot; Type of Property: Apartment &middot; Land Tenure: Freehold &middot; Land Encumbrance: PUBLIC BANK BERHAD &middot; Total Units: 606 Apartment &middot; Selling Price: RM635,000.00 (Minimum) &ndash; RM750,000.00 (Maksimum) &middot; No. of Parking per unit: 2 &ndash; 4 units</p>
     <p>THIS ADVERTISEMENT HAS BEEN APPROVED BY THE NATIONAL HOUSING DEPARTMENT.</p>
     <p>DEVELOPMENT INFORMATION AND APPROVAL ADVERTISEMENT CAN BE CHECKED ON PORTAL TEDUH.KPKT.GOV.MY</p>
-    <p style="margin-top:12px;color:var(--tm)">*Estimated instalment based on 90% financing at 4% p.a. over 35 years, calculated on the permit band minimum of RM635,000. Subject to bank approval. Prices subject to change.</p>
+    <p style="margin-top:12px;color:var(--tm)">*Estimated instalment based on 90% financing at 3.6% p.a. over 35 years, calculated on the permit band minimum of RM635,000. Subject to bank approval. Prices subject to change.</p>
   </div>
 </footer>
 
@@ -4567,6 +4623,15 @@ window.mgmTrackLead = function (payload) {
     es.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target);} });
   },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
   Array.prototype.forEach.call(document.querySelectorAll('.rv'),function(el){io.observe(el);});
+  /* capture-safe sweep: IO never fires below the fold in headless full-page
+     captures, and a no-scroll visit should still see content. Force-reveal
+     whatever IO has not reached shortly after load. */
+  window.addEventListener('load',function(){
+    setTimeout(function(){
+      Array.prototype.forEach.call(document.querySelectorAll('.rv:not(.in)'),function(el){el.classList.add('in');});
+      Array.prototype.forEach.call(document.querySelectorAll('.fi:not(.v)'),function(el){el.classList.add('v');});
+    },900);
+  });
 
   var cio=new IntersectionObserver(function(es){
     es.forEach(function(e){
