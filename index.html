@@ -33,7 +33,21 @@
 <link rel="icon" href="assets/favicon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="assets/favicon-180.png">
 
-<!-- GA4 intentionally absent: MGM property G-D2MFJ76RZX must not receive M Aria hits. -->
+<!-- GA4: M Aria's OWN property. Previously omitted because the page had copied
+     MGM's measurement id (G-D2MFJ76RZX) and would have contaminated MGM's data.
+     M Aria has its own stream, G-8318H972YQ, so the property collision is gone.
+     Loaded as bare gtag.js with NO GTM snippet on this page, deliberately: where
+     gtm.js also loads, it takes ownership of window.dataLayer and of the
+     measurement id, and custom gtag('event') calls are then swallowed unless a
+     container tag forwards them. That is exactly why generate_lead never reached
+     GA4 on M Grand Minori. Bare gtag.js keeps the lead event self-contained. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8318H972YQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8318H972YQ');
+</script>
 
 
 
@@ -2529,10 +2543,6 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
 </style>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MDZQ7K6K"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 <!-- ANNOUNCE (auto marquee) -->
 <div class="ann">
   <div class="ann-track">
