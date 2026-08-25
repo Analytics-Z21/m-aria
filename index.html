@@ -33,21 +33,7 @@
 <link rel="icon" href="assets/favicon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="assets/favicon-180.png">
 
-<!-- GA4: M Aria's OWN property. Previously omitted because the page had copied
-     MGM's measurement id (G-D2MFJ76RZX) and would have contaminated MGM's data.
-     M Aria has its own stream, G-8318H972YQ, so the property collision is gone.
-     Loaded as bare gtag.js with NO GTM snippet on this page, deliberately: where
-     gtm.js also loads, it takes ownership of window.dataLayer and of the
-     measurement id, and custom gtag('event') calls are then swallowed unless a
-     container tag forwards them. That is exactly why generate_lead never reached
-     GA4 on M Grand Minori. Bare gtag.js keeps the lead event self-contained. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8318H972YQ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-8318H972YQ');
-</script>
+<!-- GA4 intentionally absent: MGM property G-D2MFJ76RZX must not receive M Aria hits. -->
 
 
 
@@ -2362,15 +2348,28 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
    the numbered pins were unreadable; it now takes a tall 3:4 frame and fills
    it, exactly as .loc-map-bg does, with the whole plan a tap away. ========= */
 @media(max-width:1023px){
-  #fac .fac-map-img{aspect-ratio:3/4}
-  #fac .fac-map-img img.fac-base{width:100%;height:100%;object-fit:cover}
-  /* The cover crop overflows HORIZONTALLY only (the plan is landscape in a
-     tall frame), so the x value is the one that bites. Each is set from the
-     measured centre of that plan's numbered pins, so the numbers people are
-     meant to read stay in the inline view; the rest is one tap away. */
-  #lvl1 .fac-map-img img.fac-base{object-position:75% 50%}
-  #lvl2 .fac-map-img img.fac-base{object-position:47% 50%}
+  /* R7b: cover cropped the sides away. The plan now runs at FULL height in a
+     tall frame and the frame scrolls sideways, so it is both big and complete
+     — nothing is permanently cut, you swipe to the rest or tap for full
+     screen. The in-place zoom controls stand down here: swipe + tap is the
+     whole mobile model. */
+  /* The whole plan, edge to edge — the widest a complete landscape plan can be
+     on a phone. Cropping (cover) hid the sides; running it at frame height in
+     a scroller showed only a 45% slice at a time. Detail lives one tap away in
+     the full-screen viewer, which pinches and pans. */
+  /* .fac-map-wrap carries overflow:hidden for the reveal, which clipped the
+     bleeding card back to the 310px content column */
+  #fac .fac-map-wrap{overflow:visible}
+  #fac .fac-map-img{width:100vw;margin-left:calc(50% - 50vw);border-radius:0}
+  #fac .fac-map-img img.fac-base{width:100%;height:auto;max-width:none;object-fit:fill}
+  #fac .fz-ctl{display:none}
+  .swipe-hint{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:6;
+    display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:20px;
+    background:rgba(21,50,91,.9);border:1px solid rgba(235,209,151,.45);
+    font:600 11px/1.2 var(--fb);letter-spacing:.09em;text-transform:uppercase;color:#EBD197;
+    pointer-events:none}
 }
+@media(min-width:1024px){.swipe-hint{display:none}}
 @media(min-width:560px) and (max-width:1023px){#fac .fac-map-img{aspect-ratio:1/1}}
 .fs-chip{position:absolute;top:12px;left:12px;z-index:6;display:inline-flex;align-items:center;gap:6px;
   padding:9px 13px;border-radius:22px;background:rgba(21,50,91,.92);border:1px solid rgba(235,209,151,.5);
@@ -2543,6 +2542,10 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MDZQ7K6K"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <!-- ANNOUNCE (auto marquee) -->
 <div class="ann">
   <div class="ann-track">
@@ -2950,7 +2953,7 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
 
     <div class="lvl-panel on" id="lvl1">
       <div class="fac-map-wrap fi">
-        <div class="fac-map-img" data-full="assets/siteplan-lg-first-full.webp">
+        <div class="fac-map-img" data-full="assets/siteplan-lg-first-full.webp" data-focus="0.638">
           <button type="button" class="fs-chip" aria-label="Open the site plan full screen"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>Full screen</button>
           <img src="assets/siteplan-lg-first-full.webp"
                alt="Site plan of the LG Floor and First Floor facilities at M Aria"
@@ -2960,6 +2963,7 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
             <button class="fz-btn fz-out" type="button" aria-label="Zoom out"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14"/></svg></button>
             <button class="fz-btn fz-reset" type="button" aria-label="Reset zoom"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 10a8 8 0 1 1 2 6"/><path d="M4 16v-6h6"/></svg></button>
           </div>
+          <span class="swipe-hint" aria-hidden="true"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>Tap for detail</span>
         </div>
       </div>
       <div class="am-cat">
@@ -3006,7 +3010,7 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
 
     <div class="lvl-panel" id="lvl2">
       <div class="fac-map-wrap fi">
-        <div class="fac-map-img" data-full="assets/siteplan-level7-8-full.webp">
+        <div class="fac-map-img" data-full="assets/siteplan-level7-8-full.webp" data-focus="0.486">
           <button type="button" class="fs-chip" aria-label="Open the site plan full screen"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>Full screen</button>
           <img src="assets/siteplan-level7-8-full.webp"
                alt="Site plan of the Level 7 and Level 8 facilities at M Aria"
@@ -3016,6 +3020,7 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
             <button class="fz-btn fz-out" type="button" aria-label="Zoom out"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14"/></svg></button>
             <button class="fz-btn fz-reset" type="button" aria-label="Reset zoom"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 10a8 8 0 1 1 2 6"/><path d="M4 16v-6h6"/></svg></button>
           </div>
+          <span class="swipe-hint" aria-hidden="true"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>Tap for detail</span>
         </div>
       </div>
       <div class="am-cat">
@@ -5105,11 +5110,26 @@ window.mgmTrackLead = function (payload) {
     var img=box.querySelector('img.fac-base'); if(!img)return;
     var s=1,tx=0,ty=0,active={},dragX=0,dragY=0,pinchD=0,pinchS=1;
     img.style.transformOrigin='0 0';
+    /* R7b: below 1024 the plan runs full height inside a horizontal scroller,
+       so the transform-based zoom stands down — swipe pans it natively and a
+       tap opens full screen. */
+    var isMobile=function(){return window.matchMedia('(max-width:1023px)').matches;};
+    /* open on the pins rather than the left edge, and retire the hint on use */
+    function centreOnPins(){
+      if(!isMobile())return;
+      var f=parseFloat(box.getAttribute('data-focus')||'0.5');
+      var over=box.scrollWidth-box.clientWidth;
+      if(over>0)box.scrollLeft=Math.max(0,Math.min(over,box.scrollWidth*f-box.clientWidth/2));
+    }
+    if(img.complete)centreOnPins(); else img.addEventListener('load',centreOnPins);
+    window.addEventListener('resize',centreOnPins);
+    new MutationObserver(centreOnPins).observe(box.closest('.lvl-panel'),{attributes:true,attributeFilter:['class']});
+    box.addEventListener('scroll',function(){box.classList.add('scrolled');},{passive:true,once:true});
     function apply(){
       img.style.transform='translate('+tx+'px,'+ty+'px) scale('+s+')';
       /* R7: at rest the plan advertises the full-screen tap, not a dead cursor */
       box.style.cursor=s>1?'grab':'zoom-in';
-      box.style.touchAction=s>1?'none':'pan-y';
+      box.style.touchAction=isMobile()?'':(s>1?'none':'pan-y');
     }
     function clamp(){
       var r=box.getBoundingClientRect();
@@ -5134,11 +5154,27 @@ window.mgmTrackLead = function (payload) {
        affordance; a plain tap on the plan does the same, but only when it is
        not zoomed and the pointer did not travel (so drag-pan still works). */
     function openFull(){
-      var lb=document.getElementById('fpLb'), st=document.getElementById('fpImg');
-      if(!lb||!st)return;
-      st.src=box.getAttribute('data-full')||img.currentSrc||img.src; st.alt=img.alt;
-      lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
-      document.body.style.overflow='hidden';
+      var src=box.getAttribute('data-full')||img.currentSrc||img.src;
+      if(typeof fpOpen==='function')fpOpen(src,img.alt);
+      else{
+        var lb=document.getElementById('fpLb'), st=document.getElementById('fpImg');
+        if(!lb||!st)return;
+        st.src=src; st.alt=img.alt;
+        lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+      }
+      /* R7b: a landscape plan letterboxes to ~215px tall on a phone, which is
+         no better than the page. Open it already magnified and centred on the
+         pins; pinch and drag take it from there. */
+      if(isMobile()&&typeof fpState==='object'&&typeof fpApply==='function'){
+        var f=parseFloat(box.getAttribute('data-focus')||'0.5');
+        var st2=document.getElementById('fpImg');
+        var w=st2.getBoundingClientRect().width||0;
+        fpState.scale=2.6;
+        fpState.tx=(0.5-f)*w*fpState.scale;
+        fpState.ty=0;
+        fpApply();
+      }
     }
     var chip=box.querySelector('.fs-chip');
     if(chip)chip.addEventListener('click',function(e){e.stopPropagation();openFull();});
@@ -5153,12 +5189,13 @@ window.mgmTrackLead = function (payload) {
     });
     box.style.cursor='zoom-in';
     box.addEventListener('dblclick',function(e){
+      if(isMobile())return;
       var r=box.getBoundingClientRect();
       if(s>1){s=1;tx=0;ty=0;apply();}
       else zoomAt(2.2,e.clientX-r.left,e.clientY-r.top);
     });
     box.addEventListener('pointerdown',function(e){
-      if(e.target.closest('.fz-ctl'))return;
+      if(isMobile()||e.target.closest('.fz-ctl'))return;
       active[e.pointerId]=e;
       var keys=Object.keys(active);
       if(keys.length===1&&s>1){
