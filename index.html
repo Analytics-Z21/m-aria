@@ -2342,6 +2342,27 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
 }
 .fac-map-img{background:#fff}
 .fac-map-img img{user-select:none;-webkit-user-drag:none}
+/* ============ R7 (2026-08-26): the site plan reads bigger and opens full
+   screen, following the Location map's convention (tap the map to enlarge).
+   On mobile the plan filled only ~180px of height inside the page gutter, so
+   the numbered pins were unreadable; it now takes a tall 3:4 frame and fills
+   it, exactly as .loc-map-bg does, with the whole plan a tap away. ========= */
+@media(max-width:1023px){
+  #fac .fac-map-img{aspect-ratio:3/4}
+  #fac .fac-map-img img.fac-base{width:100%;height:100%;object-fit:cover}
+  /* The cover crop overflows HORIZONTALLY only (the plan is landscape in a
+     tall frame), so the x value is the one that bites. Each is set from the
+     measured centre of that plan's numbered pins, so the numbers people are
+     meant to read stay in the inline view; the rest is one tap away. */
+  #lvl1 .fac-map-img img.fac-base{object-position:75% 50%}
+  #lvl2 .fac-map-img img.fac-base{object-position:47% 50%}
+}
+@media(min-width:560px) and (max-width:1023px){#fac .fac-map-img{aspect-ratio:1/1}}
+.fs-chip{position:absolute;top:12px;left:12px;z-index:6;display:inline-flex;align-items:center;gap:6px;
+  padding:9px 13px;border-radius:22px;background:rgba(21,50,91,.92);border:1px solid rgba(235,209,151,.5);
+  font:600 11px/1.2 var(--fb);letter-spacing:.09em;text-transform:uppercase;color:#EBD197;cursor:pointer}
+.fs-chip:hover{background:#15325B;border-color:#EBD197}
+.fs-chip:focus-visible{outline:2px solid #EBD197;outline-offset:2px}
 .fz-ctl{position:absolute;top:12px;right:12px;display:flex;flex-direction:column;gap:8px;z-index:6}
 .fz-btn,.nx .fz-btn{width:42px;height:42px;border-radius:50%;
   background:rgba(255,255,255,.94);color:#15325B;border:1px solid rgba(21,50,91,.28);
@@ -2909,7 +2930,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wrap">
     <div class="center">
       <h2 class="stl">58 Urban Resort Facilities</h2>
-      <p class="sdesc">Across the LG Floor, First Floor, Level 7 and Level 8. Zoom and drag the plan right here.</p>
+      <p class="sdesc">Across the LG Floor, First Floor, Level 7 and Level 8. Zoom and drag the plan right here, or tap it for the full-screen view.</p>
     </div>
 
     <div class="lvl-tabs" role="tablist" aria-label="Facility levels">
@@ -2919,10 +2940,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="lvl-panel on" id="lvl1">
       <div class="fac-map-wrap fi">
-        <div class="fac-map-img">
+        <div class="fac-map-img" data-full="assets/siteplan-lg-first-full.webp">
+          <button type="button" class="fs-chip" aria-label="Open the site plan full screen"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>Full screen</button>
           <img src="assets/siteplan-lg-first-full.webp"
                alt="Site plan of the LG Floor and First Floor facilities at M Aria"
-               class="fac-base" width="1600" height="959">
+               class="fac-base" width="2000" height="1199">
           <div class="fz-ctl">
             <button class="fz-btn fz-in" type="button" aria-label="Zoom in"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></button>
             <button class="fz-btn fz-out" type="button" aria-label="Zoom out"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14"/></svg></button>
@@ -2974,10 +2996,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="lvl-panel" id="lvl2">
       <div class="fac-map-wrap fi">
-        <div class="fac-map-img">
+        <div class="fac-map-img" data-full="assets/siteplan-level7-8-full.webp">
+          <button type="button" class="fs-chip" aria-label="Open the site plan full screen"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>Full screen</button>
           <img src="assets/siteplan-level7-8-full.webp"
                alt="Site plan of the Level 7 and Level 8 facilities at M Aria"
-               class="fac-base" width="1600" height="1033">
+               class="fac-base" width="2000" height="1291">
           <div class="fz-ctl">
             <button class="fz-btn fz-in" type="button" aria-label="Zoom in"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></button>
             <button class="fz-btn fz-out" type="button" aria-label="Zoom out"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14"/></svg></button>
@@ -5074,7 +5097,8 @@ window.mgmTrackLead = function (payload) {
     img.style.transformOrigin='0 0';
     function apply(){
       img.style.transform='translate('+tx+'px,'+ty+'px) scale('+s+')';
-      box.style.cursor=s>1?'grab':'default';
+      /* R7: at rest the plan advertises the full-screen tap, not a dead cursor */
+      box.style.cursor=s>1?'grab':'zoom-in';
       box.style.touchAction=s>1?'none':'pan-y';
     }
     function clamp(){
@@ -5096,6 +5120,28 @@ window.mgmTrackLead = function (payload) {
     box.querySelector('.fz-in').addEventListener('click',function(e){e.stopPropagation();centreStep(1.5);});
     box.querySelector('.fz-out').addEventListener('click',function(e){e.stopPropagation();centreStep(1/1.5);});
     box.querySelector('.fz-reset').addEventListener('click',function(e){e.stopPropagation();s=1;tx=0;ty=0;apply();});
+    /* R7: full screen, the Location map's convention. The chip is the explicit
+       affordance; a plain tap on the plan does the same, but only when it is
+       not zoomed and the pointer did not travel (so drag-pan still works). */
+    function openFull(){
+      var lb=document.getElementById('fpLb'), st=document.getElementById('fpImg');
+      if(!lb||!st)return;
+      st.src=box.getAttribute('data-full')||img.currentSrc||img.src; st.alt=img.alt;
+      lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+    }
+    var chip=box.querySelector('.fs-chip');
+    if(chip)chip.addEventListener('click',function(e){e.stopPropagation();openFull();});
+    var downX=0,downY=0,travelled=0;
+    box.addEventListener('pointerdown',function(e){downX=e.clientX;downY=e.clientY;travelled=0;});
+    box.addEventListener('pointermove',function(e){
+      travelled=Math.max(travelled,Math.hypot(e.clientX-downX,e.clientY-downY));});
+    box.addEventListener('click',function(e){
+      if(e.target.closest('.fz-ctl')||e.target.closest('.fs-chip'))return;
+      if(s>1||travelled>6)return;
+      openFull();
+    });
+    box.style.cursor='zoom-in';
     box.addEventListener('dblclick',function(e){
       var r=box.getBoundingClientRect();
       if(s>1){s=1;tx=0;ty=0;apply();}
