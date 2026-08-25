@@ -2348,6 +2348,163 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
   display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .18s}
 .fz-btn:hover,.nx .fz-btn:hover{background:#EBD197}
 .fz-btn:focus-visible{outline:2px solid #EBD197;outline-offset:2px}
+
+/* ============ R5 (2026-08-25, hero composition round) ============
+   DESKTOP, two faults, both traced to earlier patches fighting the base rules.
+   a. Copy sat at the top of the media, not centred. The R1 lint block added
+      `.hero-body{position:relative;z-index:3}` purely to lift the copy above
+      the scrim, but with equal specificity and a later source position it
+      overrode the desktop `position:absolute` fill. `justify-content:center`
+      then had no height to centre inside, so the column collapsed to the top.
+      Fixed with M Aurora's mechanic instead of the absolute fill: the media is
+      a flex column at every width and the body is a flex child that grows.
+   b. Nothing lined up. `.hero h1{max-width:15ch}` gave the headline a narrow
+      box anchored to the left of a centred column, so its optical centre sat
+      ~38px left of the logo, pill and CTAs, while `.h-cards` was internally
+      left aligned inside that same centred column. The whole column is now
+      left aligned on one axis, which is the only treatment where the ruled
+      stat row, the CTAs and the headline share a true edge. Matches M Aurora.
+
+   MOBILE, rebuilt on the M Aurora composition (client reference):
+      copy anchored to the bottom third, left aligned, stat row ruled top and
+      bottom, CTAs stacked full width, scrim ramped heavier at the base.
+      Card sub-lines are desktop-only, as in Aurora: over the bright video
+      frames they were failing contrast at the bottom of the hero. */
+
+/* --- one flex column at every width, so the body has a height to centre in --- */
+.hero-media{display:flex;flex-direction:column}
+.hero-body{position:relative;z-index:3;flex:1;display:flex;flex-direction:column;
+  width:100%;max-width:var(--max);margin:0 auto}
+.hero h1 .nw{white-space:nowrap}
+
+/* --- MOBILE: Aurora composition --- */
+@media(max-width:1023px){
+  .hero-body{justify-content:flex-end;padding:104px var(--pad) 56px}
+  .hero-inner{flex:0 1 auto;align-items:flex-start;text-align:left;max-width:600px}
+  .hero-inner .h-logo{align-items:flex-start;margin-top:0;margin-bottom:14px}
+  .hero-inner .h-tag{margin-bottom:14px}
+  .hero h1{margin-bottom:10px}
+  .h-place{margin-bottom:18px}
+
+  /* ruled stat row, left aligned, no centring container */
+  /* rules run the full width of the CTA column, so the base of the block
+     reads as one edge rather than three different ones */
+  .hero-inner .h-cards{display:grid;grid-template-columns:1fr 1fr;width:100%;
+    margin:0 0 22px;max-width:420px;text-align:left;
+    border-block:1px solid rgba(255,255,255,.20);padding:12px 0}
+  .hero-inner .h-card{padding:2px 22px 2px 0}
+  .hero-inner .h-card+.h-card{border-left:1px solid rgba(255,255,255,.20);padding-left:22px}
+  .h-card-sub{display:none}
+
+  /* CTAs stack full width and sit with the copy, not pinned to the floor */
+  .hero-inner .hero-ctas{grid-template-columns:1fr;gap:10px;max-width:420px;
+    width:100%;margin:0;padding-top:0}
+  .hero-ctas .btn{width:100%;padding:15px 16px;font-size:14px}
+  /* the two-line secondary reads as one line once it is full width */
+  .hero-ctas .btn-s{flex-direction:row;align-items:center;justify-content:center;gap:7px}
+  .hero-ctas .btn-s-t::before{content:'\00B7\00A0';opacity:.55}
+
+  /* tablets and large phones have the width for a CTA pair, as Aurora does
+     from 560px; the stat row widens with them so both share one right edge */
+  @media(min-width:600px){
+    .hero-inner .h-cards{max-width:520px}
+    .hero-inner .hero-ctas{grid-template-columns:1fr 1fr;gap:12px;max-width:520px}
+    .hero-ctas .btn-s{flex-direction:column;gap:0}
+    .hero-ctas .btn-s-t::before{content:none}
+  }
+
+  /* base-heavy scrim: the copy now lands where the video is brightest */
+  .hero-media::after{background:linear-gradient(180deg,
+    rgba(17,27,48,.46) 0%,rgba(17,27,48,.24) 28%,rgba(17,27,48,.52) 56%,
+    rgba(17,27,48,.80) 82%,rgba(17,27,48,.92) 100%) !important}
+}
+
+/* --- DESKTOP: one left axis, vertically centred --- */
+@media(min-width:1024px){
+  .hero-body{position:relative;inset:auto;justify-content:center;align-items:flex-start;
+    /* symmetric, so justify-content:center lands the column on the true
+       vertical centre of the media; 96px still clears the -88px nav overlap */
+    padding:96px var(--pad)}
+  .hero-inner{width:100%;max-width:490px;text-align:left;margin:0}
+  .h-logo{align-items:flex-start;margin-bottom:20px}
+  .hero h1{max-width:none;margin-bottom:14px;text-wrap:normal}
+  .h-place{margin-bottom:22px}
+  .h-cards{display:inline-grid;grid-template-columns:auto auto;margin:0 0 28px;
+    max-width:none;text-align:left;
+    border-block:1px solid rgba(255,255,255,.18);padding:14px 0}
+  .h-card{padding:2px 30px 2px 0}
+  .h-card+.h-card{border-left:1px solid rgba(255,255,255,.18);padding-left:30px}
+  .hero-ctas{margin:0;max-width:430px}
+  /* the sub-lines were sitting at the pale end of the muted ramp over a
+     part-transparent scrim; lifted and shadowed so they hold on video frames */
+  .hero .h-card-sub{color:#C6CEDD;text-shadow:0 1px 8px rgba(0,0,0,.55)}
+}
+/* short laptops: the compaction block still wins on type, this keeps the axis */
+@media(min-width:1024px) and (max-height:820px){
+  .hero-body{align-items:flex-start}
+  .h-cards{margin:0 0 20px;padding:11px 0}
+}
+
+/* ============ R6 (2026-08-25, logo scale) ============
+   Both M Aria lockups go up a step. The mark is a portrait stacked lockup
+   (700x902), so height is what carries legibility, not width.
+     nav   44 -> 56px tall mobile, 56 -> 72px tall desktop
+     hero  64 -> 100px tall mobile, 90 -> 116px wide desktop, 140 -> 168 at 1440+
+   Two pre-existing faults had to be fixed for this to land cleanly, both
+   measured rather than assumed:
+     a. `.nav` is transparent at rest and is pulled over the hero by a fixed
+        negative margin, but the bar already rendered 92px tall against a
+        -88px pull, so the hero started 4px late and showed a sliver above it.
+        The pull now tracks the real bar height at each tier.
+     b. At 1024x768 the hero lockup already overlapped the nav by 7.6px, and a
+        taller bar would have doubled that. Short desktops (<=820px tall) keep
+        the 56px nav mark and get a compact 10px bar padding, which lifts the
+        bar clear. The hero lockup also holds at 90px there, matching the type
+        compaction that tier already applies, so the copy block still centres
+        on the true middle of the media instead of overflowing it. */
+
+/* --- nav lockup, and the pull kept in step with the real bar height --- */
+.nav-logo img{height:56px}
+.nav{margin-bottom:-92px}
+@media(min-width:1024px){
+  .nav-logo img{height:72px}
+  .nav{margin-bottom:-108px}
+}
+/* short desktops: compact bar, mark held at the mobile size, so the hero
+   lockup clears it instead of tucking under it */
+@media(min-width:1024px) and (max-height:820px){
+  .nav{padding:10px var(--pad);margin-bottom:-76px}
+  .nav.is-scrolled{padding:8px var(--pad)}
+  .nav-logo img{height:56px}
+}
+/* the drawer header stands in for the nav bar, so it tracks the same size */
+.mobile-drawer-brand img{height:56px}
+
+/* --- hero lockup --- */
+@media(max-width:1023px){
+  .h-logo img{height:100px;width:auto}
+}
+@media(max-width:374px){
+  /* 82px keeps the mark off the copy on a 360px screen */
+  .h-logo img{height:82px;width:auto}
+}
+@media(min-width:1024px){
+  .h-logo img{width:116px;height:auto}
+}
+@media(min-width:1440px){
+  .h-logo img{width:168px;height:auto}
+}
+/* held at the current size: this tier has no vertical room to spend. The copy
+   also centres in the space BELOW the bar here rather than on the middle of the
+   media: with only ~80px of slack, true media centring left the hero lockup
+   4px under the nav lockup, reading as one doubled mark in the same column.
+   Weighting the padding puts 28px between them. The resulting 24px offset from
+   the media centre is not detectable on a 768px-tall viewport, and on a bar
+   that overlays the hero the space below it is the centre a viewer perceives. */
+@media(min-width:1024px) and (max-height:820px){
+  .h-logo img{width:90px;height:auto}
+  .hero-body{padding:92px var(--pad) 44px!important}
+}
 </style>
 </head>
 <body>
@@ -2539,7 +2696,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <img src="assets/logo-white.webp" alt="M Aria" width="700" height="902">
         </div>
         <div class="h-tag"><span class="dot"></span>Sales Gallery open daily, Mon to Sun</div>
-        <h1><em>Urban Oasis</em>, In Perfect Tempo</h1>
+        <h1><em>Urban Oasis</em>, <span class="nw">In Perfect Tempo</span></h1>
         <div class="h-place">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 21s-7-5.3-7-11a7 7 0 0 1 14 0c0 5.7-7 11-7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
           <span>Sentul, Kuala Lumpur</span>
