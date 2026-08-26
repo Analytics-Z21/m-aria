@@ -2887,7 +2887,7 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
         <div class="qx-points"><span>Both floor plans</span><span>Current availability</span><span>Loan guidance</span></div>
       </div>
       <div class="form-card">
-        <form id="quickForm" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&amp;orgId=00D0o0000015t7i" method="POST">
+        <form id="quickForm" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&amp;orgId=00D0o0000015t7i" method="POST" onsubmit="return handleMgmQuickFormSubmit(this)">
       <input type="hidden" name="oid" value="00D0o0000015t7i">
       <input type="hidden" name="retURL" value="https://m-aria.pages.dev/thank-you">
       <input type="hidden" name="00N2j000000e0hv" value="M Aria Website (Clone)">
@@ -3304,7 +3304,7 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
         </div>
       </div>
       <div class="form-card">
-        <form id="visitForm" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&amp;orgId=00D0o0000015t7i" method="POST">
+        <form id="visitForm" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&amp;orgId=00D0o0000015t7i" method="POST" onsubmit="return handleMgmFormSubmit(this)">
       <input type="hidden" name="oid" value="00D0o0000015t7i">
       <input type="hidden" name="retURL" value="https://m-aria.pages.dev/thank-you">
       <input type="hidden" name="00N2j000000e0hv" value="M Aria Website (Clone)">
@@ -4509,7 +4509,8 @@ document.querySelectorAll('.fi').forEach(function(el){obs.observe(el)});
 /* ===== ROUND 1: lead tracking =====================================================
    SITE-1: the dataLayer.push({event:'generate_lead'}) calls below were never reaching
    GA4 because no GTM tag forwards them. mgmTrackLead now ALSO calls gtag() directly,
-   which lands in G-D2MFJ76RZX regardless of container config.
+   which lands in M Aria's own property G-8318H972YQ. No GTM snippet on this
+     page, so gtag owns window.dataLayer and the direct call is not intercepted.
    SITE-4: 'generate_lead' is the single canonical lead event. The original site must
    be changed to fire the same name before the head-to-head URL test, or the two arms
    cannot be compared.
