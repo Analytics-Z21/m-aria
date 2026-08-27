@@ -2667,6 +2667,64 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
   font:600 11px/1.2 var(--fb);letter-spacing:.09em;text-transform:uppercase}
 .vmod-x:hover{background:#15325B;border-color:#EBD197}
 </style>
+
+<style>
+/* ============ R9 (2026-08-27, Justin's follow-up) ============ */
+
+/* --- Show unit CTAs track the viewport. The base rule is `1fr auto` above
+       520px, so "360 tour - Type A" stretched to 376px against Type B's 182px
+       while the walkthrough ran the full 558px: three buttons, three widths,
+       none of them proportional. Equal fr columns for the pair, full width for
+       the walkthrough, stacked below 600px. --- */
+.nx #interiors .unit-acts{grid-template-columns:repeat(2,minmax(0,1fr))}
+.nx #interiors .unit-acts-wide{grid-template-columns:minmax(0,1fr)}
+@media(max-width:599px){
+  .nx #interiors .unit-acts,
+  .nx #interiors .unit-acts-wide{grid-template-columns:minmax(0,1fr)}
+}
+.nx #interiors .unit-acts .btn{width:100%;text-align:center;justify-content:center}
+
+/* --- plans need white behind them. The key plans are 82-86% transparent line
+       art and the floor plans 29%, so on the navy ground the floor outline,
+       lift cores, dimension strings and the north arrow simply vanished. The
+       in-page site plan already had `background:#fff`; the thumbnail, the
+       enlarge card and the zoom viewer did not. Photographs are opaque, so a
+       white card ground is invisible behind them. --- */
+.nx .unit-shots-one .ushot{background:#fff;padding:10px}
+.nx .lb-card{background:#fff}
+.fp-lb-img{background:#fff}
+
+/* --- anchor scrolling: one offset, measured, per tier ---
+   The CSS route was adding two offsets that were never meant to stack:
+   html carried scroll-padding-top:72px AND section[id] carried
+   scroll-margin-top:calc(var(--nav-h) + 50px), so at 1440 a section landed
+   230px down the viewport, roughly 120px of dead space below the nav. And
+   --nav-h is rewritten on every scroll frame, so the offset differed from
+   one section to the next. These values are the fallback for a page opened
+   straight at a #hash; the click path is handled in JS below, which measures
+   the live chrome instead of guessing.
+   Measured resting chrome: nav 93 + rail 40 under 1024px; nav 109 with no
+   rail at 1024px and up; nav 77 on short desktops, which run the compact bar. */
+html{scroll-padding-top:0}
+section[id],#trust{scroll-margin-top:151px}
+@media(min-width:1024px){section[id],#trust{scroll-margin-top:127px}}
+@media(min-width:1024px) and (max-height:820px){section[id],#trust{scroll-margin-top:95px}}
+</style>
+
+<style>
+/* ============ R9b: the enlarge frame's Close control ============
+   It was pinned inside the frame at top right, which is where the key plan
+   carries its own "Type A / Type A2" legend, so the pill covered it. The
+   control now sits on a bar above the frame, right-aligned to it, and the
+   image ceiling gives that bar its 46px so nothing is pushed off screen. */
+.nx .lb-box{display:inline-flex;flex-direction:column;align-items:flex-end;gap:10px;max-width:100%}
+.nx .lb-bar{display:flex;align-items:center;gap:8px}
+.nx .lb-x{position:static;top:auto;right:auto}
+.nx .lb img{max-height:calc(80vh - 46px)}
+@media(min-width:1024px){
+  .nx .lb img{max-width:min(75vw,1080px);max-height:calc(75vh - 46px)}
+}
+</style>
 </head>
 <body>
 <!-- ANNOUNCE (auto marquee) -->
@@ -2937,7 +2995,7 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
             </div>
           </div>
         <div class="unit-shots unit-shots-one">
-            <button class="ushot" id="uKey" type="button" data-src="assets/keyplan-type-a.webp"><img id="uKeyImg" src="assets/keyplan-type-a.webp" alt="Key plan showing where the Type A unit sits on the floor" loading="lazy"></button>
+            <button class="ushot" id="uKey" type="button" data-src="assets/keyplan-type-a.webp"><img id="uKeyImg" src="assets/keyplan-type-a.webp" alt="Key plan showing where the Type A unit sits on the floor" loading="lazy" width="900" height="757"></button>
             <span class="ushot-note">Type <b id="uKeyT">A</b> key plan. Tap to view.</span>
           </div>
           <div class="unit-acts">
@@ -3040,15 +3098,15 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
       <p class="copy">What the development leads with, in its own words.</p>
     </div>
     <div class="usp-grid rv">
-        <div class="usp"><img src="assets/usp-freehold.webp" alt="" loading="lazy"><b>Freehold</b></div>
-        <div class="usp"><img src="assets/usp-lowdensity.webp" alt="" loading="lazy"><b>Low Density</b></div>
-        <div class="usp"><img src="assets/usp-klcity.webp" alt="" loading="lazy"><b>5km to KL City Centre</b></div>
-        <div class="usp"><img src="assets/usp-layout.webp" alt="" loading="lazy"><b>Practical Layout<br>(3 to 4 Bedrooms)</b></div>
-        <div class="usp"><img src="assets/usp-facilities.webp" alt="" loading="lazy"><b>58 Resort Living Facilities</b></div>
-        <div class="usp"><img src="assets/usp-greenre.webp" alt="" loading="lazy"><b>GreenRE Silver Certified</b></div>
-        <div class="usp"><img src="assets/usp-security.webp" alt="" loading="lazy"><b>Multi-tier Security</b></div>
-        <div class="usp"><img src="assets/usp-entrance.webp" alt="" loading="lazy"><b>Grand Statement Entrance</b></div>
-        <div class="usp"><img src="assets/usp-carparks.webp" alt="" loading="lazy"><b>2 to 4 Carparks</b></div>
+        <div class="usp"><img src="assets/usp-freehold.webp" alt="" loading="lazy" width="320" height="207"><b>Freehold</b></div>
+        <div class="usp"><img src="assets/usp-lowdensity.webp" alt="" loading="lazy" width="320" height="207"><b>Low Density</b></div>
+        <div class="usp"><img src="assets/usp-klcity.webp" alt="" loading="lazy" width="320" height="207"><b>5km to KL City Centre</b></div>
+        <div class="usp"><img src="assets/usp-layout.webp" alt="" loading="lazy" width="320" height="206"><b>Practical Layout<br>(3 to 4 Bedrooms)</b></div>
+        <div class="usp"><img src="assets/usp-facilities.webp" alt="" loading="lazy" width="320" height="206"><b>58 Resort Living Facilities</b></div>
+        <div class="usp"><img src="assets/usp-greenre.webp" alt="" loading="lazy" width="320" height="206"><b>GreenRE Silver Certified</b></div>
+        <div class="usp"><img src="assets/usp-security.webp" alt="" loading="lazy" width="320" height="208"><b>Multi-tier Security</b></div>
+        <div class="usp"><img src="assets/usp-entrance.webp" alt="" loading="lazy" width="320" height="208"><b>Grand Statement Entrance</b></div>
+        <div class="usp"><img src="assets/usp-carparks.webp" alt="" loading="lazy" width="320" height="211"><b>2 to 4 Carparks</b></div>
     </div>
   </div>
 </section>
@@ -3277,7 +3335,7 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
         <a class="btn btn-p" href="https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1" target="_blank" rel="noopener">360&deg; tour &middot; Type A</a>
         <a class="btn btn-o" href="https://virtualtour.my/mah-sing/m-aria/show-unit-type-b1" target="_blank" rel="noopener">360&deg; tour &middot; Type B</a>
       </div>
-      <div class="unit-acts" style="margin-top:10px">
+      <div class="unit-acts unit-acts-wide" style="margin-top:10px">
         <a class="btn btn-o" href="https://jetk.link/mahsing/m_aria/d8_wop/index.html" target="_blank" rel="noopener">Interactive 3D walkthrough</a>
       </div>
     </div>
@@ -4642,7 +4700,7 @@ window.mgmTrackLead = function (payload) {
 </script>
 
 <div class="nx">
-<div class="lb" id="lb"><div class="lb-card"><button class="lb-x" id="lbX" type="button" aria-label="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>Close</button><img id="lbImg" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></div></div>
+<div class="lb" id="lb"><div class="lb-box"><div class="lb-bar"><button class="lb-x" id="lbX" type="button" aria-label="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>Close</button></div><div class="lb-card"><img id="lbImg" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></div></div></div>
 </div>
 <script>
 (function(){
@@ -4690,7 +4748,13 @@ window.mgmTrackLead = function (payload) {
       var kp='assets/keyplan-type-'+cur.toLowerCase()+'.webp';
       kb.setAttribute('data-src',kp);
       var ki=$('uKeyImg');
-      if(ki){ki.src=kp;ki.alt='Key plan showing where the Type '+cur+' unit sits on the floor';}
+      if(ki){
+        ki.src=kp;
+        ki.alt='Key plan showing where the Type '+cur+' unit sits on the floor';
+        /* the two key plans are 900x757 and 900x747; keeping the attributes in
+           step with the source means the box never has to guess its height */
+        ki.setAttribute('height',cur==='B'?'747':'757');
+      }
       var kt=$('uKeyT'); if(kt)kt.textContent=cur;
     }
     var cta=$('uCta'); cta.setAttribute('data-unit','Type '+cur);
@@ -4742,7 +4806,8 @@ window.mgmTrackLead = function (payload) {
     $('lbImg').alt=$('planImg').alt; $('lb').classList.add('on'); document.body.style.overflow='hidden';});
   function closeLb(){$('lb').classList.remove('on');document.body.style.overflow='';}
   $('lbX').addEventListener('click',closeLb);
-  $('lb').addEventListener('click',function(e){if(e.target===this)closeLb();});
+  $('lb').addEventListener('click',function(e){
+    if(e.target===this||e.target.classList.contains('lb-box')||e.target.classList.contains('lb-bar'))closeLb();});
 
   
   document.addEventListener('keydown',function(e){
@@ -5410,6 +5475,119 @@ window.mgmTrackLead = function (payload) {
     var open=txt.classList.toggle('on');
     btn.setAttribute('aria-expanded',String(open));
     if(open)txt.scrollIntoView({block:'nearest',behavior:'smooth'});
+  });
+})();
+</script>
+
+<script>
+/* ============ R9: one authority for in-page anchor scrolling ============
+   Every in-page link (nav pill, the nav's own rail, the sticky mobile rail,
+   the drawer, the hero scroll indicator, the "register for a visit" link in
+   the FAQ) now lands its section just under whatever chrome is actually
+   fixed at the top, with one consistent 18px of air.
+
+   Why JS and not CSS alone: the chrome is not one fixed height. The nav is
+   109px tall on a tall desktop, 77px on a short one (the compact bar) and
+   93px on mobile, where a 40px section rail sits under it as well, and that
+   rail is only present once you are past the hero. A single scroll-margin
+   cannot be right for all of those, and the previous setup stacked
+   scroll-padding-top:72px on top of a scroll-margin built from --nav-h,
+   which is rewritten on every scroll frame.
+
+   Measuring the nav in its is-scrolled state matters: at scrollY 0 it is the
+   transparent bar over the hero and it changes the moment the scroll starts,
+   so the resting height is the one the offset has to use. */
+(function () {
+  'use strict';
+  var GAP = 18;
+  var nav = document.getElementById('siteNav');
+  var rail = document.getElementById('rail');
+  var drawer = document.getElementById('mobileMenu');
+
+  function measure(el, cls) {
+    if (!el) return 0;
+    var had = el.classList.contains(cls);
+    if (!had) el.classList.add(cls);
+    var h = el.offsetHeight;
+    if (!had) el.classList.remove(cls);
+    return h;
+  }
+
+  /* The section rail is not always part of the chrome: it is revealed by an
+     IntersectionObserver once the hero has left the viewport (rootMargin 60px),
+     and it is display:none above 1024px. So work out whether it will actually
+     be showing at the destination before charging its 40px to the offset,
+     otherwise the first section below the hero lands 40px too low. */
+  function railGate() {
+    var hero = document.querySelector('.hero');
+    if (!hero) return 0;
+    return hero.getBoundingClientRect().bottom + window.pageYOffset + 60;
+  }
+
+  function offsetFor(el) {
+    var navH = measure(nav, 'is-scrolled');
+    var railH = measure(rail, 'on');
+    var absTop = el.getBoundingClientRect().top + window.pageYOffset;
+    var top = absTop - (navH + railH + GAP);
+    if (railH && top <= railGate()) top = absTop - (navH + GAP);
+    return { top: top < 0 ? 0 : top, chrome: navH + (railH && top > railGate() ? railH : 0) };
+  }
+
+  /* A landing computed before the page has finished settling drifts: the USP
+     icons used to reserve 0px until they decoded, which pushed everything
+     below them down by ~114px after the scroll had been issued. Those now
+     carry intrinsic dimensions, but late-loading media is a fact of life on
+     this page, so the landing is re-checked for a beat and nudged if the
+     target moved more than 4px. The nudge is instant, so it reads as the tail
+     of the same movement rather than a second scroll. */
+  var settleTimer = null;
+  function settle(el, tries) {
+    if (settleTimer) clearTimeout(settleTimer);
+    settleTimer = setTimeout(function () {
+      var o = offsetFor(el);
+      var drift = Math.round(el.getBoundingClientRect().top - (o.chrome + GAP));
+      var maxTop = document.documentElement.scrollHeight - window.innerHeight;
+      var clamped = o.top >= maxTop - 1;
+      if (!clamped && Math.abs(drift) > 4) {
+        var prev = document.documentElement.style.scrollBehavior;
+        document.documentElement.style.scrollBehavior = 'auto';
+        window.scrollTo(0, o.top);
+        document.documentElement.style.scrollBehavior = prev;
+      }
+      if (tries > 1) settle(el, tries - 1);
+    }, 260);
+  }
+
+  function go(el) {
+    window.scrollTo({ top: offsetFor(el).top, behavior: 'smooth' });
+    settle(el, 3);
+  }
+
+  /* Bubble phase on document, deliberately: the drawer's own per-link
+     close handler sits on the anchor and therefore runs first, so the
+     drawer is shut and the body scroll lock released before we move. */
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    if (a.hasAttribute('data-open-lead')) return;   /* those open the lead drawer */
+    var href = a.getAttribute('href') || '';
+    if (href.length < 2) return;                    /* bare "#" */
+    var el = document.getElementById(href.slice(1));
+    if (!el) return;
+    e.preventDefault();
+    if (drawer && drawer.classList.contains('open')) {
+      /* belt and braces if the drawer's own handler ever goes away */
+      requestAnimationFrame(function () { go(el); });
+    } else {
+      go(el);
+    }
+  });
+
+  /* a page opened straight at /#fac gets the same landing as a click */
+  window.addEventListener('load', function () {
+    if (!location.hash || location.hash.length < 2) return;
+    var el = document.getElementById(location.hash.slice(1));
+    if (el) setTimeout(function () { go(el); }, 120);
   });
 })();
 </script>
