@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <!-- M ARIA ver2 - THANK YOU (2026-08-21, Champagne Tempo). Salesforce Web-to-Lead
-     retURL target. GTM page_view here is the client-side conversion signal. -->
+     retURL target, now https://ver2.m-aria.com.my/thank-you so the whole submit
+     flow stays on one hostname and generate_lead and lead_confirmed land in the
+     same GA4 session. The conversion signal here is lead_confirmed, fired at the
+     foot of this page into G-Y04BREMNYN. -->
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -10,16 +13,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-MDZQ7K6K');</script>
 <!-- End Google Tag Manager -->
-<!-- GA4 direct channel for the confirmation event. GTM on this page already
-     sends page_view, so send_page_view is false here to avoid a second one.
+<!-- GA4: the DEDICATED ver2 stream, G-Y04BREMNYN. Repointed 2026-09-03 from
+     G-8318H972YQ (the ORIGINAL site's stream) so the ver2 arm reports separately.
+     send_page_view is deliberately NOT suppressed any more. It was suppressed
+     because the GTM container below already sent a page_view, but that container
+     targets the ORIGINAL stream, so with the repoint the new stream would have
+     received lead_confirmed and no page_view at all, leaving the thank-you page
+     invisible in ver2 reporting. The two page_views now go to two different
+     streams, so neither is double-counted.
      This page is only reachable via the Salesforce retURL redirect, which
      Salesforce performs ONLY after it has accepted the lead. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8318H972YQ"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y04BREMNYN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-8318H972YQ', { send_page_view: false });
+  gtag('config', 'G-Y04BREMNYN');
 </script>
 
 <meta charset="UTF-8">

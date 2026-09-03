@@ -33,20 +33,24 @@
 <link rel="icon" href="assets/favicon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="assets/favicon-180.png">
 
-<!-- GA4: M Aria's OWN property. Previously omitted because the page had copied
-     MGM's measurement id (G-D2MFJ76RZX) and would have contaminated MGM's data.
-     M Aria has its own stream, G-8318H972YQ, so the property collision is gone.
-     Loaded as bare gtag.js with NO GTM snippet on this page, deliberately: where
-     gtm.js also loads, it takes ownership of window.dataLayer and of the
-     measurement id, and custom gtag('event') calls are then swallowed unless a
-     container tag forwards them. That is exactly why generate_lead never reached
-     GA4 on M Grand Minori. Bare gtag.js keeps the lead event self-contained. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8318H972YQ"></script>
+<!-- GA4: the DEDICATED ver2 stream. Repointed 2026-09-03 from G-8318H972YQ,
+     which is the ORIGINAL site's stream and was only ever a stand-in: with both
+     arms reporting into one stream the ver2 test was separable by hostname alone.
+     G-Y04BREMNYN is the "ver2 M Aria" web data stream inside the same M Aria
+     property (506476041), defaultUri https://ver2.m-aria.com.my/ , confirmed via
+     the GA4 Admin API on 2026-09-03. The two arms are now cleanly separated and
+     the original stream stops counting ver2 traffic.
+     Bare gtag.js with NO GTM snippet on this page, matching M Aurora: the page
+     owns its own measurement id, so generate_lead needs no container tag to
+     forward it. (Do not re-add a GTM container here. Nothing in this page needs
+     one, and the original site's container targets the original stream.) -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y04BREMNYN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-8318H972YQ');
+  gtag('config', 'G-Y04BREMNYN');
 </script>
 
 
@@ -3052,7 +3056,7 @@ section[id],#trust{scroll-margin-top:151px}
       <div class="form-card">
         <form id="quickForm" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&amp;orgId=00D0o0000015t7i" method="POST" onsubmit="return handleMgmQuickFormSubmit(this)">
       <input type="hidden" name="oid" value="00D0o0000015t7i">
-      <input type="hidden" name="retURL" value="https://m-aria.pages.dev/thank-you">
+      <input type="hidden" name="retURL" value="https://ver2.m-aria.com.my/thank-you">
       <input type="hidden" name="00N2j000000e0hv" value="M Aria Website (Clone)">
       <input type="hidden" name="00N2j000000e0hw" value="M Aria">
       <input type="hidden" name="00N2j000000e0ho" value="M Aria Website">
@@ -3474,7 +3478,7 @@ section[id],#trust{scroll-margin-top:151px}
       <div class="form-card">
         <form id="visitForm" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&amp;orgId=00D0o0000015t7i" method="POST" onsubmit="return handleMgmFormSubmit(this)">
       <input type="hidden" name="oid" value="00D0o0000015t7i">
-      <input type="hidden" name="retURL" value="https://m-aria.pages.dev/thank-you">
+      <input type="hidden" name="retURL" value="https://ver2.m-aria.com.my/thank-you">
       <input type="hidden" name="00N2j000000e0hv" value="M Aria Website (Clone)">
       <input type="hidden" name="00N2j000000e0hw" value="M Aria">
       <input type="hidden" name="00N2j000000e0ho" value="M Aria Website">
@@ -3587,7 +3591,7 @@ section[id],#trust{scroll-margin-top:151px}
           onsubmit="return handleMgmDrawerFormSubmit(this)"
           novalidate>
       <input type="hidden" name="oid" value="00D0o0000015t7i">
-      <input type="hidden" name="retURL" value="https://m-aria.pages.dev/thank-you">
+      <input type="hidden" name="retURL" value="https://ver2.m-aria.com.my/thank-you">
       <input type="hidden" name="00N2j000000e0hv" value="M Aria Website (Clone)">
       <input type="hidden" name="00N2j000000e0hw" value="M Aria">
       <input type="hidden" name="00N2j000000e0ho" value="M Aria Website">
@@ -4677,9 +4681,10 @@ document.querySelectorAll('.fi').forEach(function(el){obs.observe(el)});
 <script>
 /* ===== ROUND 1: lead tracking =====================================================
    SITE-1: the dataLayer.push({event:'generate_lead'}) calls below were never reaching
-   GA4 because no GTM tag forwards them. mgmTrackLead now ALSO calls gtag() directly,
-   which lands in M Aria's own property G-8318H972YQ. No GTM snippet on this
-     page, so gtag owns window.dataLayer and the direct call is not intercepted.
+   GA4 because no GTM tag forwards them. mgmTrackLead now ALSO calls gtag() directly.
+   2026-09-03: that direct call now lands in the dedicated ver2 stream
+   G-Y04BREMNYN (was G-8318H972YQ, the original site's stream). No GTM snippet on
+   this page, so window.gtag is this page's own and the call is not intercepted.
    SITE-4: 'generate_lead' is the single canonical lead event. The original site must
    be changed to fire the same name before the head-to-head URL test, or the two arms
    cannot be compared.
