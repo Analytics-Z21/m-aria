@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Suppress ONE measurement id: G-8318H972YQ, the ORIGINAL m-aria.com.my data
+     stream. GTM-MDZQ7K6K below is the original site's container and it fires
+     page_view into that stream from this ver2 page. Both streams live in the
+     SAME property (506476041), and GA4 reports roll up across streams, so the
+     identical visit was being counted twice and session_start was duplicated,
+     putting an inflated denominator under every conversion rate on the property.
+
+     ga-disable-<MEASUREMENT_ID> is Google's own per-id opt-out and MUST be set
+     before any tag loads, hence its position as the first thing in the head.
+     It is deliberately surgical rather than removing the container, because
+     unlike M Amaya this ver2 arm DOES take paid traffic (2 Cross-network, 2 Paid
+     Social, 1 Paid Search of 16 sessions in the 30 days to 2026-09-03), so the
+     container's Google Ads tag has to keep working on the conversion page.
+
+     Measured locally, control against variant, 2026-09-03. Before: page_view to
+     G-Y04BREMNYN, G-8318H972YQ, G-KC7RC0FDN5, G-50LP2BDDCK and AW-849012044.
+     After: the same minus G-8318H972YQ. lead_confirmed and the Ads tag both
+     unaffected. -->
+<script>window['ga-disable-G-8318H972YQ'] = true;</script>
 <!-- M ARIA ver2 - THANK YOU (2026-08-21, Champagne Tempo). Salesforce Web-to-Lead
      retURL target, now https://ver2.m-aria.com.my/thank-you so the whole submit
      flow stays on one hostname and generate_lead and lead_confirmed land in the
@@ -19,8 +38,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      because the GTM container below already sent a page_view, but that container
      targets the ORIGINAL stream, so with the repoint the new stream would have
      received lead_confirmed and no page_view at all, leaving the thank-you page
-     invisible in ver2 reporting. The two page_views now go to two different
-     streams, so neither is double-counted.
+     invisible in ver2 reporting. The container's page_view into the original
+     stream is now suppressed outright by the ga-disable flag at the top of this
+     head, so this stream owns the only page_view on the page.
      This page is only reachable via the Salesforce retURL redirect, which
      Salesforce performs ONLY after it has accepted the lead. -->
 <!-- Google tag (gtag.js) -->
