@@ -169,5 +169,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   setTimeout(poll,400);                 /* also try early, in case load is slow */
 })();
 </script>
+<!-- contact_click (2026-10-06, ver2 GA4 event spec): the "Visit the Sales Gallery"
+     Google Maps link, and any phone, WhatsApp, email or Waze link added later.
+     send_to pins it to the ver2 stream: the original site's container on this page
+     registers its own Google tags, and an unscoped gtag event would reach them too.
+     That container has no custom-event trigger (checked 2026-10-06: gtm.init, gtm.js
+     and gtm.formSubmit only), so the dataLayer push fires none of its tags.
+     Capture phase, trusted clicks only, never prevents or stops the click. -->
+<script>
+(function(){
+  function contactType(href){
+    if(/^tel:/i.test(href)) return 'phone';
+    if(/^mailto:/i.test(href)) return 'email';
+    if(/^whatsapp:|wa\.me\/|whatsapp\.com\//i.test(href)) return 'whatsapp';
+    if(/waze\.com/i.test(href)) return 'waze';
+    if(/maps\.app\.goo\.gl|goo\.gl\/maps|maps\.google\.|google\.[a-z.]+\/maps/i.test(href)) return 'map';
+    return '';
+  }
+  document.addEventListener('click',function(e){
+    try{
+      if(!e.isTrusted||!e.target||!e.target.closest) return;
+      var a=e.target.closest('a[href]'); if(!a) return;
+      var type=contactType(a.getAttribute('href')||''); if(!type) return;
+      window.dataLayer=window.dataLayer||[];
+      window.dataLayer.push({ event:'contact_click', contact_type:type, section:'thank_you' });
+      if(typeof window.gtag==='function'){
+        window.gtag('event','contact_click',{ send_to:'G-Y04BREMNYN', contact_type:type, section:'thank_you' });
+      }
+    }catch(err){}
+  },true);
+})();
+</script>
 </body>
 </html>
