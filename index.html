@@ -1339,12 +1339,9 @@ img.lz-in{animation:lzIn .35s ease forwards}
   .h-cards{margin-bottom:16px}
 }
 
-/* Aria consent tick-box (live-site requirement, verbatim wording) */
-.consent-tick{display:flex;gap:10px;align-items:flex-start;margin:4px 0 14px;
-  font:400 12px/1.65 var(--fb);color:var(--tl,#8a93a6);text-align:left;cursor:pointer}
-.consent-tick input{margin-top:3px;flex:none;width:15px;height:15px;accent-color:#D4B46A;cursor:pointer}
-.consent-tick a{color:#D4B46A;text-decoration:underline}
-.form-card .consent-tick, .git .consent-tick{color:#666}
+/* 2026-10-09 (Justin): the consent tick box is gone from all three Aria forms, the same as the other four ver2
+   projects. Each form carries the passive line "By submitting, you agree to Mah Sing's Terms of Use and Privacy &
+   PDPA Notice" with the real links (the visit form gained it; the drawer's pointed at "#"). */
 .sr-only-h{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* R1 lint: readable muted text on dark bands */
@@ -3012,8 +3009,6 @@ a[href^="tel:"]{white-space:nowrap}
             <input class="f-input" id="q-phone" name="mobile" type="tel" maxlength="20" placeholder="012-345 6789" required autocomplete="tel" inputmode="tel" data-my-phone></div>
           <div class="field"><label class="f-label" for="q-email">Email</label>
             <input class="f-input" id="q-email" name="email" type="email" maxlength="80" placeholder="you@example.com" required autocomplete="email"></div>
-          <label class="consent-tick"><input type="checkbox" name="terms_accepted" required>
-            <span>By ticking this box, I hereby confirm that I understand &amp; accept your <a href="https://www.mahsing.com.my/web/storage/2023/10/Privacy-PDP-Policy_RevOct2023-1.pdf" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://www.mahsing.com.my/terms-of-use/" target="_blank" rel="noopener">Terms and Conditions</a> of use of the website. I hereby agree and give consent to Mah Sing Group Berhad and/or subsidiary companies and/or associate companies within Mah Sing Group ("Mah Sing") to collect, process and disclose my personal data in accordance with the Privacy Policy.</span></label>
           <button class="btn btn-p" type="submit" style="width:100%">Get Price List Now</button>
           <p class="f-consent">By submitting, you agree to Mah Sing's <a href="https://www.mahsing.com.my/terms-of-use/" target="_blank" rel="noopener">Terms of Use</a> and <a href="https://www.mahsing.com.my/web/storage/2023/10/Privacy-PDP-Policy_RevOct2023-1.pdf" target="_blank" rel="noopener">Privacy &amp; PDPA Notice</a>.</p>
         </form>
@@ -3539,9 +3534,8 @@ a[href^="tel:"]{white-space:nowrap}
             <input class="f-input" id="v-phone" name="mobile" maxlength="20" type="tel" placeholder="012-345 6789" required autocomplete="tel" inputmode="tel" data-my-phone></div>
           <div class="field"><label class="f-label" for="v-email">Email</label>
             <input class="f-input" id="v-email" name="email" maxlength="80" type="email" placeholder="you@example.com" required autocomplete="email"></div>
-          <label class="consent-tick"><input type="checkbox" name="terms_accepted" required>
-            <span>By ticking this box, I hereby confirm that I understand &amp; accept your <a href="https://www.mahsing.com.my/web/storage/2023/10/Privacy-PDP-Policy_RevOct2023-1.pdf" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://www.mahsing.com.my/terms-of-use/" target="_blank" rel="noopener">Terms and Conditions</a> of use of the website. I hereby agree and give consent to Mah Sing Group Berhad and/or subsidiary companies and/or associate companies within Mah Sing Group ("Mah Sing") to collect, process and disclose my personal data in accordance with the Privacy Policy.</span></label>
           <button class="btn btn-p" type="submit" style="width:100%">Get Price List Now</button>
+          <p class="f-consent">By submitting, you agree to Mah Sing's <a href="https://www.mahsing.com.my/terms-of-use/" target="_blank" rel="noopener">Terms of Use</a> and <a href="https://www.mahsing.com.my/web/storage/2023/10/Privacy-PDP-Policy_RevOct2023-1.pdf" target="_blank" rel="noopener">Privacy &amp; PDPA Notice</a>.</p>
           <div class="micro"><span>No spam</span><span>We confirm by WhatsApp</span><span>Unsubscribe anytime</span></div>
         </form>
       </div>
@@ -3662,10 +3656,8 @@ a[href^="tel:"]{white-space:nowrap}
 
       <div class="lead-drawer-form-error" data-form-error style="display:none; font-size:13px; color:#c0392b; margin:-4px 0 8px;"></div>
 
-          <label class="consent-tick"><input type="checkbox" name="terms_accepted" required>
-            <span>By ticking this box, I hereby confirm that I understand &amp; accept your <a href="https://www.mahsing.com.my/web/storage/2023/10/Privacy-PDP-Policy_RevOct2023-1.pdf" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://www.mahsing.com.my/terms-of-use/" target="_blank" rel="noopener">Terms and Conditions</a> of use of the website. I hereby agree and give consent to Mah Sing Group Berhad and/or subsidiary companies and/or associate companies within Mah Sing Group ("Mah Sing") to collect, process and disclose my personal data in accordance with the Privacy Policy.</span></label>
       <button type="submit" class="btn-plum lead-submit">Get Price List Now</button>
-      <p class="f-consent">By submitting, you agree to our <a href="#">Terms &amp; Conditions</a> and <a href="#">PDPA Notice</a>.</p>
+      <p class="f-consent">By submitting, you agree to Mah Sing's <a href="https://www.mahsing.com.my/terms-of-use/" target="_blank" rel="noopener">Terms of Use</a> and <a href="https://www.mahsing.com.my/web/storage/2023/10/Privacy-PDP-Policy_RevOct2023-1.pdf" target="_blank" rel="noopener">Privacy &amp; PDPA Notice</a>.</p>
       <div class="micro"><span>No spam</span><span>Instant WhatsApp reply</span><span>Unsubscribe anytime</span></div>
     </form>
   </div>
