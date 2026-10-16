@@ -3010,6 +3010,14 @@ html.pp-more #quickRegister{background:linear-gradient(180deg,rgba(20,31,56,.94)
 #layouts .cout .calc-cta{width:100%;margin-top:16px}
 #layouts .cnote{color:var(--ink-m);opacity:1}
 @media(max-width:1023px){#layouts .unit{border-radius:0}#layouts .calc{border-radius:0}}
+/* Round 3 (16 Oct 2026, item 3): on phones the unit info comes before the plan box, as on the M Aurora live #layouts:
+   tabs, then the type, specs, the starting and monthly price and the one ask, then the plan box with its toggle and
+   the 360 pill. Order only (the same elements, grid order), so render() and the tab JS are untouched; desktop keeps
+   the two-column card, plan left and info right. The hairline between the two moves to the top of the plan box. */
+@media(max-width:1023px){
+  #layouts .unit-info{order:-1}
+  #layouts .unit-plan{border-bottom:none;border-top:1px solid rgba(26,38,57,.08)}
+}
 
 /* ---- the story: a full-bleed skyline with the copy on a glass card ---- */
 /* CONNECTIVITY (16 Oct review, Justin): the KL skyline IS the section's background, on phones and desktop, with the
