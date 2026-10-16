@@ -2986,20 +2986,38 @@ html.pp-more #quickRegister{background:linear-gradient(180deg,rgba(20,31,56,.94)
 @media(max-width:1023px){#layouts .unit{border-radius:0}#layouts .calc{border-radius:0}}
 
 /* ---- the story: a full-bleed skyline with the copy on a glass card ---- */
-#rts{background:linear-gradient(180deg,var(--night0) 0%,var(--navy) 60%,var(--navy2) 100%);padding-bottom:0}
-#rts .story-split{display:block;border:0;position:relative;background:var(--night0)}
-#rts .story-img{min-height:min(82vh,760px);background-position:center 35%;background-size:cover;
-  background-image:linear-gradient(180deg,var(--navy2) 0%,rgba(201,184,165,.16) 16%,rgba(30,58,95,0) 34%),linear-gradient(0deg,var(--night0) 0%,rgba(20,31,56,0) 40%)}
-html.pp-more #rts .story-img{background-image:linear-gradient(180deg,var(--navy2) 0%,rgba(201,184,165,.16) 16%,rgba(30,58,95,0) 34%),linear-gradient(0deg,var(--night0) 0%,rgba(20,31,56,0) 40%),url('assets/city-skyline.webp')}
-#rts .story-card{position:relative;z-index:2;max-width:620px;margin:-18vh 16px 0;padding:clamp(30px,4vw,56px);background:rgba(20,31,56,.95);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;justify-content:flex-start;gap:18px}
+/* CONNECTIVITY (16 Oct review, Justin): the KL skyline IS the section's background, on phones and desktop, with the
+   heading and the stats card over it. No navy wash: only a neutral darkening at the top and foot so the cream text
+   reads over the sunset sky. The image is landscape (1482x876) with the towers right of centre: phones crop to 68%. */
+#rts{position:relative;overflow:hidden;background:var(--night0);padding:clamp(48px,7vh,80px) 0 clamp(36px,5vh,64px);
+  min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;gap:clamp(40px,7vh,88px)}
+#rts .wrap{position:relative;z-index:1}
+#rts .sec-head{margin-bottom:0}
+#rts .sec-head h2,#rts .sec-head .eyebrow{text-shadow:0 2px 14px rgba(0,0,0,.5)}
+#rts .story-img{position:absolute;inset:0;z-index:0;min-height:0;background:var(--night0) 68% 40%/cover no-repeat}
+html.pp-more #rts .story-img{background-image:url('assets/city-skyline.webp')}
+#rts .story-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,16,32,.74) 0%,rgba(10,16,32,.42) 30%,rgba(10,16,32,.06) 52%,rgba(10,16,32,.34) 100%)}
+#rts .story-split{display:block;border:0;position:relative;z-index:1;background:transparent;padding:0 16px}
+#rts .story-card{position:relative;z-index:1;max-width:620px;margin:0;padding:clamp(26px,4vw,48px);background:rgba(20,31,56,.84);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;justify-content:flex-start}
 #rts .story-card .copy{max-width:none}
 #rts .stats{border-top:1px solid rgba(255,255,255,.14)}
 #rts .stat{border-color:rgba(255,255,255,.14)}
 #rts .stat b{color:var(--cream)}
 #rts .stat span{color:var(--cream2);opacity:1}
 @media(min-width:1024px){
-  html.pp-more #rts .story-img{background-image:linear-gradient(180deg,var(--navy2) 0%,rgba(201,184,165,.16) 16%,rgba(30,58,95,0) 34%),linear-gradient(0deg,var(--night0) 0%,rgba(20,31,56,0) 40%),linear-gradient(90deg,var(--night0) 0%,rgba(20,31,56,.86) 22%,rgba(20,31,56,0) 50%),url('assets/city-skyline.webp')}
-  #rts .story-card{margin:-30vh auto 0 max(var(--pad),calc((100vw - var(--max)) / 2 + var(--pad)));background:rgba(20,31,56,.86)}
+  #rts{min-height:min(calc(100vh - 80px),800px);padding:clamp(28px,4.5vh,56px) 0 clamp(24px,4vh,48px);gap:clamp(24px,4vh,56px)}
+  #rts .story-img{background-position:center 40%}
+  #rts .story-img::after{background:linear-gradient(180deg,rgba(10,16,32,.66) 0%,rgba(10,16,32,.32) 32%,rgba(10,16,32,.04) 55%,rgba(10,16,32,.3) 100%),linear-gradient(90deg,rgba(10,16,32,.5) 0%,rgba(10,16,32,0) 45%)}
+  #rts .sec-head h2{font-size:clamp(28px,2.7vw,40px)}
+  #rts .story-split{padding:0 max(var(--pad),calc((100vw - var(--max)) / 2 + var(--pad)))}
+  #rts .story-card{margin:0 auto 0 0;max-width:640px;padding:clamp(22px,3vh,34px) clamp(26px,2.4vw,38px)}
+  #rts .story-card .copy{font-size:15px;line-height:1.55}
+  #rts .stats{grid-template-columns:repeat(4,1fr)}
+  #rts .stat{padding:12px 10px 10px 0;border-right:1px solid rgba(255,255,255,.14)}
+  #rts .stat:nth-child(2n){padding-left:0;border-right:1px solid rgba(255,255,255,.14)}
+  #rts .stat:nth-child(n+2){padding-left:14px}
+  #rts .stat:last-child{border-right:none}
+  #rts .stat b{font-size:clamp(22px,1.8vw,28px)}
 }
 /* scroll-linked parallax on the artwork, where the browser supports it (Chrome, Edge, Safari 26+) */
 @supports (animation-timeline: view()){
@@ -3008,7 +3026,7 @@ html.pp-more #rts .story-img{background-image:linear-gradient(180deg,var(--navy2
     #quickRegister{animation:pp-par-bg linear both;animation-timeline:view()}
   }
 }
-@keyframes pp-par{from{background-position:center 15%}to{background-position:center 75%}}
+@keyframes pp-par{from{background-position-y:28%}to{background-position-y:58%}}
 @keyframes pp-par-bg{from{background-position:center 0%,center 20%}to{background-position:center 0%,center 70%}}
 
 /* ---- the nine reasons, as an editorial list on flat night ---- */
@@ -3156,10 +3174,12 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
 @media(max-width:599px){.h-eyebrow{letter-spacing:.2em}}
 @media(max-width:1023px){#layouts .unit,#layouts .calc{margin-left:calc(var(--pad) * -1);margin-right:calc(var(--pad) * -1);border-left:0;border-right:0}}
 #layouts .cout .calc-cta{padding-left:16px;padding-right:16px}
+@media(max-width:1023px){
 #rts .stats{grid-template-columns:repeat(2,1fr)}
 #rts .stat{padding:18px 16px 18px 0;border-right:1px solid rgba(255,255,255,.14)}
 #rts .stat:nth-child(2n){padding-left:16px;border-right:none}
 #rts .stat b{font-size:clamp(26px,3vw,34px);white-space:nowrap}
+}
 /* contrast (16 Oct, rendered audit): the hero eyebrow in cream, the h1 at large-text size on phones, a deeper mid
    scrim on phones and a top band behind the transparent nav on desktop, the quiet nav ask on dark glass */
 .h-eyebrow{color:var(--cream2)}
@@ -3538,6 +3558,7 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
 <!-- PREMIUM PORT (16 Oct 2026, the Aurora story): the section head on top, the skyline full-bleed (it loads after the
      page, html.pp-more), the copy and the four figures on a glass card that overlaps the image. Heading verbatim. -->
 <section class="sec sec-alt" id="rts">
+  <div class="story-img" role="img" aria-label="The Kuala Lumpur skyline seen from Sentul"></div>
   <div class="wrap">
     <div class="sec-head rv">
       <span class="eyebrow">Connectivity</span>
@@ -3545,7 +3566,6 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
     </div>
   </div>
   <div class="split story-split rv">
-    <div class="split-img story-img" role="img" aria-label="The Kuala Lumpur skyline seen from Sentul"></div>
     <div class="split-body story-card">
       <p class="copy">Nestled in the vibrant enclave of Sentul, M Aria offers seamless access to Kuala Lumpur City Centre, with major highways and public transport hubs all in close proximity. Whether it is work, shopping, or play, everything is within reach.</p>
       <div class="stats">
