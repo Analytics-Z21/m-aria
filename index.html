@@ -2881,8 +2881,11 @@ a.nav-reg.quiet:hover{background:rgba(245,245,245,.12)}
 .h-price{--fd:"Boska Medium","Boska",Georgia,serif;font:500 clamp(38px,10.4vw,46px)/1.04 var(--fd);font-variation-settings:'opsz' 18;color:var(--cream);margin:0 0 8px;letter-spacing:.005em;text-shadow:0 2px 18px rgba(0,0,0,.6);text-wrap:balance}
 .h-price b{font-family:var(--fb);font-weight:700;font-size:.8em;letter-spacing:-.025em;white-space:nowrap}
 .h-price sup{font-size:.42em;vertical-align:super;line-height:0}
-.h-fact{font:500 15px/1.5 var(--fb);color:var(--cream2);margin:0 0 16px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
-.h-beds{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+.h-fact{font:500 15px/1.5 var(--fb);color:var(--cream2);margin:0 0 10px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+/* Round 2 (16 Oct 2026, A1): the place line under the fact line, pin in the accent, text in the hero cream with the fact line's shadow */
+.h-place{display:inline-flex;align-items:center;gap:7px;margin:0 0 16px;font:500 13.5px/1.5 var(--fb);letter-spacing:.02em;color:var(--cream2);text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.h-place svg{flex:none;color:var(--accent)}
+.h-beds{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 18px}
 .h-bed{min-height:44px;padding:0 14px;border:1.5px solid rgba(245,245,245,.42);border-radius:2px;font:600 13.5px/1.2 var(--fb);color:var(--cream);background:rgba(20,31,56,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:pointer;touch-action:manipulation;transition:background .15s,border-color .15s,transform .1s}
 @media(hover:hover) and (pointer:fine){.h-bed:hover{border-color:var(--cream);background:rgba(245,245,245,.12)}}
 .h-bed:active{transform:scale(.97)}
@@ -2897,12 +2900,20 @@ a.nav-reg.quiet:hover{background:rgba(245,245,245,.12)}
   .hero-media::after{background:linear-gradient(180deg,rgba(17,27,48,.46) 0%,rgba(17,27,48,.24) 28%,rgba(17,27,48,.52) 56%,rgba(17,27,48,.82) 84%,var(--night0) 100%)!important}
 }
 @media(max-width:374px){.h-logo img{height:58px}}
+/* Round 2 (16 Oct 2026, A1): with the place line added, short phone viewports (Safari's visible 393x659) keep the
+   hero to one screen: smaller lockup, 86px top padding (the fixed nav ends at 81px plus the ticker) */
+@media(max-width:1023px) and (max-height:700px){
+  .h-logo img{height:60px}
+  .hero-inner .h-logo{margin-bottom:10px}
+  .hero-body{padding-top:86px}
+}
 @media(min-width:1024px){
   .hero-inner{max-width:620px}
   .h-logo{margin-bottom:16px}
   .hero h1{font-size:clamp(26px,2.3vw,34px);margin-bottom:12px}
   .h-price{font-size:clamp(56px,6.2vw,92px);line-height:1.02;margin-bottom:12px}
   .h-fact{font-size:17px}
+  .h-place{font-size:14.5px;margin-bottom:20px}
   .hero-media::after{background:linear-gradient(90deg,rgba(26,39,68,.96) 0%,rgba(26,39,68,.9) 12%,rgba(26,39,68,.7) 30%,rgba(26,39,68,.35) 50%,rgba(26,39,68,.1) 68%,transparent 82%),linear-gradient(180deg,transparent 82%,var(--night0) 100%)!important}
 }
 @media(min-width:1024px) and (max-height:820px){
@@ -2910,7 +2921,8 @@ a.nav-reg.quiet:hover{background:rgba(245,245,245,.12)}
   .h-logo{margin-bottom:10px}
   .hero h1{font-size:clamp(22px,2.6vh,28px);margin-bottom:8px}
   .h-price{font-size:clamp(40px,5.4vh,60px);margin-bottom:8px}
-  .h-fact{font-size:14px;margin-bottom:12px}
+  .h-fact{font-size:14px;margin-bottom:8px}
+  .h-place{font-size:13px;margin-bottom:12px}
   .h-beds{margin-bottom:14px}
 }
 
@@ -2947,6 +2959,20 @@ html.pp-more #quickRegister{background:linear-gradient(180deg,rgba(20,31,56,.94)
 #layouts .unit-plan{background:#fff;border-color:rgba(26,38,57,.08)}
 #layouts .unit-zoom{background:rgba(26,38,57,.85);border-color:transparent;color:var(--cream)}
 #layouts .unit-zoom svg{color:var(--paper2)}
+/* Round 2 (16 Oct 2026, Aria B): the plan box is a fixed frame with a control band top and bottom, so the
+   Floor plan | Key plan toggle (top left, beside Tap to enlarge) and the 360 pill (foot) never cover the drawing and
+   the box does not jump when the landscape key plan replaces the portrait floor plan */
+#layouts #planWrap{height:min(560px,68vh);min-height:0;padding:62px 20px 68px}
+@media(min-width:1024px){#layouts #planWrap{height:640px;min-height:0;padding:62px 34px 70px}}
+#layouts #planWrap img{width:auto;height:auto;max-width:100%;max-height:100%}
+.plan-tog{position:absolute;top:14px;left:14px;z-index:2;display:inline-flex;padding:3px;border-radius:2px;background:rgba(26,38,57,.06);border:1px solid rgba(26,38,57,.16)}
+.plan-tog-b{min-height:34px;padding:0 13px;border:0;border-radius:1px;background:transparent;font:600 12px/1.2 var(--fb);color:var(--ink-m);cursor:pointer;touch-action:manipulation;transition:background .15s,color .15s}
+.plan-tog-b[aria-pressed="true"]{background:var(--navy);color:var(--cream)}
+@media(hover:hover) and (pointer:fine){.plan-tog-b:not([aria-pressed="true"]):hover{color:var(--ink-d);background:rgba(26,38,57,.08)}}
+/* #planWrap in the selector: .nx a{color:inherit} (0,1,1) would otherwise beat a lone class and paint the pill in ink */
+#planWrap .plan-vt{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:2;display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 16px;border-radius:999px;background:rgba(26,38,57,.92);color:var(--cream);font:600 12.5px/1.2 var(--fb);letter-spacing:.02em;text-decoration:none;white-space:nowrap;cursor:pointer;box-shadow:0 12px 24px -12px rgba(26,38,57,.7);transition:background .15s}
+#planWrap .plan-vt svg{flex:none;color:var(--paper2)}
+@media(hover:hover) and (pointer:fine){#planWrap .plan-vt:hover{background:var(--navy2)}}
 #layouts .unit-cfg{color:var(--ink-m)}
 #layouts .specs,#layouts .specs div{border-color:rgba(26,38,57,.12)}
 #layouts .specs b{color:var(--ink-d)}
@@ -3093,6 +3119,15 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
 #loc .city-map figcaption{color:var(--cream2)}
 #loc .city-map figcaption a{color:var(--accent)}
 #loc .loc-panel{border-radius:4px;box-shadow:0 40px 80px -40px rgba(0,0,0,.6)}
+/* Round 2 (16 Oct 2026, A2): tabs above the map on the night ground, the selected tab in cream (never the ask colour);
+   the panel under the map holds the list; desktop keeps map left, details right under a full-width tab row */
+#loc .loc-merge{gap:22px}
+#loc .loc-tabs .loc-cats{margin:0;gap:8px}
+#loc .loc-tabs .loc-cat{min-height:42px;padding:0 16px;border:1px solid rgba(255,255,255,.26);border-radius:2px;background:rgba(255,255,255,.04);font:600 12.5px/1.2 var(--fb);color:var(--cream2);cursor:pointer;touch-action:manipulation;transition:background .15s,border-color .15s,color .15s}
+@media(hover:hover) and (pointer:fine){#loc .loc-tabs .loc-cat:hover{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.08)}}
+#loc .loc-tabs .loc-cat[aria-selected="true"]{background:var(--cream);border-color:var(--cream);color:var(--ink-d)}
+#loc .loc-panel .nx .loc-list{border-top:0;padding-top:0}
+@media(min-width:1024px){#loc .loc-merge{gap:28px 36px}#loc .loc-tabs{grid-column:1/-1}}
 
 /* ---- developer on the live greige paper, questions on cream ---- */
 #developer{background:url('assets/bg-features.webp') center/cover no-repeat,var(--paper2);color:var(--ink-d);padding-bottom:clamp(64px,8vw,120px)}
@@ -3393,10 +3428,15 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
         <!-- PREMIUM PORT (16 Oct 2026, the Aurora hero): eyebrow with the place, the h1 verbatim, the price as an
              added display line (was the "Starting from" card), one fact line, bed chips that open the matching
              layout tab, one ask, the trust line. -->
-        <span class="h-eyebrow">Open for Sale &middot; Sentul, Kuala Lumpur</span>
+        <span class="h-eyebrow">Open for Sale</span>
         <h1><em>Urban Oasis</em>, <span class="nw">In Perfect Tempo</span></h1>
         <p class="h-price">Freehold from <b class="num">RM483K<sup>*</sup></b></p>
         <p class="h-fact">Two layouts, 800 to 950 sq ft, partially furnished</p>
+        <!-- Round 2 (16 Oct 2026, A1): the place on its own line with the pin, the eyebrow is the status only -->
+        <div class="h-place">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 21s-7-5.3-7-11a7 7 0 0 1 14 0c0 5.7-7 11-7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          <span>Sentul, Kuala Lumpur</span>
+        </div>
         <div class="h-beds" role="group" aria-label="See layouts by bedrooms">
           <button type="button" class="h-bed" data-bed-type="A">3 bed</button>
           <button type="button" class="h-bed" data-bed-type="B">4 bed</button>
@@ -3484,9 +3524,16 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
     </div>
 
     <div class="unit rv">
-      <div class="unit-plan" id="planWrap">
+      <div class="unit-plan" id="planWrap" data-view="plan">
+        <!-- Round 2 (16 Oct 2026, Aria B): a Floor plan | Key plan toggle inside the plan box (replaces the key-plan
+             thumbnail under the price); the 360 tour link sits in the box as a pill at the foot, same id and bindings -->
+        <div class="plan-tog" role="group" aria-label="Plan view">
+          <button type="button" class="plan-tog-b" data-view="plan" aria-pressed="true">Floor plan</button>
+          <button type="button" class="plan-tog-b" data-view="key" aria-pressed="false">Key plan</button>
+        </div>
         <span class="unit-zoom"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/></svg>Tap to enlarge</span>
         <img id="planImg" loading="lazy" decoding="async" src="assets/plan-type-a.webp" alt="Type A floor plan, 800 sq ft, 3 bedrooms" width="1002" height="1143">
+        <a class="plan-vt" id="uVt" href="https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1" target="_blank" rel="noopener" data-tour-source="unit_card" data-vr="A"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>360&deg; tour</a>
       </div>
       <div class="unit-info">
         <h3>Type <span id="uName">A</span></h3>
@@ -3506,14 +3553,10 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
               <div class="price-val num" id="uSgd">RM 1,822 /mo</div>
             </div>
           </div>
-        <div class="unit-shots unit-shots-one">
-            <button class="ushot" id="uKey" type="button" data-src="assets/keyplan-type-a.webp"><img id="uKeyImg" src="assets/keyplan-type-a.webp" alt="Key plan showing where the Type A unit sits on the floor" loading="lazy" width="900" height="757"></button>
-            <span class="ushot-note">Type <b id="uKeyT">A</b> key plan. Tap to view.</span>
-          </div>
+          <!-- Round 2 (16 Oct 2026): the key-plan thumbnail (#uKey) is gone, the key plan is a view of the plan box;
+               the 360 link (#uVt) moved into the plan box. The card keeps #uCta as its one filled ask. -->
           <div class="unit-acts">
           <button class="btn btn-p" id="uCta" data-open-lead="unit_card" data-unit="Type A" data-cta-id="units_get_price">Get Price List Now</button>
-            <!-- R2 (16 Oct 2026): one filled ask on the card; the tour is a text link under it and opens the in-page 360 modal -->
-            <a class="u-link" id="uVt" href="https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1" target="_blank" rel="noopener" data-tour-source="unit_card" data-vr="A">Take the 360&deg; virtual tour</a>
           </div>
 
       </div>
@@ -3844,6 +3887,19 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
     </div>
     <h3 class="sr-only-h">Location Map</h3>
     <div class="loc-merge">
+      <!-- Round 2 (16 Oct 2026, A2): reading order Title, Tabs, Map, Details. The category tabs moved out of the panel
+           into their own row above the map (same ids, same tab JS); the panel below keeps the selected list and the map
+           buttons. On desktop the tabs span both columns, the map sits left and the details right as before. -->
+      <div class="nx loc-tabs fi">
+        <div class="loc-cats" id="locCats" role="tablist" aria-label="Nearby categories">
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="true" data-cat="access">Accessibility</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="transport">Transport</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="retail">Retail</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="health">Medical</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="schools">Education</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="leisure">Recreation</button></h3>
+        </div>
+      </div>
       <figure class="city-map">
         <img src="assets/location-map.webp" data-full="assets/location-map-full.webp"
              alt="Illustrated map of Sentul showing M Aria and the surrounding highways, transport, schools, malls and hospitals"
@@ -3851,14 +3907,7 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
         <figcaption>Tap the map to enlarge &middot; <a href="https://maps.app.goo.gl/tj8UoiiLU3215D9N9" target="_blank" rel="noopener">Open in Google Maps</a></figcaption>
       </figure>
       <div class="loc-panel fi">
-        <div class="nx"><div class="loc-cats" id="locCats" role="tablist" aria-label="Nearby categories">
-            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="true" data-cat="access">Accessibility</button></h3>
-            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="transport">Transport</button></h3>
-            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="retail">Retail</button></h3>
-            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="health">Medical</button></h3>
-            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="schools">Education</button></h3>
-            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="leisure">Recreation</button></h3>
-          </div>
+        <div class="nx">
           <div class="loc-list" id="locList"></div></div>
         <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(26,39,68,.14);display:flex;gap:10px;flex-wrap:wrap">
           <a href="https://maps.app.goo.gl/tj8UoiiLU3215D9N9" target="_blank" rel="noopener" class="btn btn-s" style="flex:1;min-width:120px;font-size:12px;padding:10px 16px">Google Maps &rarr;</a>
@@ -5451,9 +5500,17 @@ window.mgmTrackLead = function (payload) {
 
       /* gallery_open: floor plan, key plan, gallery frames and films, site plans, map */
       var lb = $('lb');
-      if (t.closest('#planWrap')) whenOpened(lb, 'on', function () {
-        var c = curTab(), im = $('planImg');
-        z21Track('gallery_open', { gallery: 'floorplan', item_index: c.i, item_label: im ? String(im.alt).slice(0, 60) : '' });
+      /* Round 2 (16 Oct 2026): the plan box carries a Floor plan | Key plan toggle. Switching to the key plan reports
+         gallery_open with gallery keyplan (the tracker runs before the page handler, so aria-pressed still reads the
+         old state and only a real switch counts); an enlarge reports keyplan or floorplan by the view showing. */
+      var ptg = t.closest('#planWrap .plan-tog-b[data-view="key"]');
+      if (ptg && ptg.getAttribute('aria-pressed') !== 'true') {
+        var kc = curTab();
+        z21Track('gallery_open', { gallery: 'keyplan', item_index: kc.i, item_label: 'Type ' + kc.t + ' key plan' });
+      }
+      if (t.closest('#planWrap') && !t.closest('.plan-tog, #uVt')) whenOpened(lb, 'on', function () {
+        var c = curTab(), im = $('planImg'), pw = $('planWrap');
+        z21Track('gallery_open', { gallery: (pw && pw.getAttribute('data-view') === 'key') ? 'keyplan' : 'floorplan', item_index: c.i, item_label: im ? String(im.alt).slice(0, 60) : '' });
       });
       var ks = t.closest('.ushot');
       if (ks) whenOpened(lb, 'on', function () {
@@ -5532,9 +5589,11 @@ window.mgmTrackLead = function (payload) {
   /* Prices are the client-confirmed figures. The permit band is reproduced in the footer. */
   var UNITS={
     A:{layout:'3 Bed',bath:'2',size:800,price:483000,cfg:'Three bedrooms, for young families',
-       plan:'assets/plan-type-a.webp',full:'assets/plan-type-a-full.webp',vt:'https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1'},
+       plan:'assets/plan-type-a.webp',full:'assets/plan-type-a-full.webp',vt:'https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1',
+       key:'assets/keyplan-type-a.webp',keyH:757},
     B:{layout:'4 Bed',bath:'2',size:950,price:567000,cfg:'Four bedrooms, for growing families',
-       plan:'assets/plan-type-b.webp',full:'assets/plan-type-b-full.webp',vt:'https://virtualtour.my/mah-sing/m-aria/show-unit-type-b1'}
+       plan:'assets/plan-type-b.webp',full:'assets/plan-type-b-full.webp',vt:'https://virtualtour.my/mah-sing/m-aria/show-unit-type-b1',
+       key:'assets/keyplan-type-b.webp',keyH:747}
   };
   var ORDER=['A','B'], cur='A', RATE=0.036, WA='60392128454';
   var fmt=function(n){return Math.round(n).toLocaleString('en-MY');};
@@ -5560,24 +5619,10 @@ window.mgmTrackLead = function (payload) {
        Type B RM567,000), so the card shows the layout's own from-price instead
        of the permit band. The band itself stays verbatim in the APDL footer. */
     $('uPrice').innerHTML='RM'+fmt(u.price)+'<sup>*</sup>';
-    var img=$('planImg'); img.src=u.plan;
-    img.alt='Type '+cur+' floor plan, '+u.size+' sq ft '+u.layout;
     $('planWrap').setAttribute('data-full',u.full);
-    /* R8: one key plan, the selected layout's own */
-    var kb=$('uKey');
-    if(kb){
-      var kp='assets/keyplan-type-'+cur.toLowerCase()+'.webp';
-      kb.setAttribute('data-src',kp);
-      var ki=$('uKeyImg');
-      if(ki){
-        ki.src=kp;
-        ki.alt='Key plan showing where the Type '+cur+' unit sits on the floor';
-        /* the two key plans are 900x757 and 900x747; keeping the attributes in
-           step with the source means the box never has to guess its height */
-        ki.setAttribute('height',cur==='B'?'747':'757');
-      }
-      var kt=$('uKeyT'); if(kt)kt.textContent=cur;
-    }
+    /* Round 2 (16 Oct 2026): the key plan is a view of the plan box (Floor plan | Key plan toggle), the selected
+       layout's own; switching unit always resets the box to the floor plan */
+    setPlanView('plan');
     var cta=$('uCta'); cta.setAttribute('data-unit','Type '+cur);
     cta.textContent='Get Price List Now';
         var vt=$('uVt'); vt.href=u.vt||'https://jetk.link/mahsing/m_aria/d8_wop/index.html';
@@ -5600,6 +5645,24 @@ window.mgmTrackLead = function (payload) {
     $('cMy').textContent='RM '+fmt(m);
     $('uSgd').textContent='RM '+fmt(m)+' /mo';
   }
+  /* Round 2 (16 Oct 2026, Aria B): the plan box shows the floor plan or the key plan. The two key plans are
+     900x757 (A) and 900x747 (B); the width and height attributes follow the source so the frame never guesses. */
+  function setPlanView(view){
+    var u=UNITS[cur], img=$('planImg'), wrap=$('planWrap'), key=view==='key';
+    wrap.setAttribute('data-view',key?'key':'plan');
+    img.src=key?u.key:u.plan;
+    img.alt=key?('Key plan showing where the Type '+cur+' unit sits on the floor'):('Type '+cur+' floor plan, '+u.size+' sq ft '+u.layout);
+    img.setAttribute('width',key?'900':'1002'); img.setAttribute('height',key?String(u.keyH):'1143');
+    Array.prototype.forEach.call(wrap.querySelectorAll('.plan-tog-b'),function(b){
+      b.setAttribute('aria-pressed',String(b.getAttribute('data-view')===(key?'key':'plan')));});
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('#planWrap .plan-tog-b'),function(b){
+    b.addEventListener('click',function(e){
+      e.stopPropagation();
+      if(b.getAttribute('aria-pressed')==='true')return;
+      setPlanView(b.getAttribute('data-view'));
+    });
+  });
   window.setType=function(t){ if(UNITS[t]){cur=t;render();} };
   Array.prototype.forEach.call(document.querySelectorAll('#tabs .tab'),function(tab){
     tab.addEventListener('click',function(){window.setType(tab.getAttribute('data-type'));});});
@@ -5630,8 +5693,12 @@ window.mgmTrackLead = function (payload) {
   function lbAskFor(t){var a=$('lbAsk');if(!a)return;
     if(t){a.textContent='Get the Type '+t+' price list';a.setAttribute('data-unit','Type '+t);a.setAttribute('data-open-lead','floorplan_zoom');a.setAttribute('data-cta-id','floorplan_zoom_get_price');}
     else{a.textContent='Get Price List Now';a.removeAttribute('data-unit');a.setAttribute('data-open-lead','zoom');a.setAttribute('data-cta-id','zoom_get_price');}}
-  $('planWrap').addEventListener('click',function(){
-    $('lbImg').src=this.getAttribute('data-full')||$('planImg').src;
+  $('planWrap').addEventListener('click',function(e){
+    /* Round 2 (16 Oct 2026): the toggle and the 360 pill live inside the box and are not an enlarge; the key plan has
+       no full-size file, so the enlarge opens the key plan itself */
+    if(e.target&&e.target.closest&&e.target.closest('.plan-tog, #uVt'))return;
+    var keyView=this.getAttribute('data-view')==='key';
+    $('lbImg').src=keyView?$('planImg').src:(this.getAttribute('data-full')||$('planImg').src);
     $('lbImg').alt=$('planImg').alt; lbAskFor(cur); $('lb').classList.add('on'); document.body.style.overflow='hidden';});
   function closeLb(){$('lb').classList.remove('on');document.body.style.overflow='';}
   $('lbX').addEventListener('click',closeLb);
