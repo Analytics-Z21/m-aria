@@ -86,10 +86,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/boska-500.woff2" crossorigin>
-<!-- R6 (16 Oct 2026, premium port): the hero video keeps preload="metadata"; its poster is the first paint, so the
-     poster is what gets preloaded (the 767px split matches the poster swap in the hero script). -->
-<link rel="preload" as="image" type="image/webp" href="assets/hero-bg-mobile.webp" media="(max-width:767px)" fetchpriority="high">
-<link rel="preload" as="image" type="image/webp" href="assets/hero-bg.webp" media="(min-width:768px)" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 /* TYPE FOLLOWS VER2 M AURORA (2026-10-09, Justin: "for the font selection please all follow how ver2 M Aurora").
@@ -2786,507 +2782,6 @@ a[href^="tel:"]{white-space:nowrap}
 form input.f-invalid{border-color:#b3261e!important;box-shadow:0 0 0 1px #b3261e!important}
 @media (pointer:coarse){form[action*="salesforce"] input:not([type=hidden]):not([type=checkbox]):not([type=radio]),form[action*="salesforce"] select,form[action*="salesforce"] textarea{font-size:16px!important}}
 </style>
-<style id="premium-port">
-/* =====================================================================================
-   PREMIUM PORT (16 Oct 2026): the M Aurora Clone's premium look and its T2L elements in M Aria's own theme
-   (spec: projects/mahsing/context/2026-10-16_premium-port-spec.md, reference: ver2.m-aurora.com.my R4).
-   Colour roles: night = the navy (#1A2744 / #1E3A5F, deepened to #141F38 where the page should feel deep), paper =
-   the cream #F5F5F5 with the live greige #C9B8A5 as the second tint, ONE ask colour = the live gold #D4B46A with
-   navy ink, on asks and nowhere else. The brand gradient (navy to greige) marks three moments: the hero's base, the
-   story image fade, the closing form. Type at display scale: Boska Medium headlines with the optical-size axis,
-   italic accent words, Montserrat for body, labels, buttons and prices. Motion gated on prefers-reduced-motion.
-   Restyle only: every id, data attribute, form field and tracking hook stays. Last block in the head, so it wins on
-   source order. ===================================================================================== */
-:root{--night0:#141F38;--paper:#F5F5F5;--paper2:#C9B8A5;--ink-d:#1A2639;--ink-m:#4B5468;--ink-em:#8A6A3F;
-  --ask:#D4B46A;--ask-hover:#EBD197;--accent:#EBD197;
-  --grad-brand:linear-gradient(90deg,#1E3A5F 0%,#C9B8A5 100%);
-  --ease-out:cubic-bezier(.16,1,.3,1)}
-body{background:var(--night0)}
-
-/* ---- type: bigger, tighter, italics for the accent words ---- */
-.nx h2,#fac h2.stl,.city-sec h2,.dev2-h{font-family:var(--fd);font-weight:500;font-variation-settings:'opsz' 18;line-height:1.03;letter-spacing:-.012em;text-wrap:balance;margin:0}
-.nx h2,#fac h2.stl,.city-sec h2{font-size:clamp(34px,4.8vw,64px)}
-#layouts .sec-head h2,#rts .sec-head h2,#fac h2.stl,#loc h2{font-size:clamp(30px,3.9vw,52px);line-height:1.06}
-.nx .em,h2 .em{font-style:italic;color:var(--accent)}
-.nx .copy{font-size:16px;line-height:1.75}
-.nx .sec{padding:clamp(64px,8vw,120px) 0}
-.sec-head,.nx .sec-head{display:flex;flex-direction:column;gap:18px;margin-bottom:clamp(32px,4vw,56px);max-width:none;text-align:left;align-items:flex-start}
-.sec-head .copy,.nx .sec-head .copy{font-size:17px;max-width:46ch}
-/* section label: a greige hairline and a caps label instead of a gold kicker stacked on the heading */
-.eyebrow,.nx .eyebrow,#fac .eyebrow,#loc .sec-head .eyebrow,.dev2 .eyebrow{position:relative;display:inline-block;padding-left:46px;font:600 11.5px/1.6 var(--fb);letter-spacing:.26em;text-transform:uppercase;color:var(--paper2);margin:0;text-align:left}
-.eyebrow::before,.nx .eyebrow::before{content:'';position:absolute;left:0;top:50%;width:32px;height:1px;background:var(--paper2)}
-@media(min-width:1024px){
-  .sec-head,.nx .sec-head{display:grid;grid-template-columns:minmax(200px,3fr) 9fr;column-gap:56px;align-items:start}
-  .sec-head>*,.nx .sec-head>*{grid-column:2}
-  .sec-head>.eyebrow,.nx .sec-head>.eyebrow{grid-column:1;grid-row:1/span 6;margin-top:1.1em}
-}
-
-/* ---- motion: reveals ease out longer; groups stagger; the hairline draws in ---- */
-html.js .rv,html.js .nx .rv{opacity:0;transform:translate3d(0,32px,0);transition:opacity .9s var(--ease-out),transform 1s var(--ease-out)}
-html.js .rv.in,html.js .nx .rv.in{opacity:1;transform:none}
-html.js [data-stagger].rv,html.js .nx [data-stagger].rv{opacity:1;transform:none}
-html.js [data-stagger].rv>*{opacity:0;transform:translate3d(0,24px,0);transition:opacity .8s var(--ease-out),transform .9s var(--ease-out);transition-delay:calc(var(--i,0) * 70ms)}
-html.js [data-stagger].rv.in>*{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){html.js .rv,html.js .nx .rv,html.js [data-stagger].rv>*{opacity:1;transform:none;transition:none}}
-@media(prefers-reduced-motion:no-preference){
-  html.js .rv .eyebrow::before{transform:scaleX(0);transform-origin:left center;transition:transform 1.1s var(--ease-out) .25s}
-  html.js .rv.in .eyebrow::before{transform:scaleX(1)}
-}
-
-/* ---- the ask, and only the ask, in gold ---- */
-.nx .btn{font:700 14px/1.3 var(--fb);letter-spacing:.02em;padding:16px 28px}
-.btn-p,.nx .btn-p,.nx .btn-gold{background:var(--ask)!important;color:var(--ink-on-gold)!important;box-shadow:0 10px 24px rgba(10,14,30,.35)}
-.btn-p:hover,.nx .btn-p:hover,.nx .btn-gold:hover{background:var(--ask-hover)!important;transform:translateY(-1px)}
-a.nav-reg{background:var(--ask);color:var(--ink-on-gold)!important;box-shadow:0 6px 18px rgba(0,0,0,.25)}
-a.nav-reg:hover{background:var(--ask-hover)}
-/* desktop nav ask: outline while the hero ask is on screen, the filled primary once it scrolls away */
-a.nav-reg.quiet{background:transparent;color:var(--cream)!important;border:1.5px solid rgba(245,245,245,.55);box-shadow:none}
-a.nav-reg.quiet:hover{background:rgba(245,245,245,.12)}
-.mobile-cta,.stk-r,.lead-submit,.btn-plum.lead-submit,.vr-cta{background:var(--ask);color:var(--ink-on-gold)}
-.mobile-cta:hover,.stk-r:hover,.lead-submit:hover,.btn-plum.lead-submit:hover,.vr-cta:hover{background:var(--ask-hover);color:var(--ink-on-gold)}
-.lead-submit,.btn-plum.lead-submit,.mobile-cta,.stk{border-radius:0;font-weight:700}
-/* secondary actions and chips: cream outlines, never gold */
-.btn-o,.nx .btn-o{border:1.5px solid rgba(245,245,245,.55);color:var(--cream);background:rgba(20,31,56,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:none}
-.btn-o:hover,.nx .btn-o:hover{background:rgba(245,245,245,.12);border-color:var(--cream)}
-.to-top{background:var(--navy2);color:#fff}
-.fz-btn:hover,.nx .fz-btn:hover{background:var(--paper)}
-.mobile-menu-close:hover{background:rgba(245,245,245,.18);color:var(--cream)}
-.scroll-arrow{border-color:var(--cream)}
-.hero-prog i{background:var(--paper2)}
-.qx-points span{border-color:rgba(245,245,245,.25);color:var(--cream2)}
-.qx-points span::before{color:var(--paper2)}
-.f-label,.nx .f-label{color:var(--ink-m)}
-.f-consent,.nx .f-consent{color:var(--ink-m)}
-.f-consent a,.nx .f-consent a{color:#6E5230}
-.micro,.nx .micro{color:var(--ink-m)}
-
-/* ---- ticker, nav, menus, rail: night ---- */
-.ann{background:var(--navy2);color:var(--cream)}
-.ann-sep{color:rgba(201,184,165,.7)}
-.nav.is-scrolled{background:rgba(20,31,56,.92);border-bottom:1px solid rgba(201,184,165,.14)}
-@media(min-width:1024px){.nav-rail a.on{color:var(--cream)}.nav-rail a::after{background:var(--paper2)}}
-.nx .rail{background:rgba(20,31,56,.94);border-bottom:1px solid rgba(201,184,165,.14)}
-.nx .rail a.on{color:var(--cream)}
-.nx .rail a::after{background:var(--paper2)}
-.mobile-menu-overlay{background:linear-gradient(180deg,var(--navy2) 0%,var(--night0) 100%)}
-.mobile-menu-links a:hover{color:var(--accent)}
-/* the closed menu and lead drawer sit just past the right edge; their shadows spilled into the page. Shadow only open. */
-.mobile-menu-overlay:not(.open),.lead-drawer:not(.open){box-shadow:none}
-
-/* ---- hero: price-led, one ask, bed chips (video and poster unchanged) ---- */
-.hero::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--grad-brand);z-index:4;pointer-events:none}
-.h-eyebrow{display:block;font:600 11.5px/1.6 var(--fb);letter-spacing:.3em;text-transform:uppercase;color:var(--paper2);margin:0 0 12px;text-shadow:0 1px 8px rgba(0,0,0,.75)}
-.hero h1{font:500 clamp(22px,5.8vw,30px)/1.12 var(--fd);letter-spacing:.005em;color:var(--cream);margin:0 0 8px;text-shadow:0 2px 14px rgba(0,0,0,.6);text-wrap:balance;max-width:none}
-.hero h1 em{font-style:italic;color:var(--accent)}
-.h-price{--fd:"Boska Medium","Boska",Georgia,serif;font:500 clamp(38px,10.4vw,46px)/1.04 var(--fd);font-variation-settings:'opsz' 18;color:var(--cream);margin:0 0 8px;letter-spacing:.005em;text-shadow:0 2px 18px rgba(0,0,0,.6);text-wrap:balance}
-.h-price b{font-family:var(--fb);font-weight:700;font-size:.8em;letter-spacing:-.025em;white-space:nowrap}
-.h-price sup{font-size:.42em;vertical-align:super;line-height:0}
-.h-fact{font:500 15px/1.5 var(--fb);color:var(--cream2);margin:0 0 10px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
-/* Round 2 (16 Oct 2026, A1): the place line under the fact line, pin in the accent, text in the hero cream with the fact line's shadow */
-.h-place{display:inline-flex;align-items:center;gap:7px;margin:0 0 16px;font:500 13.5px/1.5 var(--fb);letter-spacing:.02em;color:var(--cream2);text-shadow:0 1px 8px rgba(0,0,0,.6)}
-.h-place svg{flex:none;color:var(--accent)}
-.h-beds{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 18px}
-.h-bed{min-height:44px;padding:0 14px;border:1.5px solid rgba(245,245,245,.42);border-radius:2px;font:600 13.5px/1.2 var(--fb);color:var(--cream);background:rgba(20,31,56,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:pointer;touch-action:manipulation;transition:background .15s,border-color .15s,transform .1s}
-@media(hover:hover) and (pointer:fine){.h-bed:hover{border-color:var(--cream);background:rgba(245,245,245,.12)}}
-.h-bed:active{transform:scale(.97)}
-.hero .hero-ctas,.hero .hero-inner .hero-ctas{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px 24px;max-width:none;margin:0;padding:0;width:auto}
-.hero .hero-ctas .btn{width:auto;min-width:0;padding:16px 26px;font-size:14px}
-@media(max-width:599px){.hero .hero-inner .hero-ctas{display:grid;grid-template-columns:1fr;max-width:420px;width:100%}.hero .hero-ctas .btn{width:100%}}
-.h-trust{font:500 12.5px/1.5 var(--fb);color:var(--cream2);margin:12px 0 0;text-shadow:0 1px 8px rgba(0,0,0,.6)}
-@media(max-width:1023px){
-  .h-logo img{height:68px;width:auto}
-  .hero-inner .h-logo{margin-bottom:12px}
-  .hero-body{padding:96px var(--pad) 44px}
-  .hero-media::after{background:linear-gradient(180deg,rgba(17,27,48,.46) 0%,rgba(17,27,48,.24) 28%,rgba(17,27,48,.52) 56%,rgba(17,27,48,.82) 84%,var(--night0) 100%)!important}
-}
-@media(max-width:374px){.h-logo img{height:58px}}
-/* Round 2 (16 Oct 2026, A1): with the place line added, short phone viewports (Safari's visible 393x659) keep the
-   hero to one screen: smaller lockup, 86px top padding (the fixed nav ends at 81px plus the ticker) */
-@media(max-width:1023px) and (max-height:700px){
-  .h-logo img{height:60px}
-  .hero-inner .h-logo{margin-bottom:10px}
-  .hero-body{padding-top:86px}
-}
-@media(min-width:1024px){
-  .hero-inner{max-width:620px}
-  .h-logo{margin-bottom:16px}
-  .hero h1{font-size:clamp(26px,2.3vw,34px);margin-bottom:12px}
-  .h-price{font-size:clamp(56px,6.2vw,92px);line-height:1.02;margin-bottom:12px}
-  .h-fact{font-size:17px}
-  .h-place{font-size:14.5px;margin-bottom:20px}
-  .hero-media::after{background:linear-gradient(90deg,rgba(26,39,68,.96) 0%,rgba(26,39,68,.9) 12%,rgba(26,39,68,.7) 30%,rgba(26,39,68,.35) 50%,rgba(26,39,68,.1) 68%,transparent 82%),linear-gradient(180deg,transparent 82%,var(--night0) 100%)!important}
-}
-@media(min-width:1024px) and (max-height:820px){
-  .h-logo img{width:84px}
-  .h-logo{margin-bottom:10px}
-  .hero h1{font-size:clamp(22px,2.6vh,28px);margin-bottom:8px}
-  .h-price{font-size:clamp(40px,5.4vh,60px);margin-bottom:8px}
-  .h-fact{font-size:14px;margin-bottom:8px}
-  .h-place{font-size:13px;margin-bottom:12px}
-  .h-beds{margin-bottom:14px}
-}
-
-/* ---- quick form: cinematic, over the grand entrance render (loads after the page) ---- */
-#quickRegister{background:linear-gradient(180deg,rgba(20,31,56,.94) 0%,rgba(20,31,56,.8) 45%,rgba(20,31,56,.94) 100%),var(--night0)}
-html.pp-more #quickRegister{background:linear-gradient(180deg,rgba(20,31,56,.94) 0%,rgba(20,31,56,.74) 45%,rgba(20,31,56,.94) 100%),url('assets/gallery-1.webp') center 40%/cover no-repeat}
-#quickRegister .form-card{border-radius:4px;box-shadow:0 40px 90px -40px rgba(0,0,0,.6)}
-#quickRegister .qx .copy{margin-top:16px}
-
-/* ---- facts band ---- */
-#trust.facts{background:var(--night0);border-top:0;border-bottom:1px solid rgba(255,255,255,.08);padding:clamp(44px,6vw,80px) 0;overflow:visible}
-.facts-row{display:grid;grid-template-columns:repeat(2,1fr);gap:34px 18px}
-@media(min-width:900px){.facts-row{grid-template-columns:repeat(4,1fr);gap:24px}}
-.fact{position:relative;padding-left:18px}
-.fact::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:1px;background:var(--paper2)}
-.fact b{display:block;font:700 clamp(42px,6.2vw,80px)/1 var(--fd);font-variation-settings:'opsz' 18;color:var(--cream);letter-spacing:-.02em}
-.fact b i{font-style:normal}
-.fact b small{font-size:.42em;letter-spacing:0;margin:0 .12em;color:var(--cream2)}
-.fact span{display:block;margin-top:12px;font:600 11.5px/1.4 var(--fb);letter-spacing:.16em;text-transform:uppercase;color:var(--cream2)}
-
-/* ---- layouts and calculator on paper: the plans breathe and the page gets its first light break ---- */
-#layouts{background:var(--paper);color:var(--ink-d)}
-#layouts h2,#layouts h3{color:var(--ink-d)}
-#layouts .em{color:var(--ink-em)}
-#layouts .copy,#layouts .eyebrow{color:var(--ink-m)}
-#layouts .eyebrow::before{background:var(--ink-m)}
-#layouts .tab{color:var(--ink-d);background:#fff;border:1px solid rgba(26,38,57,.2);border-radius:2px}
-#layouts .tab:hover{border-color:rgba(26,38,57,.55)}
-#layouts .tab em{opacity:.8}
-#layouts .tab[aria-selected="true"]{background:var(--navy);border-color:var(--navy);color:var(--cream)}
-#layouts .tab[aria-selected="true"] em{opacity:.9}
-#layouts .tab .pop{background:var(--navy2);color:var(--cream)}
-#layouts .unit{background:#fff;border:1px solid rgba(26,38,57,.1);border-radius:4px;box-shadow:0 40px 80px -40px rgba(26,38,57,.3)}
-#layouts .unit-plan{background:#fff;border-color:rgba(26,38,57,.08)}
-#layouts .unit-zoom{background:rgba(26,38,57,.85);border-color:transparent;color:var(--cream)}
-#layouts .unit-zoom svg{color:var(--paper2)}
-/* Round 2 (16 Oct 2026, Aria B): the plan box is a fixed frame with a control band top and bottom, so the
-   Floor plan | Key plan toggle (top left, beside Tap to enlarge) and the 360 pill (foot) never cover the drawing and
-   the box does not jump when the landscape key plan replaces the portrait floor plan */
-#layouts #planWrap{height:min(560px,68vh);min-height:0;padding:62px 20px 68px}
-@media(min-width:1024px){#layouts #planWrap{height:640px;min-height:0;padding:62px 34px 70px}}
-#layouts #planWrap img{width:auto;height:auto;max-width:100%;max-height:100%}
-.plan-tog{position:absolute;top:14px;left:14px;z-index:2;display:inline-flex;padding:3px;border-radius:2px;background:rgba(26,38,57,.06);border:1px solid rgba(26,38,57,.16)}
-.plan-tog-b{min-height:34px;padding:0 13px;border:0;border-radius:1px;background:transparent;font:600 12px/1.2 var(--fb);color:var(--ink-m);cursor:pointer;touch-action:manipulation;transition:background .15s,color .15s}
-.plan-tog-b[aria-pressed="true"]{background:var(--navy);color:var(--cream)}
-@media(hover:hover) and (pointer:fine){.plan-tog-b:not([aria-pressed="true"]):hover{color:var(--ink-d);background:rgba(26,38,57,.08)}}
-/* #planWrap in the selector: .nx a{color:inherit} (0,1,1) would otherwise beat a lone class and paint the pill in ink */
-#planWrap .plan-vt{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:2;display:inline-flex;align-items:center;gap:7px;min-height:38px;padding:0 16px;border-radius:999px;background:rgba(26,38,57,.92);color:var(--cream);font:600 12.5px/1.2 var(--fb);letter-spacing:.02em;text-decoration:none;white-space:nowrap;cursor:pointer;box-shadow:0 12px 24px -12px rgba(26,38,57,.7);transition:background .15s}
-#planWrap .plan-vt svg{flex:none;color:var(--paper2)}
-@media(hover:hover) and (pointer:fine){#planWrap .plan-vt:hover{background:var(--navy2)}}
-#layouts .unit-cfg{color:var(--ink-m)}
-#layouts .specs,#layouts .specs div{border-color:rgba(26,38,57,.12)}
-#layouts .specs b{color:var(--ink-d)}
-#layouts .specs span{color:var(--ink-m);opacity:1}
-#layouts .price-lab{color:var(--ink-m);opacity:1}
-#layouts .price-val{color:var(--ink-d)}
-#layouts .unit-shots-one .ushot{border-color:rgba(26,38,57,.12)}
-#layouts .ushot-note{color:var(--ink-m);opacity:1}
-#layouts .unit-acts{grid-template-columns:1fr;gap:4px}
-.u-link{display:inline-flex;justify-content:center;align-items:center;gap:6px;font:600 13px/1.4 var(--fb);color:var(--ink-d);text-decoration:underline;text-underline-offset:3px;padding:4px 0;min-height:44px}
-.u-link:hover{color:var(--navy2)}
-#layouts .calc{background:#fff;border:1px solid rgba(26,38,57,.1);border-top:none;border-radius:0 0 4px 4px}
-#layouts .calc h3{color:var(--ink-d)}
-#layouts .cfield label{color:var(--ink-m);opacity:1}
-#layouts .cfield output{color:var(--ink-d)}
-#layouts input[type=range]::-webkit-slider-runnable-track{background:rgba(26,38,57,.16)}
-#layouts input[type=range]::-moz-range-track{background:rgba(26,38,57,.16)}
-#layouts input[type=range]::-webkit-slider-thumb{background:#fff;border-color:var(--navy)}
-#layouts input[type=range]::-moz-range-thumb{background:#fff;border-color:var(--navy)}
-#layouts .cpick-btn{background:rgba(26,38,57,.04);border-color:rgba(26,38,57,.18)}
-#layouts .cpick-btn:hover{background:rgba(26,38,57,.08);border-color:var(--navy)}
-#layouts .cpick-btn strong{color:var(--ink-d)}
-#layouts .cpick-btn span,#layouts .cpick-btn svg{color:var(--ink-m)}
-#layouts .cp-menu{background:#fff;border:1px solid rgba(26,38,57,.14);box-shadow:0 24px 48px -24px rgba(26,38,57,.35)}
-#layouts .cp-opt2{color:var(--ink-d);border-bottom-color:rgba(26,38,57,.08)}
-#layouts .cp-opt2:hover{background:rgba(26,38,57,.05)}
-#layouts .cp-opt2-t strong{color:var(--ink-d)}
-#layouts .cp-opt2-t em{color:var(--ink-m)}
-#layouts .cp-opt2 .num{color:var(--ink-d)}
-#layouts .cp-opt2[aria-selected="true"]{box-shadow:inset 3px 0 0 var(--navy)}
-/* calculator result: a read-out with its ask inside, left-aligned, not a gold panel that looks like a button */
-#layouts .cout,#layouts .cout.cout-solo{background:var(--paper);border:1.5px solid rgba(26,38,57,.12);color:var(--ink-d);text-align:left;padding:20px 22px;justify-content:flex-start}
-#layouts .cout .l{color:var(--ink-m)}
-#layouts .cout .v{color:var(--ink-d);margin-top:2px}
-#layouts .cout .calc-cta{width:100%;margin-top:16px}
-#layouts .cnote{color:var(--ink-m);opacity:1}
-@media(max-width:1023px){#layouts .unit{border-radius:0}#layouts .calc{border-radius:0}}
-/* Round 3 (16 Oct 2026, item 3): on phones the unit info comes before the plan box, as on the M Aurora live #layouts:
-   tabs, then the type, specs, the starting and monthly price and the one ask, then the plan box with its toggle and
-   the 360 pill. Order only (the same elements, grid order), so render() and the tab JS are untouched; desktop keeps
-   the two-column card, plan left and info right. The hairline between the two moves to the top of the plan box. */
-@media(max-width:1023px){
-  #layouts .unit-info{order:-1}
-  #layouts .unit-plan{border-bottom:none;border-top:1px solid rgba(26,38,57,.08)}
-}
-
-/* ---- the story: a full-bleed skyline with the copy on a glass card ---- */
-/* CONNECTIVITY (16 Oct review, Justin): the KL skyline IS the section's background, on phones and desktop, with the
-   heading and the stats card over it. No navy wash: only a neutral darkening at the top and foot so the cream text
-   reads over the sunset sky. The image is landscape (1482x876) with the towers right of centre: phones crop to 68%. */
-#rts{position:relative;overflow:hidden;background:var(--night0);padding:clamp(48px,7vh,80px) 0 clamp(36px,5vh,64px);
-  min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;gap:clamp(40px,7vh,88px)}
-#rts .wrap{position:relative;z-index:1}
-#rts .sec-head{margin-bottom:0}
-#rts .sec-head h2,#rts .sec-head .eyebrow{text-shadow:0 2px 14px rgba(0,0,0,.5)}
-#rts .story-img{position:absolute;inset:0;z-index:0;min-height:0;background:var(--night0) 68% 40%/cover no-repeat}
-html.pp-more #rts .story-img{background-image:url('assets/city-skyline.webp')}
-#rts .story-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,16,32,.74) 0%,rgba(10,16,32,.42) 30%,rgba(10,16,32,.06) 52%,rgba(10,16,32,.34) 100%)}
-#rts .story-split{display:block;border:0;position:relative;z-index:1;background:transparent;padding:0 16px}
-#rts .story-card{position:relative;z-index:1;max-width:620px;margin:0;padding:clamp(26px,4vw,48px);background:rgba(20,31,56,.84);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;justify-content:flex-start}
-#rts .story-card .copy{max-width:none}
-#rts .stats{border-top:1px solid rgba(255,255,255,.14)}
-#rts .stat{border-color:rgba(255,255,255,.14)}
-#rts .stat b{color:var(--cream)}
-#rts .stat span{color:var(--cream2);opacity:1}
-@media(min-width:1024px){
-  #rts{min-height:min(calc(100vh - 80px),800px);padding:clamp(28px,4.5vh,56px) 0 clamp(24px,4vh,48px);gap:clamp(24px,4vh,56px)}
-  #rts .story-img{background-position:center 40%}
-  #rts .story-img::after{background:linear-gradient(180deg,rgba(10,16,32,.66) 0%,rgba(10,16,32,.32) 32%,rgba(10,16,32,.04) 55%,rgba(10,16,32,.3) 100%),linear-gradient(90deg,rgba(10,16,32,.5) 0%,rgba(10,16,32,0) 45%)}
-  #rts .sec-head h2{font-size:clamp(28px,2.7vw,40px)}
-  #rts .story-split{padding:0 max(var(--pad),calc((100vw - var(--max)) / 2 + var(--pad)))}
-  #rts .story-card{margin:0 auto 0 0;max-width:640px;padding:clamp(22px,3vh,34px) clamp(26px,2.4vw,38px)}
-  #rts .story-card .copy{font-size:15px;line-height:1.55}
-  #rts .stats{grid-template-columns:repeat(4,1fr)}
-  #rts .stat{padding:12px 10px 10px 0;border-right:1px solid rgba(255,255,255,.14)}
-  #rts .stat:nth-child(2n){padding-left:0;border-right:1px solid rgba(255,255,255,.14)}
-  #rts .stat:nth-child(n+2){padding-left:14px}
-  #rts .stat:last-child{border-right:none}
-  #rts .stat b{font-size:clamp(22px,1.8vw,28px)}
-}
-/* scroll-linked parallax on the artwork, where the browser supports it (Chrome, Edge, Safari 26+) */
-@supports (animation-timeline: view()){
-  @media(prefers-reduced-motion:no-preference){
-    #rts .story-img{animation:pp-par linear both;animation-timeline:view();animation-range:entry 0% exit 100%}
-    #quickRegister{animation:pp-par-bg linear both;animation-timeline:view()}
-  }
-}
-@keyframes pp-par{from{background-position-y:28%}to{background-position-y:58%}}
-@keyframes pp-par-bg{from{background-position:center 0%,center 20%}to{background-position:center 0%,center 70%}}
-
-/* ---- the nine reasons, as an editorial list on flat night ---- */
-#story{background:var(--night0);color:var(--cream)}
-#story .eyebrow{color:var(--paper2)}
-#story .eyebrow::before{background:var(--paper2)}
-#story h2{color:var(--cream)}
-#story h2 .em{color:var(--accent)}
-#story .copy{color:var(--cream2)}
-.usp-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;border-top:1px solid rgba(255,255,255,.14)}
-@media(min-width:900px){.usp-list{grid-template-columns:1fr 1fr;column-gap:64px}}
-.usp-list li{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:18px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.14)}
-.usp-list .usp-ic{width:40px;height:40px;object-fit:contain;filter:brightness(0) invert(1);opacity:.94}
-.usp-list b{font:600 clamp(19px,1.9vw,25px)/1.25 var(--fd);font-variation-settings:'opsz' 18;color:var(--cream)}
-.usp-list .n{font:italic 600 17px/1 var(--fd);color:rgba(245,245,245,.55);justify-self:end;padding:0 3px 0 8px}
-@media(max-width:599px){.usp-list li{grid-template-columns:36px 1fr auto;gap:14px}.usp-list .usp-ic{width:34px;height:34px}}
-
-/* ---- facilities on paper, the plan on a white card ---- */
-#fac{background:var(--paper);color:var(--ink-d);padding:clamp(64px,8vw,120px) 0}
-#fac h2.stl{color:var(--ink-d);margin:0}
-#fac .sdesc{color:var(--ink-m);font:400 17px/1.75 var(--fc);margin:0;max-width:46ch}
-#fac .eyebrow{color:var(--ink-m)}
-#fac .eyebrow::before{background:var(--ink-m)}
-#fac .lvl-tab{color:var(--ink-d);border-color:rgba(26,38,57,.2);background:#fff}
-#fac .lvl-tab:hover{border-color:rgba(26,38,57,.55)}
-#fac .lvl-tab[aria-selected="true"]{background:var(--navy);border-color:var(--navy);color:var(--cream)}
-#fac .fac-map-wrap{border-radius:4px;box-shadow:0 34px 70px -40px rgba(26,38,57,.4)}
-#fac .fac-map-img{border:1px solid rgba(26,38,57,.1);border-radius:4px}
-#fac .am-cat h3{font:600 12px/1.4 var(--fb);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-m);margin:0 0 10px}
-#fac .fac-list li{color:var(--ink-d);border-bottom-color:rgba(26,38,57,.12)}
-#fac .fac-list li i{color:var(--ink-m)}
-#fac .fac-note{color:var(--ink-m)}
-@media(max-width:1023px){#fac .fac-map-wrap{border-radius:0;box-shadow:none}#fac .fac-map-img{border:0;border-radius:0}}
-
-/* ---- gallery: full-bleed, tall, captions in the serif italic ---- */
-#gallery{background:var(--navy)}
-#gallery .gal{margin-inline:calc(50% - 50vw);grid-auto-columns:80vw;gap:14px;padding:0 var(--pad) 8px;scroll-padding:0 var(--pad);cursor:grab}
-#gallery .gal.dragging{cursor:grabbing;scroll-snap-type:none}
-@media(min-width:1024px){#gallery .gal{grid-auto-columns:38vw;gap:22px;padding:0 max(var(--pad),calc((100vw - var(--max)) / 2 + var(--pad))) 16px}}
-#gallery .gal img{height:min(64vh,600px);border-radius:4px}
-#gallery .gal figure{border-radius:4px;overflow:hidden;border-color:rgba(255,255,255,.1)}
-#gallery .gal figcaption{font:italic 600 clamp(20px,2vw,26px)/1.2 var(--fd);letter-spacing:0;text-transform:none;padding:40px 18px 16px}
-@media(hover:hover) and (pointer:fine){#gallery .gal figure img{transition:transform 1.2s var(--ease-out)}#gallery .gal figure:hover img{transform:scale(1.04)}}
-#gallery .gal-arr{top:calc(min(64vh,600px) / 2);transform:translateY(-50%);background:rgba(20,31,56,.62);border:1px solid rgba(245,245,245,.35);color:var(--cream);border-radius:2px}
-#gallery .gal-arr:hover{background:rgba(245,245,245,.16);border-color:var(--cream)}
-#gallery .gal-prev{left:calc(50% - 50vw + 24px)}
-#gallery .gal-next{right:calc(50% - 50vw + 24px)}
-#gallery .gal-hint{color:var(--cream2);opacity:.7}
-#gallery .film{border-radius:4px}
-#gallery .film-play{border-color:rgba(245,245,245,.6)}
-#gallery .film-play::after{border-left-color:var(--cream)}
-#interiors{background:linear-gradient(180deg,var(--navy) 0%,var(--night0) 100%)}
-html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')}
-#interiors .split{border-color:rgba(255,255,255,.1)}
-
-/* ---- location: night deepening toward the map; the map and the panel stay light cards ---- */
-#loc.city-sec{background:linear-gradient(180deg,var(--night0) 0%,#111B30 100%);color:var(--cream);padding:clamp(64px,8vw,120px) var(--pad);border-top:1px solid rgba(255,255,255,.07)}
-#loc.city-sec::before{display:none}
-#loc .sec-head .eyebrow{font:600 11.5px/1.6 var(--fb);letter-spacing:.26em;text-transform:uppercase;color:var(--paper2);text-align:left;margin:0}
-#loc h2{color:var(--cream);text-align:left;margin:0}
-#loc .city-sub{color:var(--cream2);text-align:left;margin:0;max-width:46ch;font:400 17px/1.75 var(--fc)}
-#loc .loc-merge{margin-top:0}
-#loc .city-map img{border:1px solid rgba(255,255,255,.12);border-radius:4px;background:#fff}
-#loc .city-map figcaption{color:var(--cream2)}
-#loc .city-map figcaption a{color:var(--accent)}
-#loc .loc-panel{border-radius:4px;box-shadow:0 40px 80px -40px rgba(0,0,0,.6)}
-/* Round 2 (16 Oct 2026, A2): tabs above the map on the night ground, the selected tab in cream (never the ask colour);
-   the panel under the map holds the list; desktop keeps map left, details right under a full-width tab row */
-#loc .loc-merge{gap:22px}
-#loc .loc-tabs .loc-cats{margin:0;gap:8px}
-#loc .loc-tabs .loc-cat{min-height:42px;padding:0 16px;border:1px solid rgba(255,255,255,.26);border-radius:2px;background:rgba(255,255,255,.04);font:600 12.5px/1.2 var(--fb);color:var(--cream2);cursor:pointer;touch-action:manipulation;transition:background .15s,border-color .15s,color .15s}
-@media(hover:hover) and (pointer:fine){#loc .loc-tabs .loc-cat:hover{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.08)}}
-#loc .loc-tabs .loc-cat[aria-selected="true"]{background:var(--cream);border-color:var(--cream);color:var(--ink-d)}
-#loc .loc-panel .nx .loc-list{border-top:0;padding-top:0}
-@media(min-width:1024px){#loc .loc-merge{gap:28px 36px}#loc .loc-tabs{grid-column:1/-1}}
-
-/* ---- developer on the live greige paper, questions on cream ---- */
-#developer{background:url('assets/bg-features.webp') center/cover no-repeat,var(--paper2);color:var(--ink-d);padding-bottom:clamp(64px,8vw,120px)}
-#developer .dev2{max-width:900px}
-#developer .eyebrow{color:#5C4426}
-#developer .eyebrow::before{background:#5C4426}
-#developer .dev2-h{color:var(--ink-d);font-size:clamp(26px,3.4vw,42px)}
-#developer .copy{color:#2F3230}
-#faq{background:var(--paper);color:var(--ink-d)}
-#faq h2{color:var(--ink-d)}
-#faq .em{color:var(--ink-em)}
-#faq .eyebrow,#faq .copy{color:var(--ink-m)}
-#faq .eyebrow::before{background:var(--ink-m)}
-#faq .faq,#faq .faq-item{border-color:rgba(26,38,57,.14)}
-#faq .faq-q{font:600 clamp(18px,1.7vw,22px)/1.35 var(--fd);font-variation-settings:'opsz' 18;color:var(--ink-d);text-align:left}
-#faq .faq-q:hover{color:var(--navy2)}
-#faq .faq-q i::before,#faq .faq-q i::after{background:var(--ink-d)}
-#faq .faq-a div,#faq .faq-a p,#faq .faq-a li{color:var(--ink-m)}
-#faq .faq-a b{color:var(--ink-d)}
-#faq .faq-a a{color:var(--navy2)}
-
-/* ---- closing form: the brand gradient, the card on paper, one gold ---- */
-#visit{background:linear-gradient(160deg,var(--navy2) 0%,var(--navy) 42%,var(--paper2) 100%)}
-#visit .visit{border:0;border-radius:4px;overflow:hidden;box-shadow:0 50px 100px -40px rgba(8,10,30,.6)}
-#visit .visit-l{background:var(--paper);color:var(--ink-d)}
-#visit .visit-l h2{color:var(--ink-d)}
-#visit .em{color:var(--ink-em)}
-#visit .eyebrow,#visit .visit-l .copy{color:var(--ink-m)}
-#visit .eyebrow::before{background:var(--ink-m)}
-#visit .visit-l strong,#visit .visit-l a[href^="tel:"]{color:var(--ink-d)!important}
-#visit .visit-l>div[style]{border-top-color:rgba(26,38,57,.14)!important}
-#visit .visit-l .btn-o{border-color:rgba(26,38,57,.4);color:var(--ink-d);background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}
-#visit .visit-l .btn-o:hover{background:rgba(26,38,57,.06);border-color:var(--ink-d)}
-#visit .form-card{background:#fff}
-#contact .git-title{color:var(--cream);font-weight:500;font-variation-settings:'opsz' 18}
-#contact .git-map-ico svg{fill:var(--cream)}
-
-/* ---- lead drawer, sticky bar ---- */
-.ld-trust{font:600 12.5px/1.5 var(--fb);color:var(--ink-d);margin:-8px 0 16px}
-.lead-drawer-title{font-weight:500}
-.receive .r{color:var(--ink-d);border-color:rgba(26,38,57,.3)}
-.receive .r svg{color:var(--navy2)}
-.qf-rlabel{color:var(--ink-m)}
-.ld-unit{background:rgba(26,38,57,.06);border-color:rgba(26,38,57,.18)}
-.ld-unit-v{color:var(--ink-d)}
-.lead-drawer-bar.is-active{background:var(--navy)}
-.sticky{background:rgba(20,31,56,.96);border-top:1px solid rgba(201,184,165,.14)}
-
-/* ---- the enlarged plan carries its ask ---- */
-.nx .lb-box{align-items:stretch}
-.nx .lb-bar{justify-content:flex-end}
-.nx .lb-ask{width:100%;margin-top:0;white-space:nowrap}
-.nx .lb img{max-height:calc(80vh - 120px)}
-@media(min-width:1024px){.nx .lb img{max-height:calc(75vh - 120px)}}
-
-/* ---- 360 tour modal ---- */
-.vr{position:fixed;inset:0;background:rgba(20,31,56,.97);z-index:1400;display:none;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-.vr.on{display:flex}
-.vr-bar{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:12px;border-bottom:1px solid rgba(201,184,165,.16);background:rgba(26,39,68,.92)}
-.vr-ttl{font-family:var(--fd);font-size:15px;color:var(--cream);white-space:nowrap;margin-right:2px}
-.vr-tabs{display:flex;gap:6px;overflow-x:auto;flex:1 1 auto;scrollbar-width:none;-ms-overflow-style:none}
-.vr-tabs::-webkit-scrollbar{display:none}
-.vr-tab{flex:0 0 auto;min-height:36px;padding:0 13px;border-radius:2px;border:1px solid rgba(245,245,245,.38);background:transparent;color:var(--cream2);font-family:var(--fb);font-size:12.5px;font-weight:600;letter-spacing:.05em;cursor:pointer;white-space:nowrap}
-.vr-tab:hover{background:rgba(245,245,245,.14)}
-.vr-tab[aria-selected="true"]{background:var(--cream);border-color:var(--cream);color:var(--navy)}
-.vr-x{flex:0 0 auto;width:40px;height:40px;border:1px solid rgba(245,245,245,.38);background:rgba(26,39,68,.85);color:var(--cream);border-radius:2px;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.vr-x:hover{background:rgba(245,245,245,.14)}
-.vr-stage{flex:1 1 auto;position:relative;background:#000;min-height:0}
-.vr-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
-.vr-load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--cream2);font-family:var(--fb);font-size:13px;letter-spacing:.04em;pointer-events:none;transition:opacity .3s}
-.vr-stage.ready .vr-load{opacity:0}
-.vr-foot{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-top:1px solid rgba(201,184,165,.16);background:rgba(26,39,68,.92)}
-.vr-note{font-family:var(--fb);font-size:11.5px;color:var(--cream2);letter-spacing:.03em}
-.vr-cta{flex:0 0 auto;min-height:40px;padding:0 18px;border-radius:0;border:0;font-family:var(--fb);font-size:12.5px;font-weight:700;letter-spacing:.05em;cursor:pointer;display:flex;align-items:center}
-@media(max-width:600px){.vr-ttl{display:none}.vr-note{display:none}.vr-cta{width:100%;justify-content:center}}
-
-/* ---- review fixes (16 Oct): the hero eyebrow holds one line on phones; the layout card and calculator run full-bleed
-   on phones as on Aurora, so the calculator ask fits on one line; the story card's figures sit in two columns ---- */
-@media(max-width:599px){.h-eyebrow{letter-spacing:.2em}}
-@media(max-width:1023px){#layouts .unit,#layouts .calc{margin-left:calc(var(--pad) * -1);margin-right:calc(var(--pad) * -1);border-left:0;border-right:0}}
-#layouts .cout .calc-cta{padding-left:16px;padding-right:16px}
-@media(max-width:1023px){
-#rts .stats{grid-template-columns:repeat(2,1fr)}
-#rts .stat{padding:18px 16px 18px 0;border-right:1px solid rgba(255,255,255,.14)}
-#rts .stat:nth-child(2n){padding-left:16px;border-right:none}
-#rts .stat b{font-size:clamp(26px,3vw,34px);white-space:nowrap}
-}
-/* contrast (16 Oct, rendered audit): the hero eyebrow in cream, the h1 at large-text size on phones, a deeper mid
-   scrim on phones and a top band behind the transparent nav on desktop, the quiet nav ask on dark glass */
-.h-eyebrow{color:var(--cream2)}
-.hero h1{font-size:clamp(24px,6.2vw,30px)}
-@media(max-width:1023px){
-  .hero-media::after{background:linear-gradient(180deg,rgba(17,27,48,.5) 0%,rgba(17,27,48,.3) 28%,rgba(17,27,48,.62) 56%,rgba(17,27,48,.84) 84%,var(--night0) 100%)!important}
-}
-@media(min-width:1024px){
-  .hero h1{font-size:clamp(26px,2.3vw,34px)}
-  .hero-media::after{background:linear-gradient(180deg,rgba(26,39,68,.74) 0%,rgba(26,39,68,.3) 14%,rgba(26,39,68,0) 24%),linear-gradient(90deg,rgba(26,39,68,.96) 0%,rgba(26,39,68,.9) 12%,rgba(26,39,68,.7) 30%,rgba(26,39,68,.35) 50%,rgba(26,39,68,.1) 68%,transparent 82%),linear-gradient(180deg,transparent 82%,var(--night0) 100%)!important}
-  a.nav-reg.quiet{background:rgba(20,31,56,.38);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-  a.nav-reg.quiet:hover{background:rgba(245,245,245,.14)}
-  .nav:not(.is-scrolled) .nav-rail a{color:rgba(245,245,245,.92);text-shadow:0 1px 6px rgba(10,16,30,.6)}
-  .nav:not(.is-scrolled) .nav-rail a.on{color:var(--cream)}
-}
-@media(min-width:1024px) and (max-height:820px){.hero h1{font-size:clamp(22px,2.6vh,28px)}}
-/* Round 4 (16 Oct 2026, Justin): the pin line read as a footnote fourth in the hero; it replaces the "Open for Sale" eyebrow, larger and bolder,
-   pin 18 px in the site's accent, a deeper shadow so it holds over the photo */
-.hero .h-place{display:flex;align-items:center;gap:8px;margin:0 0 12px;font:600 15px/1.35 var(--fb);letter-spacing:.01em;text-shadow:0 1px 10px rgba(0,0,0,.85),0 0 2px rgba(0,0,0,.45)}
-.hero .h-place svg{flex:none;width:18px;height:18px}
-@media(min-width:1024px){.hero .h-place{font-size:16.5px;margin-bottom:16px}}
-@media(max-width:1023px) and (max-height:700px){.hero .h-place{margin-bottom:10px}}
-/* Round 5 (17 Oct 2026, Justin): the hero ask at the foot of the first screen on phones (767 px and under), as on
-   M Grand Minori. The lockup, place line, h1, price, fact line and bed chips sit at the top under the nav; the hero's
-   own ask (full width) and the trust line under it sit at the foot of the hero, the bottom of the first screen; the
-   photo shows between them. .hero-inner is a flex column that fills the hero and .hero-ctas takes margin-top:auto,
-   so on a short screen the stack simply closes up. Readability: a night band rises behind the copy from just under
-   the chips (hung on .h-beds, so it ends where the copy ends at every width and height; the chips keep their own
-   glass where the band fades); the base scrim stays light through the middle and deepens behind the trust line.
-   Lockup: the nav already carries the same M Aria mark, 56 px tall, at the top left, and the hero video carries a
-   third one in its frame; on phones the hero's own mark stands down and the nav mark is the lockup (with the mark in,
-   a 390x844 screen showed three M Aria marks and the chips landed on the video's baked-in ARIA lettering). Tablet
-   and desktop unchanged. */
-@media(max-width:767px){
-  .hero .hero-body{padding:104px var(--pad) 44px}
-  .hero .hero-inner,.hero .hero-inner.hero-inner{display:flex;flex-direction:column;align-items:stretch;flex:1 1 auto;width:100%}
-  .hero .hero-inner .h-logo{display:none}
-  .hero .hero-ctas,.hero .hero-inner .hero-ctas{display:flex;margin-top:auto!important;width:100%;max-width:none}
-  .hero .hero-ctas .btn{flex:1 1 100%;width:100%}
-  .hero .h-beds{position:relative;margin-bottom:16px}
-  .hero .h-beds::before{content:'';position:absolute;z-index:-1;left:-100vw;right:-100vw;bottom:-40px;height:200vh;pointer-events:none;
-    background:linear-gradient(0deg,rgba(17,27,48,0) 0,rgba(17,27,48,.1) 20px,rgba(17,27,48,.28) 40px,rgba(17,27,48,.48) 62px,rgba(17,27,48,.76) 96px,rgba(17,27,48,.78) 100%)}
-  .hero .h-trust{margin-top:10px;text-wrap:pretty}
-  .hero-media::after{background:linear-gradient(180deg,rgba(17,27,48,.12) 0%,rgba(17,27,48,.06) 50%,rgba(17,27,48,.1) calc(100% - 175px),rgba(17,27,48,.72) calc(100% - 96px),rgba(17,27,48,.9) calc(100% - 48px),var(--night0) 100%)!important}
-}
-@media(max-width:767px) and (max-height:700px){
-  .hero .hero-body{padding:92px var(--pad) 28px}
-}
-/* the shortest phones (600 px tall or less): the stack tightens a step so the ask and the trust line keep their place
-   inside the first screen with photo still showing between (iPhone SE 375x553 measured) */
-@media(max-width:767px) and (max-height:600px){
-  .hero .hero-body{padding:90px var(--pad) 18px}
-  .hero .h-place{margin-bottom:8px}
-  .hero h1{margin-bottom:6px}
-  .hero .h-price{margin-bottom:6px}
-  .hero .h-fact{margin-bottom:8px}
-  .hero .h-beds{margin-bottom:12px}
-  .hero .h-trust{margin-top:8px}
-}
-/* Round 5 (17 Oct 2026): a collapsed FAQ answer is hidden for real (it was only clipped to 0 height), so its "register
-   for a visit" link never counts as an ask on screen for the bottom bar, and keyboard focus no longer lands on a link
-   nobody can see. Opening an answer (.on) shows it as before. */
-.faq-item:not(.on):not(.open) .faq-a{visibility:hidden}
-</style>
 </head>
 <body>
 <!-- ANNOUNCE (auto marquee) -->
@@ -3407,9 +2902,7 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
          client's own burnt-in "from RM483K" claim, flagged to Justin
          (site copy states the APDL band from RM635K). -->
     <div class="hero-slides" aria-hidden="true">
-      <!-- R6 (16 Oct 2026): the markup poster is the phone file (the majority and the slow connections); the script
-           swaps in the desktop poster from 768px, so a phone no longer fetches both -->
-      <video class="hslide on" muted playsinline preload="metadata" poster="assets/hero-bg-mobile.webp"
+      <video class="hslide on" muted playsinline preload="metadata" poster="assets/hero-bg.webp"
         data-desktop-src="assets/hero-video.mp4" data-mobile-src="assets/hero-video-mobile.mp4"></video>
       <video class="hslide" muted playsinline preload="none"
         data-desktop-src="assets/hero-video-2.mp4" data-mobile-src="assets/hero-video-2-mobile.mp4"></video>
@@ -3429,21 +2922,16 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
       var IMG_DWELL=6000, idx=0, timer=null, raf=null;
       slides.forEach(function(s){
         var src=s.getAttribute(mob?'data-mobile-src':'data-desktop-src');
-        if(s.tagName==='VIDEO'){ if(!mob&&s.classList.contains('on'))s.poster='assets/hero-bg.webp'; s.setAttribute('data-src',src); }
-        else s.setAttribute('data-src',src);   /* R6 (16 Oct 2026): a still banner paints only when it is next up */
+        if(s.tagName==='VIDEO'){ if(mob)s.poster='assets/hero-bg-mobile.webp'; s.setAttribute('data-src',src); }
+        else s.style.backgroundImage='url("'+src+'")';
       });
-      function paintStill(s){ if(s.tagName!=='VIDEO'&&!s.style.backgroundImage)s.style.backgroundImage='url("'+s.getAttribute('data-src')+'")'; }
       function setProg(p){ if(prog)prog.style.width=(Math.min(1,Math.max(0,p))*100)+'%'; }
       function stopTimers(){ if(timer){clearTimeout(timer);timer=null;} if(raf){cancelAnimationFrame(raf);raf=null;} }
       function warmNext(){
-        /* R6 (16 Oct 2026): the next slide is fetched after the page has loaded, not alongside the poster */
-        var go=function(){
-          var nx=slides[(idx+1)%slides.length];
-          if(nx.tagName==='VIDEO'&&!nx.getAttribute('src')){
-            nx.preload='auto'; nx.src=nx.getAttribute('data-src'); nx.load();
-          } else paintStill(nx);
-        };
-        if(document.readyState==='complete')go(); else window.addEventListener('load',go,{once:true});
+        var nx=slides[(idx+1)%slides.length];
+        if(nx.tagName==='VIDEO'&&!nx.getAttribute('src')){
+          nx.preload='auto'; nx.src=nx.getAttribute('data-src'); nx.load();
+        }
       }
       function show(i){
         stopTimers();
@@ -3463,7 +2951,6 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
           /* stall guard: a video that never reaches its end still advances */
           timer=setTimeout(function(){ next(); },60000);
         } else {
-          paintStill(s);
           var t0=performance.now();
           var tick=function(now){ setProg((now-t0)/IMG_DWELL); raf=requestAnimationFrame(tick); };
           raf=requestAnimationFrame(tick);
@@ -3480,25 +2967,21 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
         <div class="h-logo">
           <img src="assets/logo-white.webp" alt="M Aria" width="700" height="902">
         </div>
-        <!-- PREMIUM PORT (16 Oct 2026, the Aurora hero): eyebrow with the place, the h1 verbatim, the price as an
-             added display line (was the "Starting from" card), one fact line, bed chips that open the matching
-             layout tab, one ask, the trust line. -->
-        <!-- Round 4 (16 Oct 2026, Justin): the place leads the hero copy in place of the "Open for Sale" eyebrow, larger so it reads at a glance -->
+        <h1><em>Urban Oasis</em>, <span class="nw">In Perfect Tempo</span></h1>
         <div class="h-place">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 21s-7-5.3-7-11a7 7 0 0 1 14 0c0 5.7-7 11-7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>
           <span>Sentul, Kuala Lumpur</span>
         </div>
-        <h1><em>Urban Oasis</em>, <span class="nw">In Perfect Tempo</span></h1>
-        <p class="h-price">Freehold from <b class="num">RM483K<sup>*</sup></b></p>
-        <p class="h-fact">Two layouts, 800 to 950 sq ft, partially furnished</p>
-        <div class="h-beds" role="group" aria-label="See layouts by bedrooms">
-          <button type="button" class="h-bed" data-bed-type="A">3 bed</button>
-          <button type="button" class="h-bed" data-bed-type="B">4 bed</button>
+        <div class="h-cards">
+          <div class="h-card">
+            <div class="h-card-lab">Starting from</div>
+            <div class="h-card-val">RM 483K<span class="h-card-ast">*</span></div>
+            <div class="h-card-sub">Freehold &middot; Apartment</div>
+          </div>
         </div>
         <div class="hero-ctas">
           <button type="button" class="btn btn-p" data-open-lead="hero" data-cta-id="hero_register">Get Price List Now</button>
         </div>
-        <p class="h-trust">Sold directly by Mah Sing Group, sales gallery open daily</p>
       </div>
     </div>
     <a href="#quickRegister" class="scroll-ind" aria-label="Scroll down"><span class="scroll-arrow"></span></a>
@@ -3529,7 +3012,7 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
       <input type="hidden" name="00N2j000000e0hR" value="1">
           <div class="field"><label class="f-label" for="q-name">Full name</label>
             <input class="f-input" id="q-name" name="last_name" type="text" maxlength="80" placeholder="Your full name" required autocomplete="name"></div>
-          <div class="field"><label class="f-label" for="q-phone">WhatsApp number</label>
+          <div class="field"><label class="f-label" for="q-phone">Phone number</label>
             <input class="f-input" id="q-phone" name="mobile" type="tel" maxlength="20" placeholder="012-345 6789" required autocomplete="tel" inputmode="tel" data-my-phone></div>
           <div class="field"><label class="f-label" for="q-email">Email</label>
             <input class="f-input" id="q-email" name="email" type="email" maxlength="80" placeholder="you@example.com" required autocomplete="email"></div>
@@ -3544,14 +3027,13 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
 
 
 <!-- TRUST -->
-<!-- PREMIUM PORT (16 Oct 2026): the trust strip becomes the Aurora facts band, the page's own figures set large with
-     counters that run once in view. Freehold moved into the hero price line, "partially furnished" into the hero fact line. -->
-<div class="trust facts" id="trust" aria-label="M Aria at a glance">
-  <div class="wrap facts-row rv" data-stagger>
-    <div class="fact"><b class="num"><i data-count="58">58</i></b><span>Urban resort facilities</span></div>
-    <div class="fact"><b class="num"><i data-count="606">606</i></b><span>Freehold residences</span></div>
-    <div class="fact"><b class="num"><i data-count="5">5</i><small>km</small></b><span>To KL city centre</span></div>
-    <div class="fact"><b class="num">2<small>to</small>4</b><span>Car parks per unit</span></div>
+<div class="trust" id="trust">
+  <div class="trust-in">
+    <div class="tr-item"><div class="tr-num">Freehold</div><div class="tr-lab">Land Tenure</div></div>
+    <div class="tr-item"><div class="tr-num">58</div><div class="tr-lab">Urban Resort Facilities</div></div>
+    <div class="tr-item"><div class="tr-num">606</div><div class="tr-lab">Units</div></div>
+    <div class="tr-item"><div class="tr-num">2-4</div><div class="tr-lab">Car Parks</div></div>
+    <div class="tr-item"><div class="tr-num">Partially</div><div class="tr-lab">Furnished Units</div></div>
   </div>
 </div>
 
@@ -3578,16 +3060,9 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
     </div>
 
     <div class="unit rv">
-      <div class="unit-plan" id="planWrap" data-view="plan">
-        <!-- Round 2 (16 Oct 2026, Aria B): a Floor plan | Key plan toggle inside the plan box (replaces the key-plan
-             thumbnail under the price); the 360 tour link sits in the box as a pill at the foot, same id and bindings -->
-        <div class="plan-tog" role="group" aria-label="Plan view">
-          <button type="button" class="plan-tog-b" data-view="plan" aria-pressed="true">Floor plan</button>
-          <button type="button" class="plan-tog-b" data-view="key" aria-pressed="false">Key plan</button>
-        </div>
+      <div class="unit-plan" id="planWrap">
         <span class="unit-zoom"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/></svg>Tap to enlarge</span>
-        <img id="planImg" loading="lazy" decoding="async" src="assets/plan-type-a.webp" alt="Type A floor plan, 800 sq ft, 3 bedrooms" width="1002" height="1143">
-        <a class="plan-vt" id="uVt" href="https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1" target="_blank" rel="noopener" data-tour-source="unit_card" data-vr="A"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>360&deg; tour</a>
+        <img id="planImg" src="assets/plan-type-a.webp" alt="Type A floor plan, 800 sq ft, 3 bedrooms" width="1002" height="1143">
       </div>
       <div class="unit-info">
         <h3>Type <span id="uName">A</span></h3>
@@ -3607,10 +3082,13 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
               <div class="price-val num" id="uSgd">RM 1,822 /mo</div>
             </div>
           </div>
-          <!-- Round 2 (16 Oct 2026): the key-plan thumbnail (#uKey) is gone, the key plan is a view of the plan box;
-               the 360 link (#uVt) moved into the plan box. The card keeps #uCta as its one filled ask. -->
+        <div class="unit-shots unit-shots-one">
+            <button class="ushot" id="uKey" type="button" data-src="assets/keyplan-type-a.webp"><img id="uKeyImg" src="assets/keyplan-type-a.webp" alt="Key plan showing where the Type A unit sits on the floor" loading="lazy" width="900" height="757"></button>
+            <span class="ushot-note">Type <b id="uKeyT">A</b> key plan. Tap to view.</span>
+          </div>
           <div class="unit-acts">
           <button class="btn btn-p" id="uCta" data-open-lead="unit_card" data-unit="Type A" data-cta-id="units_get_price">Get Price List Now</button>
+            <a class="btn btn-o" id="uVt" href="https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1" target="_blank" rel="noopener">360&deg; Virtual Tour</a>
           </div>
 
       </div>
@@ -3644,26 +3122,18 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
         <input type="range" id="cTen" min="20" max="35" step="1" value="35">
       </div>
       <div class="cout cout-solo">
-        <div><div class="l">Estimated monthly repayment</div><div class="v num" id="cMy">RM 1,822</div>
-          <!-- R4 (16 Oct 2026): the price ask inside the result card, following the calculator's unit -->
-          <button type="button" class="btn btn-p calc-cta" id="cCta" data-open-lead="calc" data-unit="Type A" data-cta-id="calc_get_price">Send me the Type A price list</button></div>
+        <div><div class="l">Estimated monthly repayment</div><div class="v num" id="cMy">RM 1,822</div></div>
       </div>
       <p class="cnote">Estimates only. Based on 3.6% p.a. interest rate over the selected tenure, calculated on the selected layout&rsquo;s starting price. Subject to bank approval. Not an offer.</p>
     </div>
   </div>
 </section>
-<!-- PREMIUM PORT (16 Oct 2026, the Aurora story): the section head on top, the skyline full-bleed (it loads after the
-     page, html.pp-more), the copy and the four figures on a glass card that overlaps the image. Heading verbatim. -->
 <section class="sec sec-alt" id="rts">
-  <div class="story-img" role="img" aria-label="The Kuala Lumpur skyline seen from Sentul"></div>
-  <div class="wrap">
-    <div class="sec-head rv">
+  <div class="split rv">
+    <div class="split-img" style="background-image:url('assets/city-skyline.webp')" role="img" aria-label="The Kuala Lumpur skyline seen from Sentul"></div>
+    <div class="split-body">
       <span class="eyebrow">Connectivity</span>
       <h2>Five kilometres from <span class="em">the city centre</span></h2>
-    </div>
-  </div>
-  <div class="split story-split rv">
-    <div class="split-body story-card">
       <p class="copy">Nestled in the vibrant enclave of Sentul, M Aria offers seamless access to Kuala Lumpur City Centre, with major highways and public transport hubs all in close proximity. Whether it is work, shopping, or play, everything is within reach.</p>
       <div class="stats">
         <div class="stat"><b>350 m</b><span>Rapid KL bus stop</span></div>
@@ -3682,26 +3152,24 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
       <h2>Freehold living, <span class="em">five kilometres from the city</span></h2>
       <p class="copy">What the development leads with, in its own words.</p>
     </div>
-    <!-- PREMIUM PORT (16 Oct 2026): the nine proof points as the Aurora editorial list, the client's own icons in white -->
-    <ol class="usp-list rv" data-stagger>
-        <li><img class="usp-ic" src="assets/usp-freehold.webp" alt="" loading="lazy" decoding="async" width="320" height="207"><b>Freehold</b><span class="n">01</span></li>
-        <li><img class="usp-ic" src="assets/usp-lowdensity.webp" alt="" loading="lazy" decoding="async" width="320" height="207"><b>Low Density</b><span class="n">02</span></li>
-        <li><img class="usp-ic" src="assets/usp-klcity.webp" alt="" loading="lazy" decoding="async" width="320" height="207"><b>5km to KL City Centre</b><span class="n">03</span></li>
-        <li><img class="usp-ic" src="assets/usp-layout.webp" alt="" loading="lazy" decoding="async" width="320" height="206"><b>Practical Layout<br>(3 to 4 Bedrooms)</b><span class="n">04</span></li>
-        <li><img class="usp-ic" src="assets/usp-facilities.webp" alt="" loading="lazy" decoding="async" width="320" height="206"><b>58 Resort Living Facilities</b><span class="n">05</span></li>
-        <li><img class="usp-ic" src="assets/usp-greenre.webp" alt="" loading="lazy" decoding="async" width="320" height="206"><b>GreenRE Silver Certified</b><span class="n">06</span></li>
-        <li><img class="usp-ic" src="assets/usp-security.webp" alt="" loading="lazy" decoding="async" width="320" height="208"><b>Multi-tier Security</b><span class="n">07</span></li>
-        <li><img class="usp-ic" src="assets/usp-entrance.webp" alt="" loading="lazy" decoding="async" width="320" height="208"><b>Grand Statement Entrance</b><span class="n">08</span></li>
-        <li><img class="usp-ic" src="assets/usp-carparks.webp" alt="" loading="lazy" decoding="async" width="320" height="211"><b>2 to 4 Carparks</b><span class="n">09</span></li>
-    </ol>
+    <div class="usp-grid rv">
+        <div class="usp"><img src="assets/usp-freehold.webp" alt="" loading="lazy" width="320" height="207"><b>Freehold</b></div>
+        <div class="usp"><img src="assets/usp-lowdensity.webp" alt="" loading="lazy" width="320" height="207"><b>Low Density</b></div>
+        <div class="usp"><img src="assets/usp-klcity.webp" alt="" loading="lazy" width="320" height="207"><b>5km to KL City Centre</b></div>
+        <div class="usp"><img src="assets/usp-layout.webp" alt="" loading="lazy" width="320" height="206"><b>Practical Layout<br>(3 to 4 Bedrooms)</b></div>
+        <div class="usp"><img src="assets/usp-facilities.webp" alt="" loading="lazy" width="320" height="206"><b>58 Resort Living Facilities</b></div>
+        <div class="usp"><img src="assets/usp-greenre.webp" alt="" loading="lazy" width="320" height="206"><b>GreenRE Silver Certified</b></div>
+        <div class="usp"><img src="assets/usp-security.webp" alt="" loading="lazy" width="320" height="208"><b>Multi-tier Security</b></div>
+        <div class="usp"><img src="assets/usp-entrance.webp" alt="" loading="lazy" width="320" height="208"><b>Grand Statement Entrance</b></div>
+        <div class="usp"><img src="assets/usp-carparks.webp" alt="" loading="lazy" width="320" height="211"><b>2 to 4 Carparks</b></div>
+    </div>
   </div>
 </section>
 </div>
 
 <section class="sec sec-mid" id="fac">
   <div class="wrap">
-    <div class="sec-head rv">
-      <span class="eyebrow">Facilities</span>
+    <div class="center">
       <h2 class="stl">58 Urban Resort Facilities</h2>
       <p class="sdesc">Across the LG Floor, First Floor, Level 7 and Level 8. Zoom and drag the plan right here, or tap it for the full-screen view.</p>
     </div>
@@ -3715,7 +3183,7 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
       <div class="fac-map-wrap fi">
         <div class="fac-map-img" data-full="assets/siteplan-lg-first-full.webp" data-focus="0.638">
           <button type="button" class="fs-chip" aria-label="Open the site plan full screen"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>Full screen</button>
-          <img src="assets/siteplan-lg-first-full.webp" loading="lazy" decoding="async"
+          <img src="assets/siteplan-lg-first-full.webp"
                alt="Site plan of the LG Floor and First Floor facilities at M Aria"
                class="fac-base" width="2000" height="1199">
           <div class="fz-ctl">
@@ -3772,7 +3240,7 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
       <div class="fac-map-wrap fi">
         <div class="fac-map-img" data-full="assets/siteplan-level7-8-full.webp" data-focus="0.486">
           <button type="button" class="fs-chip" aria-label="Open the site plan full screen"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>Full screen</button>
-          <img src="assets/siteplan-level7-8-full.webp" loading="lazy" decoding="async"
+          <img src="assets/siteplan-level7-8-full.webp"
                alt="Site plan of the Level 7 and Level 8 facilities at M Aria"
                class="fac-base" width="2000" height="1291">
           <div class="fz-ctl">
@@ -3913,14 +3381,14 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
 </section>
 <section class="sec sec-alt" id="interiors">
   <div class="split flip rv">
-    <div class="split-img" role="img" aria-label="The podium pool overlooking the cantilever co-working space and gym, artist impression"></div><!-- R6 (16 Oct 2026): the render loads after the page (html.pp-more), it was an inline style fetched before load -->
+    <div class="split-img" style="background-image:url('assets/gallery-3.webp')" role="img" aria-label="The podium pool overlooking the cantilever co-working space and gym, artist impression"></div>
     <div class="split-body">
       <span class="eyebrow">Show unit</span>
       <h2>Walk it before <span class="em">you visit</span></h2>
       <p class="copy">Both layouts have a 360&deg; virtual tour, and the development has an interactive walkthrough. See the unit and the facilities deck from where you are, then book the gallery when you are ready.</p>
       <div class="unit-acts" style="margin-top:22px">
-        <a class="btn btn-o" href="https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1" target="_blank" rel="noopener" data-vr="A">360&deg; tour &middot; Type A</a>
-        <a class="btn btn-o" href="https://virtualtour.my/mah-sing/m-aria/show-unit-type-b1" target="_blank" rel="noopener" data-vr="B">360&deg; tour &middot; Type B</a>
+        <a class="btn btn-p" href="https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1" target="_blank" rel="noopener">360&deg; tour &middot; Type A</a>
+        <a class="btn btn-o" href="https://virtualtour.my/mah-sing/m-aria/show-unit-type-b1" target="_blank" rel="noopener">360&deg; tour &middot; Type B</a>
       </div>
       <div class="unit-acts unit-acts-wide" style="margin-top:10px">
         <a class="btn btn-o" href="https://jetk.link/mahsing/m_aria/d8_wop/index.html" target="_blank" rel="noopener">Interactive 3D walkthrough</a>
@@ -3934,26 +3402,11 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
      here beside the illustrated map, restyled for the light band. -->
 <section class="city-sec" id="loc">
   <div class="city-body">
-    <div class="sec-head rv">
-      <span class="eyebrow">The neighbourhood</span>
-      <h2>Living the City&rsquo;s Rhythm</h2>
-      <p class="city-sub">Sentul, five kilometres from the Kuala Lumpur city centre. The illustrated plan shows what sits around the development; pick a category for distances.</p>
-    </div>
+    <div class="eyebrow">The neighbourhood</div>
+    <h2>Living the City&rsquo;s Rhythm</h2>
+    <p class="city-sub">Sentul, five kilometres from the Kuala Lumpur city centre. The illustrated plan shows what sits around the development; pick a category for distances.</p>
     <h3 class="sr-only-h">Location Map</h3>
     <div class="loc-merge">
-      <!-- Round 2 (16 Oct 2026, A2): reading order Title, Tabs, Map, Details. The category tabs moved out of the panel
-           into their own row above the map (same ids, same tab JS); the panel below keeps the selected list and the map
-           buttons. On desktop the tabs span both columns, the map sits left and the details right as before. -->
-      <div class="nx loc-tabs fi">
-        <div class="loc-cats" id="locCats" role="tablist" aria-label="Nearby categories">
-            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="true" data-cat="access">Accessibility</button></h3>
-            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="transport">Transport</button></h3>
-            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="retail">Retail</button></h3>
-            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="health">Medical</button></h3>
-            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="schools">Education</button></h3>
-            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="leisure">Recreation</button></h3>
-        </div>
-      </div>
       <figure class="city-map">
         <img src="assets/location-map.webp" data-full="assets/location-map-full.webp"
              alt="Illustrated map of Sentul showing M Aria and the surrounding highways, transport, schools, malls and hospitals"
@@ -3961,10 +3414,17 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
         <figcaption>Tap the map to enlarge &middot; <a href="https://maps.app.goo.gl/tj8UoiiLU3215D9N9" target="_blank" rel="noopener">Open in Google Maps</a></figcaption>
       </figure>
       <div class="loc-panel fi">
-        <div class="nx">
+        <div class="nx"><div class="loc-cats" id="locCats" role="tablist" aria-label="Nearby categories">
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="true" data-cat="access">Accessibility</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="transport">Transport</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="retail">Retail</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="health">Medical</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="schools">Education</button></h3>
+            <h3 class="loc-h"><button class="loc-cat" role="tab" aria-selected="false" data-cat="leisure">Recreation</button></h3>
+          </div>
           <div class="loc-list" id="locList"></div></div>
         <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(26,39,68,.14);display:flex;gap:10px;flex-wrap:wrap">
-          <a href="https://maps.app.goo.gl/tj8UoiiLU3215D9N9" target="_blank" rel="noopener" class="btn btn-s" style="flex:1;min-width:120px;font-size:12px;padding:10px 16px">Google Maps &rarr;</a>
+          <a href="https://maps.app.goo.gl/tj8UoiiLU3215D9N9" target="_blank" rel="noopener" class="btn btn-p" style="flex:1;min-width:120px;font-size:12px;padding:10px 16px">Google Maps &rarr;</a>
           <a href="https://ul.waze.com/ul?place=ChIJFyMkWABJzDERyBZu6WjVKeY&amp;ll=3.18026360%2C101.68257520&amp;navigate=yes&amp;utm_campaign=default&amp;utm_source=waze_website&amp;utm_medium=lm_share_location" target="_blank" rel="noopener" class="btn btn-s" style="flex:1;min-width:120px;font-size:12px;padding:10px 16px">Waze &rarr;</a>
             <button class="btn-vr360" type="button" data-imod="https://jetk.link/mahsing/m_aria/d8_wop/index.html" data-imod-title="Interactive 3D walkthrough">View the site in 3D</button>
         </div>
@@ -4019,7 +3479,7 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
     <div class="dev2 rv">
       <span class="eyebrow">The developer</span>
       <h2 class="dev2-h">This project is built by :</h2>
-      <img class="dev2-logo" src="assets/footer-logo-ink.svg" alt="Mah Sing. Reinvent Spaces. Enhance Life." width="300" height="84" loading="lazy" decoding="async">
+      <img class="dev2-logo" src="assets/footer-logo.svg" alt="Mah Sing. Reinvent Spaces. Enhance Life." width="300" height="84" loading="lazy">
       <p class="copy dev2-sub">M Aria is developed by M Aria Sdn Bhd, a wholly-owned subsidiary of Mah Sing Group Berhad. Whether you are looking for an investment property or a home, Mah Sing offers solutions that reinvent the essence of what matters in life.</p>
     </div>
   </div>
@@ -4077,7 +3537,7 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
       <input type="hidden" name="00N2j000000e0hR" value="1">
           <div class="field"><label class="f-label" for="v-name">Full name</label>
             <input class="f-input" id="v-name" name="last_name" maxlength="80" type="text" placeholder="Your full name" required autocomplete="name"></div>
-          <div class="field"><label class="f-label" for="v-phone">WhatsApp number</label>
+          <div class="field"><label class="f-label" for="v-phone">Phone number</label>
             <input class="f-input" id="v-phone" name="mobile" maxlength="20" type="tel" placeholder="012-345 6789" required autocomplete="tel" inputmode="tel" data-my-phone></div>
           <div class="field"><label class="f-label" for="v-email">Email</label>
             <input class="f-input" id="v-email" name="email" maxlength="80" type="email" placeholder="you@example.com" required autocomplete="email"></div>
@@ -4159,7 +3619,6 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
     <div class="ld-unit" id="ldUnit"><span class="ld-unit-k">Enquiring about</span><span class="ld-unit-v" id="ldUnitVal"></span></div>
     <h2 id="leadDrawerTitle" class="lead-drawer-title">Register &amp; get your price list</h2>
     <p class="lead-drawer-sub">Fill in your details and we will WhatsApp you the layout, pricing and investment brief.</p>
-    <p class="ld-trust">Sold directly by Mah Sing Group, sales gallery open daily</p>
 
     <div class="qf-rlabel">You'll receive</div>
     <div class="receive">
@@ -4194,7 +3653,7 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
         <input class="f-input" id="ld_last_name" type="text" name="last_name" maxlength="80" placeholder="Your full name" autocomplete="name" required>
       </div>
       <div class="field">
-        <label class="f-label" for="ld_mobile">WhatsApp number</label>
+        <label class="f-label" for="ld_mobile">Phone number</label>
         <input class="f-input" id="ld_mobile" type="tel" name="mobile" maxlength="20" placeholder="012-345 6789" inputmode="tel" autocomplete="tel" data-my-phone required>
       </div>
       <div class="field">
@@ -4215,62 +3674,13 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
 <div class="sticky"><button type="button" class="stk stk-r" data-open-lead="sticky" data-cta-id="sticky_register">Get Price List Now</button></div>
 <button class="to-top" id="toTop" aria-label="Scroll to top" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24"><polyline points="6 15 12 9 18 15"/></svg></button>
 <script>
-(function(){var sticky=document.querySelector('.sticky'),toTop=document.getElementById('toTop'),formInView=false;
+(function(){var sticky=document.querySelector('.sticky'),toTop=document.getElementById('toTop'),formSec=document.getElementById('contact'),formInView=false;
+window.addEventListener('scroll',function(){var s=window.scrollY>400;toTop.classList.toggle('on',s);sticky.classList.toggle('on',s&&!formInView)},{passive:true});
 /* 2026-10-09: the bar steps aside while a form section is on screen: the quick form (now right under the hero), the
    visit form and the closing contact band, so a view never carries two identical asks (as on Aurora). It watched
-   only #contact before.
-   2026-10-16 (premium port, the Aurora R3 rule): the bar shows whenever the hero ask is NOT on screen, so short phones
-   get it from first paint, and it also steps aside while the unit-card or calculator ask is on screen. The desktop nav
-   ask follows the same signal: outline while the hero ask is visible, filled once it scrolls away. Was: scrollY > 400. */
-var heroAsk=document.querySelector('[data-open-lead="hero"]'),navAsk=document.querySelector('.nav-reg');
-var hasIO='IntersectionObserver' in window;
-var heroAskInView=(function(){if(!heroAsk)return false;var r=heroAsk.getBoundingClientRect();return r.top>=0&&r.bottom<=window.innerHeight;})();
-/* Round 5 (17 Oct 2026, Justin: "when there is CTA for price hide the sticky"): the bar steps aside whenever ANY in-page
-   price or registration ask is on screen, not only the hero's: every [data-open-lead], and every [data-cta-id] that asks
-   for the price or registration, outside the nav, the mobile menu, the bar itself, the lead drawer and the footer (on
-   this page: the hero ask, the unit card, the calculator, the plan lightbox ask, the 360 tour ask and the FAQ "register
-   for a visit" link). The 72 px strip the bar covers does not count, so an ask still under the bar keeps the bar until
-   it clears. An ask inside a closed overlay or a collapsed FAQ answer never counts: IntersectionObserver ignores opacity
-   and visibility, so each candidate is also checked with checkVisibility whenever the bar updates (scroll, observer,
-   and just after a tap or Escape, which is when an overlay opens or closes). The form-section rule is kept. The desktop
-   nav ask's quiet state still follows the hero ask alone. Replaces the hero-only rule and the 60% unit-card and
-   calculator rule; the bar's own names (sticky / sticky_register) are unchanged. */
-var asks=[],asksReady=false,askHit=[],askIOReady=false,fixedAsk=[];
-function shown(el){return el.checkVisibility?el.checkVisibility({opacityProperty:true,visibilityProperty:true}):!!(el.offsetWidth||el.offsetHeight);}
-function askOn(){var i;
-  if(!asksReady)return heroAskInView;   /* until the page has parsed (the overlays sit further down): the hero ask alone */
-  if(!hasIO||!askIOReady){var lim=window.innerHeight-72;
-    return asks.some(function(a){var r=a.getBoundingClientRect();return r.height>0&&r.bottom>0&&r.top<lim&&shown(a);});}
-  for(i=0;i<asks.length;i++){
-    if(fixedAsk[i]){if(shown(asks[i])){var r=asks[i].getBoundingClientRect();if(r.height>0&&r.bottom>0&&r.top<window.innerHeight)return true;}}
-    else if(askHit[i]&&shown(asks[i]))return true;}
-  return false;}
-function state(){var s=window.scrollY>400;
-  var heroOff=hasIO?!heroAskInView:s;
-  sticky.classList.toggle('on',!askOn()&&!formInView);
-  if(navAsk)navAsk.classList.toggle('quiet',!heroOff);
-  toTop.classList.toggle('on',s);}
-window.addEventListener('scroll',state,{passive:true});
-if(hasIO&&heroAsk){new IntersectionObserver(function(es){heroAskInView=es[0].isIntersecting;state();},{threshold:.6}).observe(heroAsk);}
-/* the asks are collected once the page has parsed: the plan lightbox and the 360 modal sit below this script */
-function setupAsks(){
-  asks=Array.prototype.filter.call(document.querySelectorAll('[data-open-lead],[data-cta-id]'),function(el){
-    if(el.closest('#siteNav,#rail,nav,header,#mobileMenu,.mobile-menu-overlay,.sticky,#leadDrawer,.lead-drawer,footer'))return false;
-    return el.hasAttribute('data-open-lead')||/price|register/i.test(el.getAttribute('data-cta-id')||'');});
-  /* an ask in a fixed overlay (the plan lightbox, the 360 modal) counts wherever it sits while the overlay shows: the
-     overlay paints over the bar, so the 72 px strip rule is for asks that scroll, not for these */
-  fixedAsk=asks.map(function(a){for(var n=a.parentElement;n&&n!==document.body;n=n.parentElement){if(getComputedStyle(n).position==='fixed')return true;}return false;});
-  asksReady=true;
-  if(hasIO&&asks.length){var aio=new IntersectionObserver(function(ents){ents.forEach(function(e){askHit[asks.indexOf(e.target)]=e.isIntersecting;});askIOReady=true;state();},{rootMargin:'0px 0px -72px 0px',threshold:0});
-    asks.forEach(function(a){aio.observe(a);});}
-  state();}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setupAsks);else setupAsks();
-function later(){setTimeout(state,80);setTimeout(state,520);}
-document.addEventListener('click',later,true);
-document.addEventListener('keyup',function(e){if(e.key==='Escape')later();});
-if(hasIO){var seen={},fio=new IntersectionObserver(function(ents){ents.forEach(function(e){seen[e.target.id]=e.isIntersecting});formInView=Object.keys(seen).some(function(k){return seen[k]});state();},{threshold:.15});
+   only #contact before. */
+if('IntersectionObserver' in window){var seen={},fio=new IntersectionObserver(function(ents){ents.forEach(function(e){seen[e.target.id]=e.isIntersecting});formInView=Object.keys(seen).some(function(k){return seen[k]});sticky.classList.toggle('on',window.scrollY>400&&!formInView)},{threshold:.15});
   ['quickRegister','visit','contact'].forEach(function(id){var el=document.getElementById(id);if(el)fio.observe(el)})}
-state();
 })();
 </script>
 
@@ -5118,9 +4528,6 @@ document.querySelectorAll('.fi').forEach(function(el){obs.observe(el)});
     document.querySelectorAll('a[href="#register"]').forEach(function (el) {
       el.addEventListener('click', openDrawer);
     });
-    // 16 Oct 2026 (premium port): the plan-zoom ask (#lbAsk) and the 360 tour ask (#vrCta) sit after this script in
-    // the DOM, so they are not auto-bound above; their own controllers close the viewer first and then call this.
-    window.z21OpenDrawer = openDrawer;
 
     closeBtn.addEventListener('click', closeDrawer);
     backdrop.addEventListener('click', closeDrawer);
@@ -5572,8 +4979,7 @@ window.mgmTrackLead = function (payload) {
           z21Track('virtual_tour_open', {
             tour_source: ts,
             unit_interest: unitFromHref(href) || (ts === 'unit_card' ? 'Type ' + curTab().t : ''),
-            /* 16 Oct 2026: a link tagged data-vr opens the in-page 360 modal (its controller is at the end of the page) */
-            tour_mode: a.hasAttribute('data-vr') ? 'modal' : (a.getAttribute('target') === '_blank' ? 'new_tab' : 'same_tab') });
+            tour_mode: a.getAttribute('target') === '_blank' ? 'new_tab' : 'same_tab' });
         }
       }
 
@@ -5586,17 +4992,9 @@ window.mgmTrackLead = function (payload) {
 
       /* gallery_open: floor plan, key plan, gallery frames and films, site plans, map */
       var lb = $('lb');
-      /* Round 2 (16 Oct 2026): the plan box carries a Floor plan | Key plan toggle. Switching to the key plan reports
-         gallery_open with gallery keyplan (the tracker runs before the page handler, so aria-pressed still reads the
-         old state and only a real switch counts); an enlarge reports keyplan or floorplan by the view showing. */
-      var ptg = t.closest('#planWrap .plan-tog-b[data-view="key"]');
-      if (ptg && ptg.getAttribute('aria-pressed') !== 'true') {
-        var kc = curTab();
-        z21Track('gallery_open', { gallery: 'keyplan', item_index: kc.i, item_label: 'Type ' + kc.t + ' key plan' });
-      }
-      if (t.closest('#planWrap') && !t.closest('.plan-tog, #uVt')) whenOpened(lb, 'on', function () {
-        var c = curTab(), im = $('planImg'), pw = $('planWrap');
-        z21Track('gallery_open', { gallery: (pw && pw.getAttribute('data-view') === 'key') ? 'keyplan' : 'floorplan', item_index: c.i, item_label: im ? String(im.alt).slice(0, 60) : '' });
+      if (t.closest('#planWrap')) whenOpened(lb, 'on', function () {
+        var c = curTab(), im = $('planImg');
+        z21Track('gallery_open', { gallery: 'floorplan', item_index: c.i, item_label: im ? String(im.alt).slice(0, 60) : '' });
       });
       var ks = t.closest('.ushot');
       if (ks) whenOpened(lb, 'on', function () {
@@ -5639,9 +5037,6 @@ window.mgmTrackLead = function (payload) {
       /* unit_select: the layout tabs and the calculator's price basis dropdown */
       var tab = t.closest('#tabs .tab');
       if (tab) z21Track('unit_select', { unit_interest: 'Type ' + tab.getAttribute('data-type'), select_source: 'tab' });
-      /* 16 Oct 2026: the hero bed chips select the matching layout (R3 of the premium port) */
-      var bed = t.closest('.h-bed');
-      if (bed) z21Track('unit_select', { unit_interest: 'Type ' + bed.getAttribute('data-bed-type'), select_source: 'hero_pill' });
       var opt = t.closest('#cpMenu2 .cp-opt2');
       if (opt) z21Track('unit_select', { unit_interest: 'Type ' + opt.getAttribute('data-type'), select_source: 'calc_dropdown' });
 
@@ -5662,9 +5057,7 @@ window.mgmTrackLead = function (payload) {
 </script>
 
 <div class="nx">
-<div class="lb" id="lb" data-section="lightbox"><div class="lb-box"><div class="lb-bar"><button class="lb-x" id="lbX" type="button" aria-label="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>Close</button></div><div class="lb-card"><img id="lbImg" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></div>
-<!-- R1 (16 Oct 2026): the price ask inside the enlarged plan, titled with the unit in view; a general ask on other images -->
-<button type="button" class="btn btn-p lb-ask" id="lbAsk" data-open-lead="floorplan_zoom" data-unit="Type A" data-cta-id="floorplan_zoom_get_price">Get the Type A price list</button></div></div>
+<div class="lb" id="lb"><div class="lb-box"><div class="lb-bar"><button class="lb-x" id="lbX" type="button" aria-label="Close"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>Close</button></div><div class="lb-card"><img id="lbImg" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="></div></div></div>
 </div>
 <script>
 (function(){
@@ -5675,11 +5068,9 @@ window.mgmTrackLead = function (payload) {
   /* Prices are the client-confirmed figures. The permit band is reproduced in the footer. */
   var UNITS={
     A:{layout:'3 Bed',bath:'2',size:800,price:483000,cfg:'Three bedrooms, for young families',
-       plan:'assets/plan-type-a.webp',full:'assets/plan-type-a-full.webp',vt:'https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1',
-       key:'assets/keyplan-type-a.webp',keyH:757},
+       plan:'assets/plan-type-a.webp',full:'assets/plan-type-a-full.webp',vt:'https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1'},
     B:{layout:'4 Bed',bath:'2',size:950,price:567000,cfg:'Four bedrooms, for growing families',
-       plan:'assets/plan-type-b.webp',full:'assets/plan-type-b-full.webp',vt:'https://virtualtour.my/mah-sing/m-aria/show-unit-type-b1',
-       key:'assets/keyplan-type-b.webp',keyH:747}
+       plan:'assets/plan-type-b.webp',full:'assets/plan-type-b-full.webp',vt:'https://virtualtour.my/mah-sing/m-aria/show-unit-type-b1'}
   };
   var ORDER=['A','B'], cur='A', RATE=0.036, WA='60392128454';
   var fmt=function(n){return Math.round(n).toLocaleString('en-MY');};
@@ -5705,16 +5096,27 @@ window.mgmTrackLead = function (payload) {
        Type B RM567,000), so the card shows the layout's own from-price instead
        of the permit band. The band itself stays verbatim in the APDL footer. */
     $('uPrice').innerHTML='RM'+fmt(u.price)+'<sup>*</sup>';
+    var img=$('planImg'); img.src=u.plan;
+    img.alt='Type '+cur+' floor plan, '+u.size+' sq ft '+u.layout;
     $('planWrap').setAttribute('data-full',u.full);
-    /* Round 2 (16 Oct 2026): the key plan is a view of the plan box (Floor plan | Key plan toggle), the selected
-       layout's own; switching unit always resets the box to the floor plan */
-    setPlanView('plan');
+    /* R8: one key plan, the selected layout's own */
+    var kb=$('uKey');
+    if(kb){
+      var kp='assets/keyplan-type-'+cur.toLowerCase()+'.webp';
+      kb.setAttribute('data-src',kp);
+      var ki=$('uKeyImg');
+      if(ki){
+        ki.src=kp;
+        ki.alt='Key plan showing where the Type '+cur+' unit sits on the floor';
+        /* the two key plans are 900x757 and 900x747; keeping the attributes in
+           step with the source means the box never has to guess its height */
+        ki.setAttribute('height',cur==='B'?'747':'757');
+      }
+      var kt=$('uKeyT'); if(kt)kt.textContent=cur;
+    }
     var cta=$('uCta'); cta.setAttribute('data-unit','Type '+cur);
     cta.textContent='Get Price List Now';
         var vt=$('uVt'); vt.href=u.vt||'https://jetk.link/mahsing/m_aria/d8_wop/index.html';
-    /* 16 Oct 2026 (premium port): the tour link names its unit for the 360 modal; the calculator ask follows the unit */
-    vt.setAttribute('data-vr',cur);
-    var cc=$('cCta'); if(cc){cc.setAttribute('data-unit','Type '+cur);cc.textContent='Send me the Type '+cur+' price list';}
     Array.prototype.forEach.call(document.querySelectorAll('#tabs .tab'),function(t){
       t.setAttribute('aria-selected',String(t.getAttribute('data-type')===cur));});
     Array.prototype.forEach.call(document.querySelectorAll('#cpMenu2 .cp-opt2'),function(o){
@@ -5731,24 +5133,6 @@ window.mgmTrackLead = function (payload) {
     $('cMy').textContent='RM '+fmt(m);
     $('uSgd').textContent='RM '+fmt(m)+' /mo';
   }
-  /* Round 2 (16 Oct 2026, Aria B): the plan box shows the floor plan or the key plan. The two key plans are
-     900x757 (A) and 900x747 (B); the width and height attributes follow the source so the frame never guesses. */
-  function setPlanView(view){
-    var u=UNITS[cur], img=$('planImg'), wrap=$('planWrap'), key=view==='key';
-    wrap.setAttribute('data-view',key?'key':'plan');
-    img.src=key?u.key:u.plan;
-    img.alt=key?('Key plan showing where the Type '+cur+' unit sits on the floor'):('Type '+cur+' floor plan, '+u.size+' sq ft '+u.layout);
-    img.setAttribute('width',key?'900':'1002'); img.setAttribute('height',key?String(u.keyH):'1143');
-    Array.prototype.forEach.call(wrap.querySelectorAll('.plan-tog-b'),function(b){
-      b.setAttribute('aria-pressed',String(b.getAttribute('data-view')===(key?'key':'plan')));});
-  }
-  Array.prototype.forEach.call(document.querySelectorAll('#planWrap .plan-tog-b'),function(b){
-    b.addEventListener('click',function(e){
-      e.stopPropagation();
-      if(b.getAttribute('aria-pressed')==='true')return;
-      setPlanView(b.getAttribute('data-view'));
-    });
-  });
   window.setType=function(t){ if(UNITS[t]){cur=t;render();} };
   Array.prototype.forEach.call(document.querySelectorAll('#tabs .tab'),function(tab){
     tab.addEventListener('click',function(){window.setType(tab.getAttribute('data-type'));});});
@@ -5774,23 +5158,11 @@ window.mgmTrackLead = function (payload) {
   })();
 
   /* lightbox */
-  /* R1 (16 Oct 2026): every enlargement carries the ask. On a floor plan or key plan it names the type; elsewhere it
-     is the general price-list ask. Source is floorplan_zoom / zoom on lead_drawer_open. */
-  function lbAskFor(t){var a=$('lbAsk');if(!a)return;
-    if(t){a.textContent='Get the Type '+t+' price list';a.setAttribute('data-unit','Type '+t);a.setAttribute('data-open-lead','floorplan_zoom');a.setAttribute('data-cta-id','floorplan_zoom_get_price');}
-    else{a.textContent='Get Price List Now';a.removeAttribute('data-unit');a.setAttribute('data-open-lead','zoom');a.setAttribute('data-cta-id','zoom_get_price');}}
-  $('planWrap').addEventListener('click',function(e){
-    /* Round 2 (16 Oct 2026): the toggle and the 360 pill live inside the box and are not an enlarge; the key plan has
-       no full-size file, so the enlarge opens the key plan itself */
-    if(e.target&&e.target.closest&&e.target.closest('.plan-tog, #uVt'))return;
-    var keyView=this.getAttribute('data-view')==='key';
-    $('lbImg').src=keyView?$('planImg').src:(this.getAttribute('data-full')||$('planImg').src);
-    $('lbImg').alt=$('planImg').alt; lbAskFor(cur); $('lb').classList.add('on'); document.body.style.overflow='hidden';});
+  $('planWrap').addEventListener('click',function(){
+    $('lbImg').src=this.getAttribute('data-full')||$('planImg').src;
+    $('lbImg').alt=$('planImg').alt; $('lb').classList.add('on'); document.body.style.overflow='hidden';});
   function closeLb(){$('lb').classList.remove('on');document.body.style.overflow='';}
   $('lbX').addEventListener('click',closeLb);
-  var lbAsk=$('lbAsk');
-  if(lbAsk)lbAsk.addEventListener('click',function(){closeLb();
-    if(typeof window.z21OpenDrawer==='function')window.z21OpenDrawer({preventDefault:function(){},currentTarget:lbAsk});});
   $('lb').addEventListener('click',function(e){
     if(e.target===this||e.target.classList.contains('lb-box')||e.target.classList.contains('lb-bar'))closeLb();});
 
@@ -6098,7 +5470,7 @@ window.mgmTrackLead = function (payload) {
 
   /* item 2: the facilities plan and every gallery frame open in the lightbox */
   function openLb(src,alt){
-    $('lbImg').src=src; $('lbImg').alt=alt||''; lbAskFor(null); $('lb').classList.add('on'); document.body.style.overflow='hidden';
+    $('lbImg').src=src; $('lbImg').alt=alt||''; $('lb').classList.add('on'); document.body.style.overflow='hidden';
   }
   var fp=$('facPlan');
   if(fp)fp.addEventListener('click',function(){openLb(fp.getAttribute('data-full'),'Facilities plan');});
@@ -6106,33 +5478,8 @@ window.mgmTrackLead = function (payload) {
     f.addEventListener('click',function(){var i=f.querySelector('img');openLb(i.src,i.alt);});
   });
   Array.prototype.forEach.call(document.querySelectorAll('.ushot'),function(bt){
-    bt.addEventListener('click',function(){var im=bt.querySelector('img');openLb(bt.getAttribute('data-src')||im.src,im.alt);lbAskFor(cur);});
+    bt.addEventListener('click',function(){var im=bt.querySelector('img');openLb(bt.getAttribute('data-src')||im.src,im.alt);});
   });
-
-  /* ============ PREMIUM PORT (16 Oct 2026) ============ */
-  /* R3: hero bed chips open the matching layout tab and scroll to it (unit_select with select_source hero_pill is
-     sent by the click tracker below) */
-  Array.prototype.forEach.call(document.querySelectorAll('.h-bed'),function(b){
-    b.addEventListener('click',function(){
-      var tabs=$('tabs'),navEl=document.getElementById('siteNav');
-      window.setType(b.getAttribute('data-bed-type'));
-      if(tabs){var y=tabs.getBoundingClientRect().top+window.scrollY-(navEl?navEl.offsetHeight:0)-64;
-        window.scrollTo({top:Math.max(0,y),behavior:'smooth'});}
-    });
-  });
-  /* the gallery drags with a mouse on desktop; a drag never opens the lightbox */
-  (function(){var g=$('gal');if(!g||!window.matchMedia('(pointer:fine)').matches)return;
-    var down=false,x0=0,s0=0,moved=0;
-    g.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;down=true;moved=0;x0=e.clientX;s0=g.scrollLeft;g.classList.add('dragging');});
-    window.addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-x0;moved=Math.max(moved,Math.abs(dx));g.scrollLeft=s0-dx;});
-    window.addEventListener('pointerup',function(){if(!down)return;down=false;g.classList.remove('dragging');});
-    g.addEventListener('click',function(e){if(moved>6){e.stopPropagation();e.preventDefault();moved=0;}},true);
-  })();
-  /* staggered reveals: children of [data-stagger] come in one after another */
-  Array.prototype.forEach.call(document.querySelectorAll('[data-stagger]'),function(g){
-    Array.prototype.forEach.call(g.children,function(c,i){c.style.setProperty('--i',Math.min(i,11));});});
-  /* the below-fold artwork (story skyline, the render behind the quick form) loads once the page has loaded */
-  window.addEventListener('load',function(){setTimeout(function(){document.documentElement.classList.add('pp-more');},300);});
 
   /* item 3: interiors carousel, auto-advancing, pauses on hover and when off-screen */
   (function(){
@@ -6214,11 +5561,8 @@ window.mgmTrackLead = function (payload) {
   Array.prototype.forEach.call(document.querySelectorAll('.rv'),function(el){io.observe(el);});
   /* capture-safe sweep: IO never fires below the fold in headless full-page
      captures, and a no-scroll visit should still see content. Force-reveal
-     whatever IO has not reached shortly after load.
-     16 Oct 2026 (premium port, as on Aurora R4): the sweep now runs only for automated browsers and ?clean=1
-     captures; real visitors get the reveals as they scroll. Was: every reveal fired 0.9 s after load, so the page
-     felt static. */
-  if(navigator.webdriver||/[?&]clean=1/.test(location.search))window.addEventListener('load',function(){
+     whatever IO has not reached shortly after load. */
+  window.addEventListener('load',function(){
     setTimeout(function(){
       Array.prototype.forEach.call(document.querySelectorAll('.rv:not(.in)'),function(el){el.classList.add('in');});
       Array.prototype.forEach.call(document.querySelectorAll('.fi:not(.v)'),function(el){el.classList.add('v');});
@@ -6254,92 +5598,6 @@ window.mgmTrackLead = function (payload) {
     <button class="imod-x" type="button" aria-label="Close">&times;</button></div>
   <iframe id="imodF" title="Embedded viewer" allow="fullscreen; gyroscope; accelerometer" src="about:blank"></iframe>
 </div>
-
-<!-- 360 VR tour modal (16 Oct 2026, premium port, the Aurora #vrLb). The two show-unit tours are the same Act Studio
-     builds that virtualtour.my wraps, one wrapper removed: the CDN sends no X-Frame-Options and no CSP frame-ancestors
-     (verified 16 Oct 2026, HTTP 200), so they frame from any origin. The existing virtualtour.my links keep their
-     href and target, so with JavaScript off they still open in a new tab. -->
-<div class="vr" id="vrLb" role="dialog" aria-modal="true" aria-hidden="true" aria-label="360 degree virtual tour" data-section="virtual_tour">
-  <div class="vr-bar">
-    <span class="vr-ttl">360&deg; Virtual Tour</span>
-    <div class="vr-tabs" id="vrTabs" role="tablist" aria-label="Choose a unit type"></div>
-    <button class="vr-x" id="vrX" type="button" aria-label="Close virtual tour">&#10005;</button>
-  </div>
-  <div class="vr-stage" id="vrStage">
-    <div class="vr-load" id="vrLoad">Loading the tour&hellip;</div>
-    <iframe id="vrFrame" title="360 degree virtual tour" allowfullscreen
-      allow="fullscreen; accelerometer; gyroscope; magnetometer; xr-spatial-tracking"
-      referrerpolicy="no-referrer-when-downgrade"></iframe>
-  </div>
-  <div class="vr-foot">
-    <span class="vr-note" id="vrNote"></span>
-    <button class="vr-cta" id="vrCta" type="button" data-cta-id="tour_get_price">Get this layout &amp; price</button>
-  </div>
-</div>
-<script>
-/* 360 tour modal controller (16 Oct 2026, premium port). Opens the tour for a type in the modal; the price ask closes
-   the modal and opens the lead drawer titled with that unit, through the drawer's own opener. The click tracker above
-   sends virtual_tour_open for the link click (tour_mode modal) and cta_click for the ask; only a type switch inside
-   the open modal is reported from here (tour_source modal_tab), as on M Aurora. */
-(function(){
-  'use strict';
-  var $=function(id){return document.getElementById(id);};
-  var VRCDN='https://virtualtour.sgp1.digitaloceanspaces.com/';
-  var VRTOURS={
-    A:{label:'Type A',url:VRCDN+'mah-sing-m-aria-type-a1-vr360-virtual-tour/index.htm'},
-    B:{label:'Type B',url:VRCDN+'mah-sing-m-aria-type-b1-vr360-virtual-tour/index.htm'}
-  };
-  var VRORDER=['A','B'];
-  var vrEl=$('vrLb'),vrFrame=$('vrFrame'),vrStage=$('vrStage'),vrTabs=$('vrTabs'),vrCur=null;
-  if(!vrEl||!vrFrame||!vrStage||!vrTabs)return;
-  vrTabs.innerHTML=VRORDER.map(function(k){
-    return '<button class="vr-tab" type="button" role="tab" aria-selected="false" data-vr="'+k+'">'+VRTOURS[k].label+'</button>';}).join('');
-  function vrMark(){Array.prototype.forEach.call(vrTabs.querySelectorAll('.vr-tab'),function(t){
-    t.setAttribute('aria-selected',String(t.getAttribute('data-vr')===vrCur));});}
-  function curTab(){var t=document.querySelector('#tabs .tab[aria-selected="true"]');return t?t.getAttribute('data-type'):'A';}
-  function openVr(type,fromTab){
-    var t=VRTOURS[type];if(!t)return;
-    if(fromTab&&typeof window.z21Track==='function')window.z21Track('virtual_tour_open',{tour_source:'modal_tab',unit_interest:'Type '+type,tour_mode:'modal'});
-    vrCur=type;vrMark();vrStage.classList.remove('ready');
-    $('vrNote').textContent=t.label+' show unit, drag to look around';
-    var cta=$('vrCta');cta.setAttribute('data-unit',t.label);cta.textContent='Get the '+t.label+' price list';
-    if(vrFrame.getAttribute('src')!==t.url)vrFrame.src=t.url;
-    vrEl.classList.add('on');vrEl.setAttribute('aria-hidden','false');
-    document.body.style.overflow='hidden';
-    try{$('vrX').focus();}catch(e){}
-  }
-  function closeVr(){
-    vrEl.classList.remove('on');vrEl.setAttribute('aria-hidden','true');
-    document.body.style.overflow='';
-    vrFrame.src='about:blank';   /* stop the tour rendering and free the memory */
-    vrStage.classList.remove('ready');vrCur=null;
-  }
-  vrFrame.addEventListener('load',function(){if(vrFrame.src.indexOf('about:blank')===-1)vrStage.classList.add('ready');});
-  $('vrX').addEventListener('click',closeVr);
-  vrTabs.addEventListener('click',function(e){
-    var b=e.target.closest?e.target.closest('.vr-tab'):null;
-    if(b&&b.getAttribute('data-vr')!==vrCur)openVr(b.getAttribute('data-vr'),true);});
-  $('vrCta').addEventListener('click',function(){
-    var u=vrCur||curTab(),btn=$('vrCta');
-    /* the drawer opener reads data-open-lead / data-unit off e.currentTarget; the attribute is set here, not in the
-       markup, so the lead source names the tour that was open */
-    btn.setAttribute('data-open-lead','vr_tour_'+u);btn.setAttribute('data-unit','Type '+u);
-    closeVr();
-    if(typeof window.z21OpenDrawer==='function')window.z21OpenDrawer({preventDefault:function(){},currentTarget:btn});
-  });
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&vrEl.classList.contains('on'))closeVr();});
-  /* Intercept the existing tour links so nothing leaves the site: data-vr on the anchor names the type, the
-     unit card's link follows the selected tab. An unknown tour keeps its new tab. */
-  Array.prototype.forEach.call(document.querySelectorAll('a[href*="virtualtour.my"]'),function(a){
-    a.addEventListener('click',function(e){
-      var key=a.getAttribute('data-vr');
-      if(!key){var m=/type-([ab])\d*/i.exec(a.getAttribute('href')||'');key=m?m[1].toUpperCase():(a.id==='uVt'?curTab():null);}
-      if(!key||!VRTOURS[key])return;
-      e.preventDefault();openVr(key,false);
-    });
-  });
-})();
-</script>
 
 <script>
 (function(){
