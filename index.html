@@ -3245,6 +3245,47 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
 .hero .h-place svg{flex:none;width:18px;height:18px}
 @media(min-width:1024px){.hero .h-place{font-size:16.5px;margin-bottom:16px}}
 @media(max-width:1023px) and (max-height:700px){.hero .h-place{margin-bottom:10px}}
+/* Round 5 (17 Oct 2026, Justin): the hero ask at the foot of the first screen on phones (767 px and under), as on
+   M Grand Minori. The lockup, place line, h1, price, fact line and bed chips sit at the top under the nav; the hero's
+   own ask (full width) and the trust line under it sit at the foot of the hero, the bottom of the first screen; the
+   photo shows between them. .hero-inner is a flex column that fills the hero and .hero-ctas takes margin-top:auto,
+   so on a short screen the stack simply closes up. Readability: a night band rises behind the copy from just under
+   the chips (hung on .h-beds, so it ends where the copy ends at every width and height; the chips keep their own
+   glass where the band fades); the base scrim stays light through the middle and deepens behind the trust line.
+   Lockup: the nav already carries the same M Aria mark, 56 px tall, at the top left, and the hero video carries a
+   third one in its frame; on phones the hero's own mark stands down and the nav mark is the lockup (with the mark in,
+   a 390x844 screen showed three M Aria marks and the chips landed on the video's baked-in ARIA lettering). Tablet
+   and desktop unchanged. */
+@media(max-width:767px){
+  .hero .hero-body{padding:104px var(--pad) 44px}
+  .hero .hero-inner,.hero .hero-inner.hero-inner{display:flex;flex-direction:column;align-items:stretch;flex:1 1 auto;width:100%}
+  .hero .hero-inner .h-logo{display:none}
+  .hero .hero-ctas,.hero .hero-inner .hero-ctas{display:flex;margin-top:auto!important;width:100%;max-width:none}
+  .hero .hero-ctas .btn{flex:1 1 100%;width:100%}
+  .hero .h-beds{position:relative;margin-bottom:16px}
+  .hero .h-beds::before{content:'';position:absolute;z-index:-1;left:-100vw;right:-100vw;bottom:-40px;height:200vh;pointer-events:none;
+    background:linear-gradient(0deg,rgba(17,27,48,0) 0,rgba(17,27,48,.1) 20px,rgba(17,27,48,.28) 40px,rgba(17,27,48,.48) 62px,rgba(17,27,48,.76) 96px,rgba(17,27,48,.78) 100%)}
+  .hero .h-trust{margin-top:10px;text-wrap:pretty}
+  .hero-media::after{background:linear-gradient(180deg,rgba(17,27,48,.12) 0%,rgba(17,27,48,.06) 50%,rgba(17,27,48,.1) calc(100% - 175px),rgba(17,27,48,.72) calc(100% - 96px),rgba(17,27,48,.9) calc(100% - 48px),var(--night0) 100%)!important}
+}
+@media(max-width:767px) and (max-height:700px){
+  .hero .hero-body{padding:92px var(--pad) 28px}
+}
+/* the shortest phones (600 px tall or less): the stack tightens a step so the ask and the trust line keep their place
+   inside the first screen with photo still showing between (iPhone SE 375x553 measured) */
+@media(max-width:767px) and (max-height:600px){
+  .hero .hero-body{padding:90px var(--pad) 18px}
+  .hero .h-place{margin-bottom:8px}
+  .hero h1{margin-bottom:6px}
+  .hero .h-price{margin-bottom:6px}
+  .hero .h-fact{margin-bottom:8px}
+  .hero .h-beds{margin-bottom:12px}
+  .hero .h-trust{margin-top:8px}
+}
+/* Round 5 (17 Oct 2026): a collapsed FAQ answer is hidden for real (it was only clipped to 0 height), so its "register
+   for a visit" link never counts as an ask on screen for the bottom bar, and keyboard focus no longer lands on a link
+   nobody can see. Opening an answer (.on) shows it as before. */
+.faq-item:not(.on):not(.open) .faq-a{visibility:hidden}
 </style>
 </head>
 <body>
@@ -4184,17 +4225,49 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
 var heroAsk=document.querySelector('[data-open-lead="hero"]'),navAsk=document.querySelector('.nav-reg');
 var hasIO='IntersectionObserver' in window;
 var heroAskInView=(function(){if(!heroAsk)return false;var r=heroAsk.getBoundingClientRect();return r.top>=0&&r.bottom<=window.innerHeight;})();
-var secAskInView={};
+/* Round 5 (17 Oct 2026, Justin: "when there is CTA for price hide the sticky"): the bar steps aside whenever ANY in-page
+   price or registration ask is on screen, not only the hero's: every [data-open-lead], and every [data-cta-id] that asks
+   for the price or registration, outside the nav, the mobile menu, the bar itself, the lead drawer and the footer (on
+   this page: the hero ask, the unit card, the calculator, the plan lightbox ask, the 360 tour ask and the FAQ "register
+   for a visit" link). The 72 px strip the bar covers does not count, so an ask still under the bar keeps the bar until
+   it clears. An ask inside a closed overlay or a collapsed FAQ answer never counts: IntersectionObserver ignores opacity
+   and visibility, so each candidate is also checked with checkVisibility whenever the bar updates (scroll, observer,
+   and just after a tap or Escape, which is when an overlay opens or closes). The form-section rule is kept. The desktop
+   nav ask's quiet state still follows the hero ask alone. Replaces the hero-only rule and the 60% unit-card and
+   calculator rule; the bar's own names (sticky / sticky_register) are unchanged. */
+var asks=[],asksReady=false,askHit=[],askIOReady=false,fixedAsk=[];
+function shown(el){return el.checkVisibility?el.checkVisibility({opacityProperty:true,visibilityProperty:true}):!!(el.offsetWidth||el.offsetHeight);}
+function askOn(){var i;
+  if(!asksReady)return heroAskInView;   /* until the page has parsed (the overlays sit further down): the hero ask alone */
+  if(!hasIO||!askIOReady){var lim=window.innerHeight-72;
+    return asks.some(function(a){var r=a.getBoundingClientRect();return r.height>0&&r.bottom>0&&r.top<lim&&shown(a);});}
+  for(i=0;i<asks.length;i++){
+    if(fixedAsk[i]){if(shown(asks[i])){var r=asks[i].getBoundingClientRect();if(r.height>0&&r.bottom>0&&r.top<window.innerHeight)return true;}}
+    else if(askHit[i]&&shown(asks[i]))return true;}
+  return false;}
 function state(){var s=window.scrollY>400;
-  var askOff=hasIO?!heroAskInView:s;
-  var secOn=!!(secAskInView.uCta||secAskInView.cCta);
-  sticky.classList.toggle('on',askOff&&!formInView&&!secOn);
-  if(navAsk)navAsk.classList.toggle('quiet',!askOff);
+  var heroOff=hasIO?!heroAskInView:s;
+  sticky.classList.toggle('on',!askOn()&&!formInView);
+  if(navAsk)navAsk.classList.toggle('quiet',!heroOff);
   toTop.classList.toggle('on',s);}
 window.addEventListener('scroll',state,{passive:true});
 if(hasIO&&heroAsk){new IntersectionObserver(function(es){heroAskInView=es[0].isIntersecting;state();},{threshold:.6}).observe(heroAsk);}
-if(hasIO){var sio=new IntersectionObserver(function(es){es.forEach(function(e){secAskInView[e.target.id]=e.isIntersecting;});state();},{threshold:.6});
-  ['uCta','cCta'].forEach(function(id){var el=document.getElementById(id);if(el)sio.observe(el);});}
+/* the asks are collected once the page has parsed: the plan lightbox and the 360 modal sit below this script */
+function setupAsks(){
+  asks=Array.prototype.filter.call(document.querySelectorAll('[data-open-lead],[data-cta-id]'),function(el){
+    if(el.closest('#siteNav,#rail,nav,header,#mobileMenu,.mobile-menu-overlay,.sticky,#leadDrawer,.lead-drawer,footer'))return false;
+    return el.hasAttribute('data-open-lead')||/price|register/i.test(el.getAttribute('data-cta-id')||'');});
+  /* an ask in a fixed overlay (the plan lightbox, the 360 modal) counts wherever it sits while the overlay shows: the
+     overlay paints over the bar, so the 72 px strip rule is for asks that scroll, not for these */
+  fixedAsk=asks.map(function(a){for(var n=a.parentElement;n&&n!==document.body;n=n.parentElement){if(getComputedStyle(n).position==='fixed')return true;}return false;});
+  asksReady=true;
+  if(hasIO&&asks.length){var aio=new IntersectionObserver(function(ents){ents.forEach(function(e){askHit[asks.indexOf(e.target)]=e.isIntersecting;});askIOReady=true;state();},{rootMargin:'0px 0px -72px 0px',threshold:0});
+    asks.forEach(function(a){aio.observe(a);});}
+  state();}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setupAsks);else setupAsks();
+function later(){setTimeout(state,80);setTimeout(state,520);}
+document.addEventListener('click',later,true);
+document.addEventListener('keyup',function(e){if(e.key==='Escape')later();});
 if(hasIO){var seen={},fio=new IntersectionObserver(function(ents){ents.forEach(function(e){seen[e.target.id]=e.isIntersecting});formInView=Object.keys(seen).some(function(k){return seen[k]});state();},{threshold:.15});
   ['quickRegister','visit','contact'].forEach(function(id){var el=document.getElementById(id);if(el)fio.observe(el)})}
 state();
