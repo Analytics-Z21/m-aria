@@ -3286,6 +3286,35 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
    for a visit" link never counts as an ask on screen for the bottom bar, and keyboard focus no longer lands on a link
    nobody can see. Opening an answer (.on) shows it as before. */
 .faq-item:not(.on):not(.open) .faq-a{visibility:hidden}
+/* Round 6 (18 Oct 2026, Justin, from an iPhone 16 Pro Max: "the hero banner got squeezed to very short", "the view
+   port has to fix on all projects"). Phones (767 px and under): the hero is no longer held to one screen. The copy,
+   the ask and the trust line keep their round-5 look and order at the top (the ask now follows the chips); the
+   hero video's frame is drawn at full width from the hero's foot (the phone cut is 400x592, so 148vw tall) and the
+   last 108vw of the hero is its subject band: the KL skyline and the park with the video's own M Aria mark, whole,
+   with nothing over them, running on past the first screen. The copy ends 24 px above the band, so the frame's sky
+   (its top 27%) sits behind the ask and the trust line under the round-5 night (.78, moved from the chips onto the
+   scrim), which fades out in those 24 px. Above the frame the hero is the same night, blended into the frame's top
+   over 100 px. The poster (the tower render, 900x918, so 102vw at full width) sits with its sky top meeting the trust
+   line's fade and the tower whole in the band (74% places it there from 360 to 440 px; the video frames fill the box,
+   so the position does not move them); the fallback background under the slides holds the same crop. Each still is
+   set so its own headline and building sit inside the band. Tablet and desktop unchanged. */
+@media(max-width:767px){
+  .hero{--fr:148vw;--band:108vw;--gap:24px}
+  .hero .hero-media{min-height:0!important;max-height:none!important;
+    background:url('assets/hero-bg-mobile.webp') left 0 bottom 12vw/100% auto no-repeat,var(--night0)!important}
+  .hero .hero-body{justify-content:flex-start;padding-bottom:calc(var(--band) + var(--gap))!important}
+  .hero .hero-inner,.hero .hero-inner.hero-inner{flex:0 0 auto}
+  .hero .hero-ctas,.hero .hero-inner .hero-ctas{margin-top:4px!important}
+  .hero .h-beds::before{content:none}
+  .hero .hero-slides{top:auto;height:var(--fr)}
+  .hero .hslide{object-fit:contain;object-position:50% 74%}
+  .hero .hs-img{background-size:100% auto;background-repeat:no-repeat;background-position:50% 100%}
+  .hero .hs-img[data-mobile-src*="banner-2"]{background-position:50% 4vw}
+  .hero .hs-img[data-mobile-src*="banner-3"]{background-position:50% 22vw}
+  .hero .hero-media::after{background:
+    linear-gradient(180deg,rgb(17,27,48) 0,rgb(17,27,48) calc(100% - var(--fr)),rgba(17,27,48,0) calc(100% - var(--fr) + 100px)),
+    linear-gradient(180deg,rgba(17,27,48,.78) 0,rgba(17,27,48,.78) calc(100% - var(--band) - var(--gap)),rgba(17,27,48,0) calc(100% - var(--band)),rgba(17,27,48,0) calc(100% - 90px),rgba(20,31,56,.6) 100%)!important}
+}
 </style>
 </head>
 <body>
