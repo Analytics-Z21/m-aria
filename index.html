@@ -3315,6 +3315,73 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
     linear-gradient(180deg,rgb(17,27,48) 0,rgb(17,27,48) calc(100% - var(--fr)),rgba(17,27,48,0) calc(100% - var(--fr) + 100px)),
     linear-gradient(180deg,rgba(17,27,48,.78) 0,rgba(17,27,48,.78) calc(100% - var(--band) - var(--gap)),rgba(17,27,48,0) calc(100% - var(--band)),rgba(17,27,48,0) calc(100% - 90px),rgba(20,31,56,.6) 100%)!important}
 }
+/* Round 7 (19 Oct 2026, Justin: "I still prefer https://hero-clean.m-aurora-6we.pages.dev/ ... apply to the rest 4
+   projects for preview"). The clean phone hero of M Aurora hero-clean d227c97, in M Aria's navy. Phones (767 px and
+   under) only; tablet and desktop unchanged.
+   1. The copy block, centred, on a clean ground with no picture behind it: the hero's own M Aria lockup (back on phones,
+      the lead of the hero), the place line, the h1, the price line, the fact line, the bed chips, the ask full width and
+      the trust line. The ground runs from the site night (--night0) through --navy2 to #315EA0, the top sky of the
+      tower render that is the hero video's poster, exactly where the picture band starts, so there is no seam.
+   2. The picture band below the copy is the hero video's own phone frame, whole (400x592, so 148vw at full width):
+      every slide of the brand film, its end card and the piano film read in it. The poster and the two stills cover the
+      band (the render keeps its tower and its M Aria sign); the background under the slides holds the poster's crop.
+      Nothing sits over the band except a 64 px fade at its top into the ground and a short fade at its foot behind the
+      progress line. The video's own M Aria mark therefore sits below the trust line.
+   3. Lockup: the file (700x902) is cropped to its ink, so the ARIA lettering sits 0.2% of its width off the file's
+      centre (under 0.2 px at display size, measured in the page); no nudge. 112 px tall (87 px wide, about the ink
+      height of Aurora's 96 px mark with its sparkle) on phones over 700 px tall, 93 px at 700 or less, 65 px at 600 or
+      less, as Aurora steps 96 / 80 / 56.
+   4. Trust line: one line, sized to the screen less 16 px a side, where that keeps it at 11 px or more (346 px wide and
+      up); two balanced centred lines below that. The fact line likewise stays on one line down to 13.5 px (356 px wide
+      and up), so "950 sq ft" never splits from its number.
+   5. Ask and trust line inside the first screen at 440x760, 390x844, 393x659, 360x740 and 375x553, with the band's top
+      showing under them; the bottom-bar rule is unchanged. */
+@media(max-width:767px){
+  .hero{--band:148vw;--gap:10px}
+  .hero .hero-media{min-height:0!important;max-height:none!important;
+    background:url('assets/hero-bg-mobile.webp') 35% 100%/auto var(--band) no-repeat,
+      linear-gradient(180deg,var(--night0) 0,var(--navy2) calc(100% - var(--band) - 220px),#315EA0 calc(100% - var(--band) - 4px))!important}
+  .hero .hero-body{justify-content:flex-start!important;padding:104px var(--pad) calc(var(--band) + var(--gap))!important}
+  .hero .hero-inner,.hero .hero-inner.hero-inner{flex:0 0 auto;align-items:center;text-align:center}
+  .hero .hero-inner .h-logo{display:flex;align-items:center;margin:0 0 24px}
+  .hero .hero-inner .h-logo img{height:112px;width:auto;margin:0}
+  .hero .h-place{justify-content:center;margin-bottom:10px}
+  .hero h1{text-align:center;margin-bottom:6px}
+  .hero .h-price{text-align:center;margin-bottom:8px}
+  .hero .h-fact{text-align:center;white-space:nowrap;text-wrap:nowrap;margin:0 0 16px;font-size:min(15px,calc((100vw - 2 * var(--pad)) / 24.3))}
+  .hero .h-beds{justify-content:center;margin:0 0 16px}
+  .hero .hero-ctas,.hero .hero-inner .hero-ctas{margin-top:0!important;align-self:stretch}
+  .hero .h-trust{text-align:center;text-wrap:nowrap;white-space:nowrap;margin:10px calc(16px - var(--pad)) 0;
+    font-size:min(12.5px,calc((100vw - 32px) / 28.6))}
+  .hero .hero-slides{top:auto;height:var(--band)}
+  .hero .hslide{object-fit:cover;object-position:35% 0}
+  .hero .hs-img{background-size:cover;background-position:50% 0}
+  .hero .hs-img[data-mobile-src*="banner-2"]{background-position:50% 0}
+  .hero .hs-img[data-mobile-src*="banner-3"]{background-position:50% 50%}
+  .hero .hero-media::after{background:
+    linear-gradient(180deg,rgba(49,94,160,0) 0,rgba(49,94,160,0) calc(100% - var(--band) - 5px),#315EA0 calc(100% - var(--band) - 4px),#315EA0 calc(100% - var(--band) + 2px),rgba(49,94,160,0) calc(100% - var(--band) + 64px)),
+    linear-gradient(180deg,rgba(20,31,56,0) calc(100% - 72px),rgba(20,31,56,.6) 100%)!important}
+}
+@media(max-width:767px) and (max-height:700px){
+  .hero .hero-body{padding-top:92px!important}
+  .hero .hero-inner .h-logo{margin-bottom:18px}
+  .hero .hero-inner .h-logo img{height:93px}
+}
+@media(max-width:767px) and (max-height:600px){
+  .hero .hero-body{padding-top:80px!important}
+  .hero .hero-inner .h-logo{margin-bottom:10px}
+  .hero .hero-inner .h-logo img{height:65px}
+  .hero .h-place{margin-bottom:6px}
+  .hero h1{margin-bottom:4px}
+  .hero .h-price{margin-bottom:6px}
+  .hero .h-fact{margin-bottom:10px}
+  .hero .h-beds{margin-bottom:10px}
+  .hero .h-trust{margin-top:6px}
+}
+/* the fact line stays on one line while that keeps it at 13.5 px or more (356 px wide and up); narrower, two balanced
+   lines at 14 px. Under 346 px wide the one-line trust line would drop below 11 px: two balanced lines at 12 px. */
+@media(max-width:355px){.hero .h-fact{white-space:normal;text-wrap:balance;font-size:14px;line-height:1.4}}
+@media(max-width:345px){.hero .h-trust{white-space:normal;text-wrap:balance;margin-left:0;margin-right:0;font-size:12px}}
 </style>
 </head>
 <body>
