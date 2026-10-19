@@ -3405,6 +3405,34 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
   .hero .hero-inner .h-fact,.hero .hero-inner .h-beds{margin-bottom:12px!important}
 }
 </style>
+<style>
+/* Round 10 (19 Oct 2026, Justin, comparing the clean preview with the live Clone: the live hero "looks much nicer, a
+   clear background, can see the tower and text"; then "reduce the shade to same as live site, and apply this to all
+   projects"). Phones (767 px and under) go back to the live hero's construction with the round-8 content, as on
+   M Amaya d88983f and M Aurora hero-clean-one. Tablet and desktop unchanged.
+   1. One screen: the hero is held to the visible screen less the 38 px ticker, as on live.
+   2. The picture fills it: every slide (the brand film, the piano film and the two stills) covers the whole hero at the
+      live phone crop, centred (live: cover, 50% 50%), and still rotates as before. The poster under the first film and
+      the ground under the slides hold the same crop, so nothing jumps when the film paints. The films still play
+      inline (markup and script unchanged: muted, playsinline).
+   3. The shade is the live phone shade and nothing else: the live base-heavy navy ramp (.46 at the top, .24 at 28%,
+      .52 at 56%, .80 at 82%, .92 at the foot). No veil behind the copy.
+   4. The copy (the round-8 content: lockup, place, price lead, project line, chips, the ask full width, the one-line
+      trust line) stays centred and is stacked at the foot of the hero, so the tower's crown shows clear above it.
+      The round-7 lockup sizes (112 / 93 / 65 px by screen height) and their centring are unchanged. */
+@media(max-width:767px){
+  .hero .hero-media{min-height:calc(100svh - 38px)!important;max-height:none!important;
+    background:url('assets/hero-bg-mobile.webp') 50% 50%/cover no-repeat,var(--navy)!important}
+  .hero .hero-slides{top:0;bottom:0;height:auto}
+  .hero .hslide{object-fit:cover;object-position:50% 50%}
+  .hero .hs-img,.hero .hs-img[data-mobile-src*="banner-2"],.hero .hs-img[data-mobile-src*="banner-3"]{
+    background-size:cover;background-repeat:no-repeat;background-position:50% 50%}
+  .hero .hero-media::after{background:linear-gradient(180deg,rgba(17,27,48,.46) 0%,rgba(17,27,48,.24) 28%,rgba(17,27,48,.52) 56%,rgba(17,27,48,.8) 82%,rgba(17,27,48,.92) 100%)!important}
+  .hero .hero-body{justify-content:flex-end!important;padding:104px var(--pad) 34px!important}
+}
+@media(max-width:767px) and (max-height:700px){.hero .hero-body{padding:92px var(--pad) 26px!important}}
+@media(max-width:767px) and (max-height:600px){.hero .hero-body{padding:80px var(--pad) 18px!important}}
+</style>
 </head>
 <body>
 <!-- ANNOUNCE (auto marquee) -->
