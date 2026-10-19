@@ -2379,6 +2379,8 @@ a.nav-reg:hover{background:linear-gradient(to right,#EBD197 0%,#C9A85C 100%)}
 .hero-prog i{display:block;height:100%;width:0;
   background:linear-gradient(90deg,#EBD197,#D4B46A)}
 @media(prefers-reduced-motion:reduce){.hero-slides,.hero-prog{display:none}}
+/* Round 10b: no rotation on phones, so no progress bar */
+@media(max-width:767px){.hero-prog{display:none}}
 
 /* facilities: bigger plan like live, zoomable in place */
 @media(min-width:1024px){
@@ -3570,6 +3572,11 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
       var wrap=document.querySelector('.hero-slides'); if(!wrap)return;
       if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
       var mob=window.matchMedia('(max-width:767px)').matches;
+      /* Round 10b (19 Oct 2026, QA): on phones the hero is the poster still (the tower render). The films' own titles
+         and captions (the M ARIA title, Unveiling Soon, the Mah Sing logo, A New Freehold Symphony) landed mid-screen
+         behind the centred lockup and place line; the films also cost about 3.9 MB each on mobile data against 57 KB for
+         the poster. Tablet and desktop keep the rotation. */
+      if(mob)return;
       var slides=Array.prototype.slice.call(wrap.querySelectorAll('.hslide'));
       var prog=document.getElementById('heroProg');
       var IMG_DWELL=6000, idx=0, timer=null, raf=null;
