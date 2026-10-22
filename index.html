@@ -88,7 +88,7 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/boska-500.woff2" crossorigin>
 <!-- R6 (16 Oct 2026, premium port): the hero video keeps preload="metadata"; its poster is the first paint, so the
      poster is what gets preloaded (the 767px split matches the poster swap in the hero script). -->
-<link rel="preload" as="image" type="image/webp" href="assets/hero-bg-mobile.webp" media="(max-width:767px)" fetchpriority="high">
+<link rel="preload" as="image" type="image/webp" href="assets/hero-banner-tower-phone.webp" media="(max-width:767px)" fetchpriority="high">
 <link rel="preload" as="image" type="image/webp" href="assets/hero-bg.webp" media="(min-width:768px)" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
@@ -3583,7 +3583,7 @@ html.pp-more #interiors .split-img{background-image:url('assets/gallery-3.webp')
     <div class="hero-slides" aria-hidden="true">
       <!-- R6 (16 Oct 2026): the markup poster is the phone file (the majority and the slow connections); the script
            swaps in the desktop poster from 768px, so a phone no longer fetches both -->
-      <video class="hslide on" muted playsinline preload="metadata" poster="assets/hero-bg-mobile.webp"
+      <video class="hslide on" muted playsinline preload="metadata" poster="assets/hero-banner-tower-phone.webp"
         data-desktop-src="assets/hero-video.mp4" data-mobile-src="assets/hero-video-mobile.mp4"></video>
       <video class="hslide" muted playsinline preload="none"
         data-desktop-src="assets/hero-video-2.mp4" data-mobile-src="assets/hero-video-2-mobile.mp4"></video>
@@ -6901,6 +6901,16 @@ window.addEventListener('load',function(){if(!window.FontFace||!document.fonts)r
 /* 20 Oct 2026 (Justin): the tower centred on phones (the poster's tower sits left of its centre, so the
    centred crop left it 25 to 30 px left of the screen centre) */
 @media(max-width:767px){.hero .hero-media{background-position:32% 50%!important}.hero .hslide{object-position:32% 50%!important}}
+</style>
+<style>
+/* Tower banner (22 Oct 2026, Justin: "this looks much nicer ... push all to live"). Phones only (tablet and desktop
+   keep the films): phones already showed only the poster still, so the poster is now Mah Sing's new 1290 x 2800
+   tower banner, supplied 22 Oct, painted on the slide frame at the height that puts the crown about 20 px under
+   the menu bar and the building's base just above the place line (never narrower than the screen), with the
+   poster video itself hidden; the markup poster points at the same file, so a phone fetches it once. The big
+   lockup is off on phones (the menu bar keeps the project mark), so the navy shade is cut back to the copy band:
+   a short fade under the menu, dense behind the copy, clear above it. */
+@media(max-width:767px){.hero .hero-slides{top:0!important;bottom:0!important;height:auto!important;background-image:url('assets/hero-banner-tower-phone.webp')!important;--ih:max(217.054vw, calc((100svh - 470px) * 2.985));background-color:#090a0f!important;background-size:auto var(--ih)!important;background-position:50% calc(112px - 0.325 * var(--ih))!important;background-repeat:no-repeat!important}.hero .hero-slides .hslide:first-child{opacity:0!important}.hero .hero-inner .h-logo{display:none!important}.hero .hero-media::after{background:linear-gradient(180deg,rgba(17,27,48,0.46) 0,rgba(17,27,48,0.28) 64px,rgba(17,27,48,0) 128px),linear-gradient(0deg,rgba(17,27,48,.9) 0,rgba(17,27,48,.84) 180px,rgba(17,27,48,.8) 281px,rgba(17,27,48,.76) 321px,rgba(17,27,48,.46) 361px,rgba(17,27,48,.18) 406px,rgba(17,27,48,0) 451px)!important}}
 </style>
 </body>
 </html>
