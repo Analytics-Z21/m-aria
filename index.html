@@ -87,7 +87,7 @@
 <link rel="preload" as="font" type="font/woff2" href="assets/montserrat-latin.woff2" crossorigin>
 <!-- R6 (16 Oct 2026, premium port): the hero video keeps preload="metadata"; its poster is the first paint, so the
      poster is what gets preloaded (the 767px split matches the poster swap in the hero script). -->
-<link rel="preload" as="image" type="image/webp" href="assets/hero-banner-tower-phone-1080.webp" imagesrcset="assets/hero-banner-tower-phone-860.webp 1x, assets/hero-banner-tower-phone-860.webp 2x, assets/hero-banner-tower-phone-1080.webp 3x" media="(max-width:767px)" fetchpriority="high">
+<link rel="preload" as="image" type="image/webp" href="assets/hero-banner-tower-phone-wide-1080.webp" imagesrcset="assets/hero-banner-tower-phone-wide-860.webp 1x, assets/hero-banner-tower-phone-wide-860.webp 2x, assets/hero-banner-tower-phone-wide-1080.webp 3x" media="(max-width:767px)" fetchpriority="high">
 <link rel="preload" as="image" type="image/webp" href="assets/hero-bg.webp" media="(min-width:768px)" fetchpriority="high">
 <style>
 /* TYPE FOLLOWS VER2 M AURORA (2026-10-09, Justin: "for the font selection please all follow how ver2 M Aurora").
@@ -3525,7 +3525,7 @@ html #interiors .split-img.in{background-image:url('assets/gallery-3.webp')}
    poster video itself hidden (26 Oct 2026: the markup poster is gone, so a phone fetches the banner once). The big
    lockup is off on phones (the menu bar keeps the project mark), so the navy shade is cut back to the copy band:
    a short fade under the menu, dense behind the copy, clear above it. */
-@media(max-width:767px){.hero .hero-slides{top:0!important;bottom:0!important;height:auto!important;background-image:url('assets/hero-banner-tower-phone-1080.webp')!important;background-image:image-set(url('assets/hero-banner-tower-phone-860.webp') 1x,url('assets/hero-banner-tower-phone-860.webp') 2x,url('assets/hero-banner-tower-phone-1080.webp') 3x)!important;--ih:max(217.054vw, calc((100svh - 470px) * 2.985));background-color:#090a0f!important;background-size:auto var(--ih)!important;background-position:50% calc(112px - 0.325 * var(--ih))!important;background-repeat:no-repeat!important}.hero .hero-slides .hslide:first-child{opacity:0!important}.hero .hero-inner .h-logo{display:none!important}.hero .hero-media::after{background:linear-gradient(180deg,rgba(17,27,48,0.46) 0,rgba(17,27,48,0.28) 64px,rgba(17,27,48,0) 128px),linear-gradient(0deg,rgba(17,27,48,.9) 0,rgba(17,27,48,.84) 180px,rgba(17,27,48,.8) 281px,rgba(17,27,48,.76) 321px,rgba(17,27,48,.46) 361px,rgba(17,27,48,.18) 406px,rgba(17,27,48,0) 451px)!important}}
+@media(max-width:767px){.hero .hero-slides{top:0!important;bottom:0!important;height:auto!important;background-image:url('assets/hero-banner-tower-phone-wide-1080.webp')!important;background-image:image-set(url('assets/hero-banner-tower-phone-wide-860.webp') 1x,url('assets/hero-banner-tower-phone-wide-860.webp') 2x,url('assets/hero-banner-tower-phone-wide-1080.webp') 3x)!important;--ih:max(217.054vw, calc((100svh - 470px) * 2.985));background-color:rgb(9,10,15)!important;background-size:auto var(--ihb, var(--ih))!important;background-position:50% calc(var(--hct,112px) - 0.325 * var(--ihb, var(--ih)))!important;background-repeat:no-repeat!important}.hero .hero-slides .hslide:first-child{opacity:0!important}.hero .hero-inner .h-logo{display:none!important}.hero .hero-media::after{background:linear-gradient(180deg,rgba(17,27,48,0.46) 0,rgba(17,27,48,0.28) 64px,rgba(17,27,48,0) 128px),linear-gradient(0deg,rgba(17,27,48,.9) 0,rgba(17,27,48,.84) 180px,rgba(17,27,48,.8) 281px,rgba(17,27,48,.76) 321px,rgba(17,27,48,.46) 361px,rgba(17,27,48,.18) 406px,rgba(17,27,48,0) 451px)!important}}
 </style>
 <style>
 /* 26 Oct 2026 (speed pass): on phones the banner on .hero-slides (opaque #090a0f behind it, full size of the hero) covers the hero's
@@ -3762,6 +3762,36 @@ html #interiors .split-img.in{background-image:url('assets/gallery-3.webp')}
     <a href="#quickRegister" class="scroll-ind" aria-label="Scroll down"><span class="scroll-arrow"></span></a>
   </div>
 </section>
+<script>
+/* 27 Oct 2026 (iPhone hero fit): on short phone screens (iPhone Safari with its bars) draw the tower banner so the
+   whole building (podium included) ends above the place line; the banner's sides are a widened copy of the same render.
+   Without JS the fit stays as before. For visitors who ask for reduced motion .hero-slides is display:none, so the
+   script does nothing there. */
+/* 27 Oct 2026 (sharp sides): the banner's sides are a plain mirror of the render, cropped so it never reaches the
+   building; the crown sits 70 px under the banner top so the photo shrinks less. */
+(function(){
+  var art=document.querySelector('.hero .hero-slides'),place=document.querySelector('.h-place');
+  if(!art||!place||!window.matchMedia)return;
+  var mq=window.matchMedia('(max-width:767px)'),CROWN=0.325,CLEAR=0.66,ASPECT=0.7679;
+  function liveIh(){var t=document.createElement('i');t.style.cssText='position:absolute;visibility:hidden;width:0;height:var(--ih)';art.appendChild(t);var v=t.offsetHeight;art.removeChild(t);return v||2.17054*document.documentElement.clientWidth;}
+  function fit(){
+    if(!mq.matches){art.style.removeProperty('--ihb');art.style.removeProperty('--hct');return;}
+    if(!art.offsetParent)return;                               /* not displayed (reduced motion): leave it as it is */
+    var a=art.getBoundingClientRect(),p=place.getBoundingClientRect(),vw=document.documentElement.clientWidth;
+    var room=p.top-a.top-14-70;                               /* the building ends 14 px above the place line */
+    if(room<=0)return;
+    var live=liveIh(),ih=room/(CLEAR-CROWN);                  /* live = today's drawn height on this screen */
+    if((room-42)/(CLEAR-CROWN)>=live){art.style.removeProperty('--ihb');art.style.removeProperty('--hct');return;} /* today's fit already clears (tall screens): keep it */
+    ih=Math.max(Math.min(ih,live),vw/ASPECT+1);               /* never larger than today's fit; the widened banner always covers the screen */
+    art.style.setProperty('--ihb',ih.toFixed(1)+'px');art.style.setProperty('--hct','70px');
+  }
+  fit();
+  window.addEventListener('resize',fit);
+  if(mq.addEventListener)mq.addEventListener('change',fit);   /* the breakpoint flip itself (rotation, window resize) */
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+})();
+</script>
+
 
 <!-- QUICK REGISTRATION (low-friction subform under hero) -->
 <!-- 2026-10-09 (Justin): the quick form sits right below the hero. It keeps its .nx wrapper
