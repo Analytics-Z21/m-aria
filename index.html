@@ -3534,6 +3534,127 @@ html #interiors .split-img.in{background-image:url('assets/gallery-3.webp')}
    the hero background still shows for them and stays on. */
 @media(max-width:767px) and (prefers-reduced-motion:no-preference){.hero .hero-media{background-image:none!important}}
 </style>
+<style id="option9-port">
+/* ===== OPTION 9 PORT (6 Nov 2026): plan panel + inline form panel, Type A vs Type B side by side =====
+   Pattern from M Aurora's live Option 9 build (spec: projects/mahsing/html/2026-11-06_option9-port/port-spec.md), in M Aria's own
+   tokens: Boska + Montserrat, the page's navy for the form panel, the page's gold for the ask, ink-em for links. Every rule
+   starts with .nx (or #layouts / #compare-all): the page's own `.nx a{color:inherit}` and `.nx button{background:none}` rules
+   would otherwise out-rank a lone class. Last block in the head, so it wins on source order. */
+@media(max-width:767px){#layouts .wrap,#compare-all .wrap{padding-left:24px;padding-right:24px}}
+#layouts .sec-head,#compare-all .sec-head{margin-bottom:24px}
+@media(min-width:1024px){#layouts .sec-head,#compare-all .sec-head{margin-bottom:36px}}
+
+/* plan panel + form panel */
+.nx .o9-grid{display:grid;gap:16px}
+@media(min-width:1024px){.nx .o9-grid{grid-template-columns:7fr 5fr;gap:24px;align-items:stretch}}
+.nx .o9-plan{min-width:0;background:#fff;border:1px solid rgba(26,38,57,.1);border-radius:4px;box-shadow:0 40px 80px -40px rgba(26,38,57,.3);padding:16px;display:flex;flex-direction:column;gap:12px}
+@media(min-width:1024px){.nx .o9-plan{padding:28px;gap:18px}}
+.nx .o9p-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.nx .o9p-ttl{min-width:0}
+#layouts .o9p-ttl h3{font:500 28px/1 var(--fd);color:var(--ink-d);margin:0}
+@media(min-width:1024px){#layouts .o9p-ttl h3{font-size:36px}}
+.nx .o9p-line{font:400 12px/1.5 var(--fb);color:var(--ink-m);margin-top:6px}
+@media(min-width:1024px){.nx .o9p-line{font-size:14px;margin-top:4px}}
+.nx .o9-badge{display:inline-block;white-space:nowrap;margin-top:8px;background:var(--ink-d);color:var(--cream);font:700 11px/1 var(--fb);letter-spacing:.08em;text-transform:uppercase;padding:7px 10px;border-radius:2px}
+.nx .o9p-acts{display:flex;gap:8px;flex:none}
+/* phones: the header is title | 360 pill, then the spec line across, then the status badge | price link */
+.nx .o9-plink{display:none}
+@media(max-width:1023px){
+  .nx .o9p-head{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;align-items:center}
+  .nx .o9p-ttl{display:contents}
+  #layouts .o9p-ttl h3{grid-column:1;grid-row:1}
+  .nx .o9p-acts{grid-column:2;grid-row:1;justify-self:end}
+  .nx .o9p-line{grid-column:1/-1;grid-row:2;margin-top:4px}
+  .nx .o9p-ttl .o9-badge{grid-column:1;grid-row:3;justify-self:start;margin-top:6px}
+  .nx .o9-plink{grid-column:2;grid-row:3;justify-self:end;display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-top:6px;padding:0 2px;border:0;background:none;color:var(--ink-em);font:700 14px/1 var(--fb);text-decoration:underline;text-underline-offset:3px;cursor:pointer;touch-action:manipulation;white-space:nowrap}
+}
+.nx .o9-pill{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid rgba(26,38,57,.22);background:#fff;color:var(--ink-d);font:600 13px/1 var(--fb);text-decoration:none;white-space:nowrap;cursor:pointer;touch-action:manipulation}
+.nx .o9-pill svg{flex:none}
+.nx .o9-pill-dark{background:var(--navy);border-color:var(--navy);color:var(--cream)}
+@media(hover:hover) and (pointer:fine){.nx .o9-pill:hover{border-color:var(--ink-d)}.nx .o9-pill-dark:hover{background:var(--navy2);border-color:var(--navy2)}}
+/* desktop: the Enlarge pill in the header is the one enlarge affordance. Phones: the header holds the title and the 360 pill
+   only (two pills squeeze the title), so the box keeps an icon-only zoom hint beside the view toggle. */
+@media(min-width:1024px){#layouts .o9-plan .unit-zoom{display:none}}
+@media(max-width:1023px){
+  .nx .o9p-acts .o9-pill-enl{display:none}
+  #layouts .o9-plan .unit-zoom{top:12px;right:12px;font-size:0;gap:0;padding:9px;background:rgba(26,39,68,.9)}
+  #layouts .o9-plan .unit-zoom svg{width:16px;height:16px;color:#fff}
+}
+/* the plan frame keeps one fixed height so the panel never jumps between the portrait Type A and the landscape Type B or
+   their key plans; the 360 pill moved to the header, so the foot band the old card reserved for it is gone */
+#layouts .o9-plan #planWrap{margin:0 -16px;border:0;border-radius:0;padding:68px 12px 10px;height:min(430px,58vh);min-height:310px;background:#fff}
+@media(min-width:1024px){#layouts .o9-plan #planWrap{margin:0;height:600px;min-height:0;padding:70px 16px 14px}}
+/* the Floor plan | Key plan toggle is a tap target: 44 px tall here (it was 34), so the frame's top band is taller */
+#layouts .o9-plan .plan-tog{top:10px;left:12px}
+#layouts .o9-plan .plan-tog-b{min-height:44px;padding:0 14px}
+#layouts .o9-plan #planWrap img{width:auto;height:auto;max-width:100%;max-height:100%}
+
+.nx .o9-form{min-width:0;background:var(--navy);color:var(--cream);padding:22px 20px;border-radius:4px;display:flex;flex-direction:column;gap:14px;box-shadow:0 24px 60px rgba(20,31,56,.25)}
+@media(min-width:1024px){.nx .o9-form{padding:36px;gap:18px}}
+#layouts .o9-form .o9-ft{font:700 26px/1.15 var(--fd);color:var(--cream);margin:0}  /* outranks #layouts h3{color:ink} */
+@media(min-width:1024px){#layouts .o9-form .o9-ft{font-size:30px}}
+.nx .o9-specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid rgba(255,255,255,.18);border-bottom:1px solid rgba(255,255,255,.18);padding:12px 0;text-align:center}
+.nx .o9-specs>div{padding:0 6px}
+.nx .o9-specs>div+div{border-left:1px solid rgba(255,255,255,.18)}
+.nx .o9-specs b{display:block;font:500 26px/1.1 var(--fd);color:var(--cream)}
+.nx .o9-specs span{display:block;margin-top:4px;font:600 11px/1.3 var(--fb);letter-spacing:.14em;text-transform:uppercase;color:#BAC1D2}
+@media(min-width:1024px){.nx .o9-specs b{font-size:28px}}
+.nx .o9-ticks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font:400 13px/1.5 var(--fb);color:var(--cream)}
+.nx .o9-ticks li{position:relative;padding-left:22px}
+.nx .o9-ticks li::before{content:'\2713';position:absolute;left:0;top:0;color:var(--accent);font-weight:700}
+@media(min-width:1024px){.nx .o9-ticks{font-size:14px;gap:8px}}
+.nx .o9-lf .field{margin-bottom:10px}
+.nx .o9-lf .f-label{color:var(--cream);font-size:11px;margin-bottom:5px}
+.nx .o9-lf .f-input{border:0;border-radius:2px;min-height:48px;padding:12px 14px;font:500 16px/1.3 var(--fb);color:var(--ink)}
+.nx .o9-lf .f-input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.nx .o9-lf .btn{width:100%;min-height:52px;margin-top:2px}
+.nx .o9-lf .f-consent{color:#BAC1D2;font-size:12px;margin-top:10px;text-align:left}
+.nx .o9-lf .f-consent a{color:#fff}
+.nx .o9-ferr{color:#FFB3A6;font:600 13px/1.4 var(--fb);margin:-2px 0 8px}
+.nx .o9-lf .f-err{margin-top:6px}
+
+/* ===== Type A vs Type B, side by side ===== */
+#compare-all{background:var(--paper);color:var(--ink-d);border-top:1px solid rgba(26,38,57,.1);padding-top:clamp(48px,6vw,88px);padding-bottom:clamp(64px,8vw,120px)}
+#compare-all h2{color:var(--ink-d)}
+#compare-all .em{color:var(--ink-em)}
+#compare-all .eyebrow,#compare-all .copy{color:var(--ink-m)}
+#compare-all .eyebrow::before{background:var(--ink-m)}
+#compare-all .o9c-note{font-size:14px;line-height:1.5;max-width:46ch}
+.nx .o9-ab{background:linear-gradient(90deg,#F3EFE8 50%,#fff 50%);border:1px solid rgba(26,38,57,.12);border-radius:4px;box-shadow:0 40px 80px -40px rgba(26,38,57,.3);overflow:hidden}
+.nx .o9ab-cols{display:grid;grid-template-columns:1fr 1fr}
+.nx .o9ab-lab{display:none}
+.nx .o9ab-col{padding:16px 14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.nx .o9ab-col .t{font:500 26px/1 var(--fd);color:var(--ink-d)}
+.nx .o9ab-col img{width:100%;height:150px;object-fit:contain;background:#fff;border:1px solid rgba(26,38,57,.08)}
+.nx .o9ab-r{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(26,38,57,.1)}
+.nx .o9ab-r .l{grid-column:1/-1;padding:10px 14px 0;font:600 11px/1.4 var(--fb);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-m)}
+.nx .o9ab-r .c{padding:4px 14px 12px;font:400 16px/1.4 var(--fb);color:var(--ink-d);display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0}
+.nx .o9ab-r.diff .c{font-weight:700}
+.nx .o9-delta{display:inline-block;font:700 12px/1.3 var(--fb);color:#1C5E47;background:#E3F1EA;padding:3px 8px;border-radius:2px}
+.nx .o9ab-foot{display:flex;flex-direction:column;gap:12px;background:var(--navy);color:var(--cream);padding:18px 16px 20px}
+.nx .o9ab-foot b{display:block;font:700 17px/1.3 var(--fb);color:var(--cream)}
+.nx .o9ab-foot span{display:block;font:400 13px/1.4 var(--fb);color:#BAC1D2;margin-top:4px}
+.nx .o9ab-foot .btn{width:100%;min-height:52px;font-size:15px}
+.nx .o9-foot{font:400 12px/1.5 var(--fb);color:var(--ink-m);margin-top:16px}
+@media(min-width:1024px){
+  .nx .o9-ab{background:linear-gradient(90deg,#fff 0,#fff 220px,#F3EFE8 220px,#F3EFE8 calc(220px + (100% - 220px) / 2),#fff calc(220px + (100% - 220px) / 2))}
+  .nx .o9ab-cols,.nx .o9ab-r{grid-template-columns:220px minmax(0,1fr) minmax(0,1fr)}
+  .nx .o9ab-lab{display:flex;align-items:flex-end;padding:20px 24px;font:400 13px/1.4 var(--fb);color:var(--ink-m)}
+  .nx .o9ab-col{padding:20px 24px;gap:12px}
+  .nx .o9ab-col .t{font-size:30px}
+  .nx .o9ab-col img{height:190px}
+  .nx .o9ab-r .l{grid-column:auto;padding:14px 24px;display:flex;align-items:center;font-size:13px}
+  .nx .o9ab-r .c{padding:14px 24px;font-size:17px;flex-direction:row;align-items:center;flex-wrap:wrap;gap:10px}
+  .nx .o9ab-foot{flex-direction:row;justify-content:space-between;align-items:center;gap:24px;padding:20px 24px}
+  .nx .o9ab-foot b{font-size:18px}
+  .nx .o9ab-foot .btn{width:auto;flex:none;min-height:54px;padding:0 28px;font-size:16px}
+}
+/* drawer: plan tags when the side-by-side's ask names both layouts (the drawer sits outside .nx) */
+.ld-pair{display:flex;gap:8px;margin:0 0 14px}
+.ld-pair[hidden]{display:none}
+.ld-pair span{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #e8ddcd;padding:6px 10px 6px 6px;font:700 14px/1 var(--fb);color:var(--ink-d);border-radius:2px}
+.ld-pair img{width:36px;height:40px;object-fit:contain}
+</style>
 <noscript><style>html #quickRegister:not(.in){background:linear-gradient(180deg,rgba(20,31,56,.94) 0%,rgba(20,31,56,.74) 45%,rgba(20,31,56,.94) 100%),url('assets/gallery-1.webp') center 40%/cover no-repeat}html #rts .story-img:not(.in){background-image:url('assets/city-skyline.webp')}html #interiors .split-img:not(.in){background-image:url('assets/gallery-3.webp')}</style></noscript>
 </head>
 <body>
@@ -3857,7 +3978,7 @@ html #interiors .split-img.in{background-image:url('assets/gallery-3.webp')}
     <div class="sec-head rv">
       <span class="eyebrow">Two layouts</span>
       <h2>Three or four bedrooms, <span class="em">800 to 950 sq ft</span></h2>
-      <p class="copy">A freehold home designed with families in mind. Both layouts, their starting price, their plans and what they cost a month. Tap a plan to enlarge it.</p>
+      <p class="copy">A freehold home designed with families in mind. Pick a layout to see its plan, then get its pricing on WhatsApp. Tap a plan to enlarge it.</p>
     </div>
 
     <div class="tabs" id="tabs" role="tablist" aria-label="Unit layouts">
@@ -3865,81 +3986,96 @@ html #interiors .split-img.in{background-image:url('assets/gallery-3.webp')}
       <button class="tab" role="tab" data-type="B" aria-selected="false">Type B<em>4 Bed &middot; 950 sq ft</em><span class="pop">Largest</span></button>
     </div>
 
-    <div class="unit rv">
-      <div class="unit-plan" id="planWrap" data-view="plan">
-        <!-- Round 2 (16 Oct 2026, Aria B): a Floor plan | Key plan toggle inside the plan box (replaces the key-plan
-             thumbnail under the price); the 360 tour link sits in the box as a pill at the foot, same id and bindings -->
-        <div class="plan-tog" role="group" aria-label="Plan view">
-          <button type="button" class="plan-tog-b" data-view="plan" aria-pressed="true">Floor plan</button>
-          <button type="button" class="plan-tog-b" data-view="key" aria-pressed="false">Key plan</button>
-        </div>
-        <span class="unit-zoom"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/></svg>Tap to enlarge</span>
-        <img id="planImg" loading="lazy" decoding="async" src="assets/plan-type-a.webp" alt="Type A floor plan, 800 sq ft, 3 bedrooms" width="1002" height="1143">
-        <a class="plan-vt" id="uVt" href="https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1" target="_blank" rel="noopener" data-tour-source="unit_card" data-vr="A"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>360&deg; tour</a>
-      </div>
-      <div class="unit-info">
-        <h3>Type <span id="uName">A</span></h3>
-        <p class="unit-cfg" id="uCfg">Three bedrooms, for young families</p>
-        <div class="specs">
-          <div><b id="uLayout">3 Bed</b><span>Layout</span></div>
-          <div><b id="uBath">2</b><span>Bath</span></div>
-          <div><b id="uSize">800</b><span>Sq ft</span></div>
-        </div>
-        <div class="price-duo">
-            <div>
-              <div class="price-lab">Starting from</div>
-              <div class="price-val num" id="uPrice">RM483,000<sup>*</sup></div>
-            </div>
-            <div>
-              <div class="price-lab">Est. monthly from</div>
-              <div class="price-val num" id="uSgd">RM 1,822 /mo</div>
-            </div>
+    <!-- OPTION 9 PORT (6 Nov 2026, from M Aurora's live build): the plan panel and the inline form panel replace the
+         one-card layout. Phones see the plan, then the form; desktop shows both side by side (7 / 5). Per-type prices
+         now live in the side-by-side below (#compare-all), as Aurora moved them into Compare. -->
+    <div class="o9-grid rv">
+      <div class="o9-plan">
+        <div class="o9p-head">
+          <div class="o9p-ttl">
+            <h3>Type <span id="uName">A</span></h3>
+            <p class="o9p-line"><span id="uLine">3 Bed &middot; 2 bath &middot; 800 sq ft</span> &middot; Freehold</p>
+            <span class="o9-badge">Open for Sale</span>
+            <!-- phones see the plan before the form, so the header carries a price link to the inline form under the
+                 plan (the sticky bar steps aside here); desktop shows the form beside the plan -->
+            <button type="button" class="o9-plink" data-cta-id="layout_price_link"><span>Get Type <span class="uNameX">A</span> pricing</span><span aria-hidden="true">&darr;</span></button>
           </div>
-          <!-- Round 2 (16 Oct 2026): the key-plan thumbnail (#uKey) is gone, the key plan is a view of the plan box;
-               the 360 link (#uVt) moved into the plan box. The card keeps #uCta as its one filled ask. -->
-          <div class="unit-acts">
-          <button class="btn btn-p" id="uCta" data-open-lead="unit_card" data-unit="Type A" data-cta-id="units_get_price">Get Price List Now</button>
+          <div class="o9p-acts">
+            <button type="button" class="o9-pill o9-pill-enl" id="uEnlarge" aria-label="Enlarge the floor plan"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/></svg>Enlarge</button>
+            <!-- the 360 pill, now in the panel header (was inside the plan box); same id, href, data-vr and tour modal binding -->
+            <a class="o9-pill o9-pill-dark" id="uVt" href="https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1" target="_blank" rel="noopener" data-tour-source="unit_card" data-vr="A" aria-label="Take the 360&deg; virtual tour"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>360&deg; tour</a>
           </div>
-
-      </div>
-    </div>
-
-    <div class="calc rv">
-      <h3>What it costs a month</h3>
-      <div class="cpick">
-        <span class="price-lab">Price basis</span>
-        <button class="cpick-btn" id="cPick" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="cpMenu2">
-          <strong class="num" id="cPrice">RM 483,000</strong><span>Type <b id="cType">A</b></span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-        <div class="cp-menu" id="cpMenu2" role="listbox" aria-label="Price basis layout" hidden>
-          <button type="button" role="option" class="cp-opt2" data-type="A" aria-selected="true">
-            <span class="cp-opt2-t"><strong>Type A</strong><em>3 Bed &middot; 800 sq ft</em></span>
-            <span class="num">RM 483,000</span>
-          </button>
-          <button type="button" role="option" class="cp-opt2" data-type="B" aria-selected="false">
-            <span class="cp-opt2-t"><strong>Type B</strong><em>4 Bed &middot; 950 sq ft</em></span>
-            <span class="num">RM 567,000</span>
-          </button>
+        </div>
+        <div class="unit-plan" id="planWrap" data-view="plan">
+          <!-- Round 2 (16 Oct 2026, Aria B): a Floor plan | Key plan toggle inside the plan box -->
+          <div class="plan-tog" role="group" aria-label="Plan view">
+            <button type="button" class="plan-tog-b" data-view="plan" aria-pressed="true">Floor plan</button>
+            <button type="button" class="plan-tog-b" data-view="key" aria-pressed="false">Key plan</button>
+          </div>
+          <span class="unit-zoom"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/></svg>Tap to enlarge</span>
+          <img id="planImg" loading="lazy" decoding="async" src="assets/plan-type-a.webp" alt="Type A floor plan, 800 sq ft, 3 bedrooms" width="1002" height="1143">
         </div>
       </div>
-      <div class="cfield">
-        <label for="cLoan">Loan margin <output id="cLoanOut" class="num">RM 434,700 &middot; 90%</output></label>
-        <input type="range" id="cLoan" min="70" max="90" step="1" value="90">
+
+      <!-- the form panel: the ask sits beside the plan, prefilled with the type on view. Fields, action, oid, retURL and
+           the Salesforce hidden fields are copied from this page's own lead drawer (#mgmLeadDrawerForm). -->
+      <div class="o9-form" id="layoutPanel">
+        <h3 class="o9-ft">Get Type <span class="uNameX">A</span> pricing on WhatsApp</h3>
+        <div class="o9-specs">
+          <div><b class="num" id="uBed">3</b><span>Bedrooms</span></div>
+          <div><b class="num" id="uBath">2</b><span>Bathrooms</span></div>
+          <div><b class="num" id="uSize">800</b><span>Sq ft</span></div>
+        </div>
+        <ul class="o9-ticks">
+          <li>Full pricing for this layout</li>
+          <li>Current availability</li>
+          <li>Payment schedule and loan guidance</li>
+        </ul>
+        <form class="js-form o9-lf" id="layoutForm" data-form="layout" method="POST" action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&amp;orgId=00D0o0000015t7i" onsubmit="return handleMgmLayoutFormSubmit(this)" novalidate>
+          <input type="hidden" name="oid" value="00D0o0000015t7i">
+          <input type="hidden" name="retURL" value="https://ver2.m-aria.com.my/thank-you">
+          <input type="hidden" name="00N2j000000e0hv" value="M Aria Website (Clone)">
+          <input type="hidden" name="00N2j000000e0hw" value="M Aria">
+          <input type="hidden" name="00N2j000000e0ho" value="M Aria Website">
+          <input type="hidden" name="00N2j000000e0hp" value="Website">
+          <input type="hidden" name="00N2j000000e0hR" value="1">
+          <div class="field"><label class="f-label" for="lp-name">Full name</label>
+            <input class="f-input" id="lp-name" name="last_name" type="text" maxlength="80" placeholder="Your full name" required autocomplete="name"></div>
+          <div class="field"><label class="f-label" for="lp-phone">WhatsApp number</label>
+            <input class="f-input" id="lp-phone" name="mobile" type="tel" maxlength="20" placeholder="012-345 6789" required autocomplete="tel" inputmode="tel" data-my-phone></div>
+          <div class="field"><label class="f-label" for="lp-email">Email</label>
+            <input class="f-input" id="lp-email" name="email" type="email" maxlength="80" placeholder="you@example.com" required autocomplete="email"></div>
+          <div class="o9-ferr" data-form-error style="display:none"></div>
+          <button class="btn btn-p" type="submit"><span>Send me Type <span class="uNameX">A</span> pricing</span></button>
+          <p class="f-consent">By submitting, you agree to Mah Sing's <a href="https://www.mahsing.com.my/terms-of-use/" target="_blank" rel="noopener">Terms of Use</a> and <a href="https://www.mahsing.com.my/web/storage/2023/10/Privacy-PDP-Policy_RevOct2023-1.pdf" target="_blank" rel="noopener">Privacy &amp; PDPA Notice</a>.</p>
+        </form>
       </div>
-      <div class="cfield">
-        <label for="cTen">Tenure <output id="cTenOut">35 years</output></label>
-        <input type="range" id="cTen" min="20" max="35" step="1" value="35">
-      </div>
-      <div class="cout cout-solo">
-        <div><div class="l">Estimated monthly repayment</div><div class="v num" id="cMy">RM 1,822</div>
-          <!-- R4 (16 Oct 2026): the price ask inside the result card, following the calculator's unit -->
-          <button type="button" class="btn btn-p calc-cta" id="cCta" data-open-lead="calc" data-unit="Type A" data-cta-id="calc_get_price">Send me the Type A price list</button></div>
-      </div>
-      <p class="cnote">Estimates only. Based on 3.6% p.a. interest rate over the selected tenure, calculated on the selected layout&rsquo;s starting price. Subject to bank approval. Not an offer.</p>
     </div>
   </div>
 </section>
+
+<!-- OPTION 9 PORT (6 Nov 2026): Type A vs Type B, always side by side, in place of the instalment calculator (Aurora's
+     Compare all 5 for a two-type project: no ticks, tray or sheet). The grid is rendered by the layouts controller from the
+     same UNITS and monthly() the plan panel uses, so prices and instalments live in one place. The footer ask is static so
+     the drawer's data-open-lead binder picks it up. -->
+<section class="sec" id="compare-all">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Type A vs Type B</span>
+      <h2>Two layouts, <span class="em">side by side.</span></h2>
+      <p class="copy o9c-note">Starting prices and indicative instalments for both layouts. Full pricing comes with the price list.</p>
+    </div>
+    <div class="o9-ab rv" id="abPanel">
+      <div id="abGrid" aria-live="off"></div>
+      <div class="o9ab-foot">
+        <div><b>Still weighing Type A &amp; B? Let our team help.</b><span>One form: we will WhatsApp full pricing for both layouts, plus current availability.</span></div>
+        <button type="button" class="btn btn-p o9-pair" data-open-lead="compare" data-unit="Type A,Type B" data-cta-id="compare_get_price">Get Type A &amp; B pricing</button>
+      </div>
+    </div>
+    <p class="o9-foot">*Starting prices. Instalments are estimates at 90% loan, 35 years, 3.6% p.a.; not a loan offer, financing subject to bank approval.</p>
+  </div>
+</section>
+
 <!-- PREMIUM PORT (16 Oct 2026, the Aurora story): the section head on top, the skyline full-bleed (it loads after the
      page, html.pp-more), the copy and the four figures on a glass card that overlaps the image. Heading verbatim. -->
 <section class="sec sec-alt" id="rts">
@@ -4445,8 +4581,10 @@ html #interiors .split-img.in{background-image:url('assets/gallery-3.webp')}
          label only: the layout cannot ride along to Salesforce because the field set is
          fixed (item 2), so it is reported to GA4 as unit_interest instead. -->
     <div class="ld-unit" id="ldUnit"><span class="ld-unit-k">Enquiring about</span><span class="ld-unit-v" id="ldUnitVal"></span></div>
+    <!-- Option 9 port (6 Nov 2026): plan tags when the side-by-side's ask names both layouts ("Type A,Type B") -->
+    <div class="ld-pair" id="ldPair" hidden></div>
     <h2 id="leadDrawerTitle" class="lead-drawer-title">Register &amp; get your price list</h2>
-    <p class="lead-drawer-sub">Fill in your details and we will WhatsApp you the layout, pricing and investment brief.</p>
+    <p class="lead-drawer-sub" id="ldSub">Fill in your details and we will WhatsApp you the layout, pricing and investment brief.</p>
     <p class="ld-trust">Sold directly by Mah Sing Group, sales gallery open daily</p>
 
     <div class="qf-rlabel">You'll receive</div>
@@ -4492,7 +4630,7 @@ html #interiors .split-img.in{background-image:url('assets/gallery-3.webp')}
 
       <div class="lead-drawer-form-error" data-form-error style="display:none; font-size:13px; color:#c0392b; margin:-4px 0 8px;"></div>
 
-      <button type="submit" class="btn-plum lead-submit">Get Price List Now</button>
+      <button type="submit" class="btn-plum lead-submit" id="ldSubmit">Get Price List Now</button>
       <p class="f-consent">By submitting, you agree to Mah Sing's <a href="https://www.mahsing.com.my/terms-of-use/" target="_blank" rel="noopener">Terms of Use</a> and <a href="https://www.mahsing.com.my/web/storage/2023/10/Privacy-PDP-Policy_RevOct2023-1.pdf" target="_blank" rel="noopener">Privacy &amp; PDPA Notice</a>.</p>
       <div class="micro"><span>No spam</span><span>Instant WhatsApp reply</span><span>Unsubscribe anytime</span></div>
     </form>
@@ -4511,6 +4649,11 @@ html #interiors .split-img.in{background-image:url('assets/gallery-3.webp')}
    get it from first paint, and it also steps aside while the unit-card or calculator ask is on screen. The desktop nav
    ask follows the same signal: outline while the hero ask is visible, filled once it scrolls away. Was: scrollY > 400. */
 var heroAsk=document.querySelector('[data-open-lead="hero"]'),navAsk=document.querySelector('.nav-reg');
+/* Option 9 port (6 Nov 2026, as M Aurora round 2): the bar and the to-top arrow step aside while the plan + inline form block
+   fills a quarter of the screen or more: the inline form under the plan (phones) is the ask there, and the arrow would
+   otherwise sit on the plan and on that form's button. Both return once the block has scrolled past. */
+var planBox=document.querySelector('#layouts .o9-grid');
+function planOnScreen(){if(!planBox)return false;var vh=window.innerHeight,r=planBox.getBoundingClientRect(),v=Math.min(r.bottom,vh)-Math.max(r.top,0);return v>=.25*vh;}
 var hasIO='IntersectionObserver' in window;
 var heroAskInView=(function(){if(!heroAsk)return false;var r=heroAsk.getBoundingClientRect();return r.top>=0&&r.bottom<=window.innerHeight;})();
 /* Round 5 (17 Oct 2026, Justin: "when there is CTA for price hide the sticky"): the bar steps aside whenever ANY in-page
@@ -4535,9 +4678,10 @@ function askOn(){var i;
   return false;}
 function state(){var s=window.scrollY>400;
   var heroOff=hasIO?!heroAskInView:s;
-  sticky.classList.toggle('on',!askOn()&&!formInView);
+  var planIn=planOnScreen();
+  sticky.classList.toggle('on',!askOn()&&!formInView&&!planIn);
   if(navAsk)navAsk.classList.toggle('quiet',!heroOff);
-  toTop.classList.toggle('on',s);}
+  toTop.classList.toggle('on',s&&!planIn);}
 window.addEventListener('scroll',state,{passive:true});
 if(hasIO&&heroAsk){new IntersectionObserver(function(es){heroAskInView=es[0].isIntersecting;state();},{threshold:.6}).observe(heroAsk);}
 /* the asks are collected once the page has parsed: the plan lightbox and the 360 modal sit below this script */
@@ -4558,7 +4702,9 @@ document.addEventListener('click',later,true);
 document.addEventListener('keyup',function(e){if(e.key==='Escape')later();});
 if(hasIO){var seen={},fio=new IntersectionObserver(function(ents){ents.forEach(function(e){/* 19 Oct: judged against the screen, not the section's own height: a tall form section counted only once 15% of
    itself was in view, so the bar sat over the closing form for a stretch on short screens */seen[e.target.id]=e.isIntersecting&&e.intersectionRect.height>=.15*Math.min(e.boundingClientRect.height,window.innerHeight)});formInView=Object.keys(seen).some(function(k){return seen[k]});state();},{threshold:[0,.05,.1,.15,.2,.3,.5]});
-  ['quickRegister','visit','contact'].forEach(function(id){var el=document.getElementById(id);if(el)fio.observe(el)})}
+  ['quickRegister','visit','contact','layoutPanel'].forEach(function(id){var el=document.getElementById(id);if(el)fio.observe(el)});
+  /* the plan block re-checks the bar when layout moves without a scroll (fonts, a type switch) */
+  if(planBox)new IntersectionObserver(function(){state();},{threshold:[0,.1,.25,.5,1]}).observe(planBox);}
 state();
 })();
 </script>
@@ -5207,6 +5353,11 @@ document.querySelectorAll('.fi').forEach(function(el){obs.observe(el)});
       var formData = new FormData(form);
       var fields = {};
       formData.forEach(function (value, key) { fields[key] = value; });
+      // Option 9 port (6 Nov 2026): what the lead asked for (unit interest, the CTA) rides on the form element and goes
+      // to this n8n payload ONLY. The Salesforce POST keeps the live field set: nothing is added as an input.
+      var ds = form.dataset || {};
+      if (ds.leadUnit) fields.unit_interest = ds.leadUnit;
+      if (ds.leadCta) fields.lead_cta = ds.leadCta;
 
       var payload = {
         submission_id: submissionId,
@@ -5294,6 +5445,37 @@ document.querySelectorAll('.fi').forEach(function(el){obs.observe(el)});
     return true;
   };
 
+  // ---- Option 9 port (6 Nov 2026): lead source hand-off to thank-you.html ----
+  // Same tab, same origin after the Salesforce retURL, so the thank-you page's lead_confirmed can carry the source too.
+  // Read once there and cleared; older than 30 minutes is ignored.
+  window.z21LeadHandoff = function (src, name, unit, sid) {
+    try { sessionStorage.setItem('z21_lead', JSON.stringify({ lead_source: src, form_name: name, unit_interest: unit, submission_id: sid || '', t: Date.now() })); } catch (e) { /* storage blocked: lead_confirmed says unknown */ }
+  };
+
+  // ---- Inline layout form (the plan panel's form) submit handler ----
+  window.handleMgmLayoutFormSubmit = function (form) {
+    if (!window.checkLeadForm(form, 'M Aria Layout Form')) return false;
+
+    var unit = form.dataset.leadUnit || 'not specified';
+    form.dataset.leadCta = 'layout_panel';
+    // Parallel capture to n8n (Phase 1 safety net), the same payload as the drawer plus unit_interest and lead_cta
+    var submissionId = window.captureFormDiagnostic(form, 'layoutPanelForm');
+
+    window.mgmTrackLead({
+      event: 'generate_lead',
+      lead_type: 'form_submission',
+      form_name: 'M Aria Layout Form',
+      lead_source: 'layout_panel',
+      unit_interest: unit,
+      submission_id: submissionId
+    });
+    window.z21LeadHandoff('layout_panel', 'M Aria Layout Form', unit, submissionId);
+
+    var btn = form.querySelector('button[type="submit"]');
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+    return true; // native POST to Salesforce, as the drawer
+  };
+
   // ---- Drawer form submit handler ----
   window.handleMgmDrawerFormSubmit = function (form) {
     var name = (form.querySelector('input[name="last_name"]') || {}).value || '';
@@ -5316,6 +5498,7 @@ document.querySelectorAll('.fi').forEach(function(el){obs.observe(el)});
       unit_interest: window._mgmDrawerUnit || 'not specified',
       submission_id: submissionId
     });
+    window.z21LeadHandoff(trigger, 'M Aria Drawer Form', window._mgmDrawerUnit || 'not specified', submissionId);
 
     var submitBtn = form.querySelector('.lead-submit');
     if (submitBtn) {
@@ -5360,7 +5543,13 @@ document.querySelectorAll('.fi').forEach(function(el){obs.observe(el)});
          View Floor Plan buttons take 12.7% of all mobile taps, while the nav's own
          "Register Now" takes 0.32%. */
       var unit = (e && e.currentTarget && e.currentTarget.getAttribute('data-unit')) || '';
-      window._mgmDrawerUnit = unit || '';
+      /* Option 9 port (6 Nov 2026): data-unit may name both layouts ("Type A,Type B") for the side-by-side's ask. Then the
+         drawer takes the pair heading, the two plan tags and the pair button label; unit_interest reads "Type A; Type B".
+         One layout, or none, behaves exactly as before. */
+      var units = unit.split(',').map(function (x) { return x.trim(); }).filter(Boolean);
+      var pairMode = units.length === 2;
+      if (pairMode) unit = '';
+      window._mgmDrawerUnit = pairMode ? units.join('; ') : (unit || '');
       var uWrap = document.getElementById('ldUnit');
       var uVal = document.getElementById('ldUnitVal');
       var title = document.getElementById('leadDrawerTitle');
@@ -5374,6 +5563,23 @@ document.querySelectorAll('.fi').forEach(function(el){obs.observe(el)});
           if (title) title.textContent = 'Register & Get Your Price List';
         }
       }
+      var PAIR_PLAN = { A: 'assets/plan-type-a.webp', B: 'assets/plan-type-b.webp' };
+      var pairEl = document.getElementById('ldPair'), subEl = document.getElementById('ldSub'), goEl = drawer.querySelector('.lead-submit');
+      if (pairEl) {
+        pairEl.innerHTML = pairMode ? units.map(function (u) { var k = u.replace(/^Type /, ''); return PAIR_PLAN[k] ? '<span><img src="' + PAIR_PLAN[k] + '" alt="" width="36" height="40">' + u + '</span>' : ''; }).join('') : '';
+        pairEl.hidden = !pairMode;
+      }
+      if (pairMode) {
+        if (title) title.textContent = 'Comparing ' + units[0] + ' and ' + units[1] + '? Let us help.';
+        if (subEl) subEl.textContent = 'Fill in your details and we will WhatsApp you both layouts, their pricing and the investment brief.';
+        if (goEl) goEl.textContent = 'Get ' + units[0] + ' & ' + units[1].replace(/^Type /, '') + ' pricing';
+      } else {
+        if (subEl) subEl.textContent = 'Fill in your details and we will WhatsApp you the layout, pricing and investment brief.';
+        if (goEl) goEl.textContent = 'Get Price List Now';
+      }
+      /* what the lead asked for rides on the form and goes to the n8n capture only (see captureFormDiagnostic) */
+      var dform = drawer.querySelector('form');
+      if (dform) { dform.dataset.leadUnit = window._mgmDrawerUnit || ''; dform.dataset.leadCta = source; }
 
       drawer.classList.add('open');
       backdrop.classList.add('open');
@@ -5719,7 +5925,8 @@ window.mgmTrackLead = function (payload) {
   /* section vocabulary shared by the five clones */
   var SECTION_BY_ID = { about: 'hero', trust: 'overview', layouts: 'units', quickRegister: 'form',
     rts: 'location', story: 'overview', fac: 'facilities', gallery: 'gallery', interiors: 'gallery',
-    loc: 'location', developer: 'overview', faq: 'faq', visit: 'form', contact: 'footer' };
+    loc: 'location', developer: 'overview', faq: 'faq', visit: 'form', contact: 'footer',
+    'compare-all': 'compare' };
   function sectionOf(el) {
     var tagged = el.closest('[data-section]');
     if (tagged) return tagged.getAttribute('data-section');
@@ -5727,13 +5934,12 @@ window.mgmTrackLead = function (payload) {
     if (el.closest('#siteNav, #rail')) return 'nav';
     if (el.closest('.sticky')) return 'sticky';
     if (el.closest('#leadDrawer')) return 'form';
-    if (el.closest('.calc')) return 'calculator';
     if (el.closest('footer')) return 'footer';
     var s = el.closest('section[id], #trust');
     return s ? (SECTION_BY_ID[s.id] || s.id) : 'page';
   }
   function tourSource(el) {
-    if (el.closest('.unit')) return 'unit_card';
+    if (el.closest('.unit, .o9-plan')) return 'unit_card';
     var map = { nav: 'nav', mobile_menu: 'nav', hero: 'hero', location: 'location', gallery: 'gallery' };
     return map[sectionOf(el)] || 'inline';
   }
@@ -5769,12 +5975,7 @@ window.mgmTrackLead = function (payload) {
     for (var i = 0; i < all.length; i++) if (all[i] === el) return i + 1;
     return 0;
   }
-  var calcSeen = {}, faqSeen = [];
-  function calcOnce(input) {
-    if (calcSeen[input]) return;
-    calcSeen[input] = true;
-    z21Track('calculator_interact', { calc_input: input });
-  }
+  var faqSeen = [];
 
   document.addEventListener('click', function (e) {
     try {
@@ -5838,7 +6039,7 @@ window.mgmTrackLead = function (payload) {
         var kc = curTab();
         z21Track('gallery_open', { gallery: 'keyplan', item_index: kc.i, item_label: 'Type ' + kc.t + ' key plan' });
       }
-      if (t.closest('#planWrap') && !t.closest('.plan-tog, #uVt')) whenOpened(lb, 'on', function () {
+      if (t.closest('#planWrap, #uEnlarge') && !t.closest('.plan-tog, #uVt')) whenOpened(lb, 'on', function () {
         var c = curTab(), im = $('planImg'), pw = $('planWrap');
         z21Track('gallery_open', { gallery: (pw && pw.getAttribute('data-view') === 'key') ? 'keyplan' : 'floorplan', item_index: c.i, item_label: im ? String(im.alt).slice(0, 60) : '' });
       });
@@ -5886,22 +6087,9 @@ window.mgmTrackLead = function (payload) {
       /* 16 Oct 2026: the hero bed chips select the matching layout (R3 of the premium port) */
       var bed = t.closest('.h-bed');
       if (bed) z21Track('unit_select', { unit_interest: 'Type ' + bed.getAttribute('data-bed-type'), select_source: 'hero_pill' });
-      var opt = t.closest('#cpMenu2 .cp-opt2');
-      if (opt) z21Track('unit_select', { unit_interest: 'Type ' + opt.getAttribute('data-type'), select_source: 'calc_dropdown' });
-
-      /* calculator_interact: the price basis picker */
-      if (t.closest('#cPick')) calcOnce('unit');
     } catch (err) { /* tracking must never break the page */ }
   }, true);
 
-  /* calculator_interact: the loan margin (the down payment's complement) and tenure sliders */
-  document.addEventListener('input', function (e) {
-    try {
-      if (!e.isTrusted || !e.target) return;
-      if (e.target.id === 'cLoan') calcOnce('downpayment');
-      else if (e.target.id === 'cTen') calcOnce('tenure');
-    } catch (err) {}
-  }, true);
 })();
 </script>
 
@@ -5917,15 +6105,17 @@ window.mgmTrackLead = function (payload) {
   var $=function(id){return document.getElementById(id);};
 
   /* Prices are the client-confirmed figures. The permit band is reproduced in the footer. */
+  /* OPTION 9 PORT (6 Nov 2026): beds/bath are numbers (the side-by-side diffs them) and pw/ph are the plan files' own sizes.
+     The instalment defaults are the ones the removed calculator opened on: 90% loan, 35 years, 3.6% p.a. */
   var UNITS={
-    A:{layout:'3 Bed',bath:'2',size:800,price:483000,cfg:'Three bedrooms, for young families',
+    A:{layout:'3 Bed',beds:3,bath:2,size:800,price:483000,pw:1002,ph:1143,
        plan:'assets/plan-type-a.webp',full:'assets/plan-type-a-full.webp',vt:'https://virtualtour.my/mah-sing/m-aria/show-unit-type-a1',
        key:'assets/keyplan-type-a.webp',keyH:757},
-    B:{layout:'4 Bed',bath:'2',size:950,price:567000,cfg:'Four bedrooms, for growing families',
+    B:{layout:'4 Bed',beds:4,bath:2,size:950,price:567000,pw:1260,ph:1137,
        plan:'assets/plan-type-b.webp',full:'assets/plan-type-b-full.webp',vt:'https://virtualtour.my/mah-sing/m-aria/show-unit-type-b1',
        key:'assets/keyplan-type-b.webp',keyH:747}
   };
-  var ORDER=['A','B'], cur='A', RATE=0.036, WA='60392128454';
+  var ORDER=['A','B'], cur='A', RATE=0.036, WA='60392128454', LOAN_PCT=90, LOAN_YRS=35;
   var fmt=function(n){return Math.round(n).toLocaleString('en-MY');};
   function monthly(price,pct,yrs){var L=price*(pct/100),r=RATE/12,n=yrs*12;
     return L*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);}
@@ -5943,37 +6133,42 @@ window.mgmTrackLead = function (payload) {
 
   function render(){
     var u=UNITS[cur];
-    $('uName').textContent=cur; $('uCfg').textContent=u.cfg;
-    $('uLayout').textContent=u.layout; $('uBath').textContent=u.bath; $('uSize').textContent=u.size;
-    /* R8: the client released a starting price per layout (Type A RM483,000,
-       Type B RM567,000), so the card shows the layout's own from-price instead
-       of the permit band. The band itself stays verbatim in the APDL footer. */
-    $('uPrice').innerHTML='RM'+fmt(u.price)+'<sup>*</sup>';
+    $('uName').textContent=cur;
+    Array.prototype.forEach.call(document.querySelectorAll('.uNameX'),function(n){n.textContent=cur;});
+    $('uLine').textContent=u.layout+' · '+u.bath+' bath · '+fmt(u.size)+' sq ft';
+    $('uBed').textContent=u.beds; $('uBath').textContent=u.bath; $('uSize').textContent=fmt(u.size);
     $('planWrap').setAttribute('data-full',u.full);
     /* Round 2 (16 Oct 2026): the key plan is a view of the plan box (Floor plan | Key plan toggle), the selected
        layout's own; switching unit always resets the box to the floor plan */
     setPlanView('plan');
-    var cta=$('uCta'); cta.setAttribute('data-unit','Type '+cur);
-    cta.textContent='Get Price List Now';
-        var vt=$('uVt'); vt.href=u.vt||'https://jetk.link/mahsing/m_aria/d8_wop/index.html';
-    /* 16 Oct 2026 (premium port): the tour link names its unit for the 360 modal; the calculator ask follows the unit */
+    var vt=$('uVt'); vt.href=u.vt||'https://jetk.link/mahsing/m_aria/d8_wop/index.html';
+    /* 16 Oct 2026 (premium port): the tour link names its unit for the 360 modal */
     vt.setAttribute('data-vr',cur);
-    var cc=$('cCta'); if(cc){cc.setAttribute('data-unit','Type '+cur);cc.textContent='Send me the Type '+cur+' price list';}
     Array.prototype.forEach.call(document.querySelectorAll('#tabs .tab'),function(t){
       t.setAttribute('aria-selected',String(t.getAttribute('data-type')===cur));});
-    Array.prototype.forEach.call(document.querySelectorAll('#cpMenu2 .cp-opt2'),function(o){
-      o.setAttribute('aria-selected',String(o.getAttribute('data-type')===cur));
-      var ou=UNITS[o.getAttribute('data-type')], on=o.querySelector('.num');
-      if(ou&&on)on.textContent='RM '+fmt(ou.price);});
-    calc();
+    /* Option 9 port: what the inline form asks for rides on the form element and goes to the n8n capture only; the
+       Salesforce POST keeps this page's live field set (the same rule as M Aurora, Justin 2 Nov) */
+    var lf=$('layoutForm'); if(lf){lf.dataset.leadUnit='Type '+cur;lf.dataset.leadCta='layout_panel';}
   }
-  function calc(){
-    var u=UNITS[cur],pct=+$('cLoan').value,yrs=+$('cTen').value,m=monthly(u.price,pct,yrs);
-    $('cPrice').textContent='RM '+fmt(u.price); $('cType').textContent=cur;
-    $('cLoanOut').innerHTML='RM '+fmt(u.price*pct/100)+' &middot; '+pct+'%';
-    $('cTenOut').textContent=yrs+' years';
-    $('cMy').textContent='RM '+fmt(m);
-    $('uSgd').textContent='RM '+fmt(m)+' /mo';
+  /* Option 9 port: Type A vs Type B, always side by side. Differences are bold; the larger side carries the small delta
+     tag (+1 bedroom, +150 sq ft), the cheaper side carries what it saves. Figures come from UNITS and monthly() above. */
+  function more(x,y,u){return x>y?'+'+fmt(x-y)+u:'';}
+  function less(x,y,u){return x<y?'RM '+fmt(y-x)+u+' less':'';}
+  function renderAB(){
+    var g=$('abGrid'); if(!g)return;
+    var A=UNITS.A,B=UNITS.B,mA=Math.round(monthly(A.price,LOAN_PCT,LOAN_YRS)),mB=Math.round(monthly(B.price,LOAN_PCT,LOAN_YRS));
+    var rows=[
+      ['Bedrooms',String(A.beds),String(B.beds),more(A.beds,B.beds,''),more(B.beds,A.beds,'')],
+      ['Bathrooms',String(A.bath),String(B.bath),more(A.bath,B.bath,''),more(B.bath,A.bath,'')],
+      ['Built-up',fmt(A.size)+' sq ft',fmt(B.size)+' sq ft',more(A.size,B.size,' sq ft'),more(B.size,A.size,' sq ft')],
+      ['From*','RM '+fmt(A.price),'RM '+fmt(B.price),less(A.price,B.price,''),less(B.price,A.price,'')],
+      ['≈ Monthly','RM '+fmt(mA),'RM '+fmt(mB),less(mA,mB,'/mo'),less(mB,mA,'/mo')]];
+    function tag(t){return t?'<span class="o9-delta">'+t+'</span>':'';}
+    g.innerHTML='<div class="o9ab-cols"><div class="o9ab-lab">Differences in bold</div>'+
+      ORDER.map(function(k,i){var u=UNITS[k];
+        return '<div class="o9ab-col'+(i===0?' first':'')+'"><div class="t">Type '+k+'</div><img src="'+u.plan+'" alt="Type '+k+' floor plan, '+fmt(u.size)+' sq ft '+u.layout+'" loading="lazy" decoding="async" width="'+u.pw+'" height="'+u.ph+'"></div>';}).join('')+'</div>'+
+      rows.map(function(r){
+        return '<div class="o9ab-r'+(r[1]!==r[2]?' diff':'')+'"><div class="l">'+r[0]+'</div><div class="c first"><span>'+r[1]+'</span>'+tag(r[3])+'</div><div class="c"><span>'+r[2]+'</span>'+tag(r[4])+'</div></div>';}).join('');
   }
   /* Round 2 (16 Oct 2026, Aria B): the plan box shows the floor plan or the key plan. The two key plans are
      900x757 (A) and 900x747 (B); the width and height attributes follow the source so the frame never guesses. */
@@ -5996,26 +6191,24 @@ window.mgmTrackLead = function (payload) {
   window.setType=function(t){ if(UNITS[t]){cur=t;render();} };
   Array.prototype.forEach.call(document.querySelectorAll('#tabs .tab'),function(tab){
     tab.addEventListener('click',function(){window.setType(tab.getAttribute('data-type'));});});
-  ['cLoan','cTen'].forEach(function(id){$(id).addEventListener('input',calc);});
-
-  /* price basis dropdown: select Type A or Type B; selection also syncs the
-     tabs, plan and card via setType (one source of truth). R3, Justin's ask. */
-  (function(){
-    var btn=$('cPick'),menu=$('cpMenu2'); if(!btn||!menu)return;
-    function setOpen(open){menu.hidden=!open;btn.setAttribute('aria-expanded',String(open));}
-    btn.addEventListener('click',function(e){e.stopPropagation();setOpen(menu.hidden);});
-    Array.prototype.forEach.call(menu.querySelectorAll('.cp-opt2'),function(o){
-      o.addEventListener('click',function(){
-        window.setType(o.getAttribute('data-type'));
-        Array.prototype.forEach.call(menu.querySelectorAll('.cp-opt2'),function(x){
-          x.setAttribute('aria-selected',String(x===o));});
-        setOpen(false);
-      });
-    });
-    document.addEventListener('click',function(e){
-      if(!menu.hidden && !btn.contains(e.target) && !menu.contains(e.target))setOpen(false);});
-    document.addEventListener('keydown',function(e){if(e.key==='Escape')setOpen(false);});
-  })();
+  /* Option 9 port: the phone plan header's price link goes to the inline form under the plan, 12 px under the fixed header
+     (the nav, plus the section rail once it is showing); focus moves to the form title without scrolling again, so a screen
+     reader lands on the form and no keyboard opens. The page's own anchor scroll re-checks its landing for the same reason:
+     the rail's top follows --nav-h, which is rewritten per scroll frame, so the header can still move a few px while the
+     smooth scroll runs. The landing is re-checked twice and nudged when the panel is a few px off (never for a larger move,
+     which would be the visitor scrolling). */
+  function hdrBottom(){var nv=$('siteNav'),rl=$('rail'),hb=nv?nv.getBoundingClientRect().bottom:0;
+    if(rl&&rl.classList.contains('on')&&getComputedStyle(rl).display!=='none')hb=Math.max(hb,rl.getBoundingClientRect().bottom);
+    return hb;}
+  var plink=document.querySelector('#layouts .o9-plink');
+  if(plink)plink.addEventListener('click',function(){
+    var lp=$('layoutPanel');if(!lp)return;
+    window.scrollTo({top:Math.max(0,lp.getBoundingClientRect().top+window.scrollY-hdrBottom()-12),behavior:'smooth'});
+    [560,1000].forEach(function(ms){setTimeout(function(){
+      var d=Math.round(lp.getBoundingClientRect().top-(hdrBottom()+12));
+      if(Math.abs(d)>3&&Math.abs(d)<=40)window.scrollBy({top:d,behavior:'instant'});},ms);});
+    var h=lp.querySelector('.o9-ft');if(h){h.setAttribute('tabindex','-1');h.focus({preventScroll:true});}});
+  renderAB(); render();
 
   /* lightbox */
   /* R1 (16 Oct 2026): every enlargement carries the ask. On a floor plan or key plan it names the type; elsewhere it
@@ -6023,13 +6216,17 @@ window.mgmTrackLead = function (payload) {
   function lbAskFor(t){var a=$('lbAsk');if(!a)return;
     if(t){a.textContent='Get the Type '+t+' price list';a.setAttribute('data-unit','Type '+t);a.setAttribute('data-open-lead','floorplan_zoom');a.setAttribute('data-cta-id','floorplan_zoom_get_price');}
     else{a.textContent='Get Price List Now';a.removeAttribute('data-unit');a.setAttribute('data-open-lead','zoom');a.setAttribute('data-cta-id','zoom_get_price');}}
+  /* Option 9 port: the plan box and the header's Enlarge pill open the same lightbox */
+  function openPlanLb(){
+    var pw=$('planWrap'),keyView=pw.getAttribute('data-view')==='key';
+    $('lbImg').src=keyView?$('planImg').src:(pw.getAttribute('data-full')||$('planImg').src);
+    $('lbImg').alt=$('planImg').alt; lbAskFor(cur); $('lb').classList.add('on'); document.body.style.overflow='hidden';}
   $('planWrap').addEventListener('click',function(e){
     /* Round 2 (16 Oct 2026): the toggle and the 360 pill live inside the box and are not an enlarge; the key plan has
        no full-size file, so the enlarge opens the key plan itself */
     if(e.target&&e.target.closest&&e.target.closest('.plan-tog, #uVt'))return;
-    var keyView=this.getAttribute('data-view')==='key';
-    $('lbImg').src=keyView?$('planImg').src:(this.getAttribute('data-full')||$('planImg').src);
-    $('lbImg').alt=$('planImg').alt; lbAskFor(cur); $('lb').classList.add('on'); document.body.style.overflow='hidden';});
+    openPlanLb();});
+  var enl=$('uEnlarge'); if(enl)enl.addEventListener('click',openPlanLb);
   function closeLb(){$('lb').classList.remove('on');document.body.style.overflow='';}
   $('lbX').addEventListener('click',closeLb);
   var lbAsk=$('lbAsk');
