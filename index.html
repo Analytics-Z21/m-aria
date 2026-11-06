@@ -4560,7 +4560,7 @@ html #interiors .split-img.in{background-image:url('assets/gallery-3.webp')}
     <p id="apdlText">Developer: M ARIA SDN BHD (869086-X) (A wholly-owned subsidiary of Mah Sing Group Berhad) &middot; Address: Wisma Mah Sing, Penthouse Suite 2, No. 163, Jalan Sungai Besi, 57100 Kuala Lumpur &middot; Tel: 03 &ndash; 9221 8888 &middot; Developer&rsquo;s License No.: 31251/12-2030/0307(N) &middot; Validity Period: 29/12/2025 - 28/12/2030 &middot; Advertising &amp; Sales Permit: 31251-1/01-2029/0037(A)-(S) &middot; Tempoh Sah: 14/01/2026 &ndash; 13/01/2029 &middot; Approving Authority: Dewan Bandaraya Kuala Lumpur &middot; Building Plan Reference No.: BP U1 OSC 2025 3414 (5) &middot; Expected Date of Completion: January 2030 &middot; Project Name: Residensi M Aria &middot; Type of Property: Apartment &middot; Land Tenure: Freehold &middot; Land Encumbrance: PUBLIC BANK BERHAD &middot; Total Units: 606 Apartment &middot; Selling Price: RM635,000.00 (Minimum) &ndash; RM750,000.00 (Maksimum) &middot; No. of Parking per unit: 2 &ndash; 4 units</p>
     <p>THIS ADVERTISEMENT HAS BEEN APPROVED BY THE NATIONAL HOUSING DEPARTMENT.</p>
     <p>DEVELOPMENT INFORMATION AND APPROVAL ADVERTISEMENT CAN BE CHECKED ON PORTAL TEDUH.KPKT.GOV.MY</p>
-    <p style="margin-top:12px;color:var(--tm)">*Estimated instalment based on 90% financing at 3.6% p.a. over 35 years, calculated on the permit band minimum of RM635,000. Subject to bank approval. Prices subject to change.</p>
+    <p style="margin-top:12px;color:var(--tm)">*Instalments are estimates at 90% loan, 35 years, 3.6% p.a., calculated on each layout's starting price; not a loan offer, financing subject to bank approval. Prices subject to change.</p>
   </div>
 </footer>
 
@@ -4653,6 +4653,10 @@ var heroAsk=document.querySelector('[data-open-lead="hero"]'),navAsk=document.qu
    fills a quarter of the screen or more: the inline form under the plan (phones) is the ask there, and the arrow would
    otherwise sit on the plan and on that form's button. Both return once the block has scrolled past. */
 var planBox=document.querySelector('#layouts .o9-grid');
+/* Option 9 port, fix 2 (6 Nov 2026): the to-top arrow also steps aside while the side-by-side's footer ask (the pair CTA) is on
+   screen, as Aurora hides it with its compare tray: on phones the arrow sits right where that button's right end is. */
+var pairFoot=document.querySelector('#compare-all .o9ab-foot');
+function pairOnScreen(){if(!pairFoot)return false;var r=pairFoot.getBoundingClientRect();return r.bottom>0&&r.top<window.innerHeight;}
 function planOnScreen(){if(!planBox)return false;var vh=window.innerHeight,r=planBox.getBoundingClientRect(),v=Math.min(r.bottom,vh)-Math.max(r.top,0);return v>=.25*vh;}
 var hasIO='IntersectionObserver' in window;
 var heroAskInView=(function(){if(!heroAsk)return false;var r=heroAsk.getBoundingClientRect();return r.top>=0&&r.bottom<=window.innerHeight;})();
@@ -4681,7 +4685,7 @@ function state(){var s=window.scrollY>400;
   var planIn=planOnScreen();
   sticky.classList.toggle('on',!askOn()&&!formInView&&!planIn);
   if(navAsk)navAsk.classList.toggle('quiet',!heroOff);
-  toTop.classList.toggle('on',s&&!planIn);}
+  toTop.classList.toggle('on',s&&!planIn&&!pairOnScreen());}
 window.addEventListener('scroll',state,{passive:true});
 if(hasIO&&heroAsk){new IntersectionObserver(function(es){heroAskInView=es[0].isIntersecting;state();},{threshold:.6}).observe(heroAsk);}
 /* the asks are collected once the page has parsed: the plan lightbox and the 360 modal sit below this script */
@@ -4704,7 +4708,8 @@ if(hasIO){var seen={},fio=new IntersectionObserver(function(ents){ents.forEach(f
    itself was in view, so the bar sat over the closing form for a stretch on short screens */seen[e.target.id]=e.isIntersecting&&e.intersectionRect.height>=.15*Math.min(e.boundingClientRect.height,window.innerHeight)});formInView=Object.keys(seen).some(function(k){return seen[k]});state();},{threshold:[0,.05,.1,.15,.2,.3,.5]});
   ['quickRegister','visit','contact','layoutPanel'].forEach(function(id){var el=document.getElementById(id);if(el)fio.observe(el)});
   /* the plan block re-checks the bar when layout moves without a scroll (fonts, a type switch) */
-  if(planBox)new IntersectionObserver(function(){state();},{threshold:[0,.1,.25,.5,1]}).observe(planBox);}
+  if(planBox)new IntersectionObserver(function(){state();},{threshold:[0,.1,.25,.5,1]}).observe(planBox);
+  if(pairFoot)new IntersectionObserver(function(){state();},{threshold:[0,.5,1]}).observe(pairFoot);}
 state();
 })();
 </script>
@@ -5409,8 +5414,11 @@ document.querySelectorAll('.fi').forEach(function(el){obs.observe(el)});
       event: 'generate_lead',
       lead_type: 'form_submission',
       form_name: 'M Aria Registration',
+      lead_source: 'main',
       submission_id: submissionId
     });
+    // Option 9 port, fix 3: the thank-you page's lead_confirmed carries the source for this form too
+    window.z21LeadHandoff('main', 'M Aria Registration', 'not specified', submissionId);
 
     return true; // allow native POST to Salesforce
   };
@@ -5431,9 +5439,12 @@ document.querySelectorAll('.fi').forEach(function(el){obs.observe(el)});
       event: 'generate_lead',
       lead_type: 'form_submission',
       form_name: 'M Aria Quick Form',
+      lead_source: 'quick',
       unit_interest: 'not captured (Salesforce field set fixed)',
       submission_id: submissionId
     });
+    // Option 9 port, fix 3: the thank-you page's lead_confirmed carries the source for this form too
+    window.z21LeadHandoff('quick', 'M Aria Quick Form', 'not specified', submissionId);
 
     // M Legasi pattern (2026-08-20): no iframe target, no timed redirect. The
     // native POST owns the navigation, and Salesforce redirects to retURL only
